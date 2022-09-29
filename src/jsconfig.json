@@ -1,0 +1,11 @@
+// When you add to paths here you MUST add the same path resolutions into _moduleAliases in package.json
+// {
+//     "compilerOptions": {
+//         "baseUrl": "./",
+//         "paths": {
+//             "@app/*":["app/*"],
+//             "@routes/*":["routes/*"],
+//             "@config/*":["config/*"],
+//         }
+//     }
+// }

@@ -1,0 +1,21 @@
+
+# @name hello_world
+GET {{protocol}}://{{domain}}
+
+###
+# @name forbidden
+GET {{protocol}}://{{domain}}/ohashljk
+
+###
+# @name create_post
+POST {{protocol}}://{{domain}}/posts
+content-type: application/json
+
+{
+    "frank":"murphy",
+    "title":"poop"
+}
+
+###
+# @name list_posts
+GET {{protocol}}://{{domain}}/posts
