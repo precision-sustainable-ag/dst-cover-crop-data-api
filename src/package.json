@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "description": "express blog",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env APP_ENV=test jest --verbose --testTimeout=5000 --detectOpenHandles ./tests",
     "start": "node app.js",
     "start-dev": "nodemon app.js",
     "db-sync": "node migrations/sync.js",
     "db-fresh": "node migrations/fresh.js",
     "db-alter": "node migrations/alter.js",
-    "db-seed": "node migrations/seeds/Seeder.js"
+    "db-seed": "node migrations/seed.js",
+    "db-seed-fresh": "npm run db-fresh && npm run db-seed",
+    "make": "npx --prefix ./_generator hygen ",
+    "make:resource": "npx --prefix ./_generator hygen model new --name=$npm_config_name && npx --prefix ./_generator hygen controller new --name=$npm_config_name && npx --prefix ./_generator hygen router new --name=$npm_config_name --scope=$npm_config_scope && npx --prefix ./_generator hygen requests new:create --name=$npm_config_name && npx --prefix ./_generator hygen requests new:update --name=$npm_config_name  && npx --prefix ./_generator hygen requests new:retrieve --name=$npm_config_name && npx --prefix ./_generator hygen requests new:paginated --name=$npm_config_name && npx --prefix ./_generator hygen requests new:delete --name=$npm_config_name"
   },
   "repository": {
     "type": "git",
@@ -24,22 +26,31 @@
   },
   "homepage": "https://github.com/trevorjpuckett/express.js#readme",
   "dependencies": {
+    "@azure/identity": "^3.0.0",
+    "@azure/storage-blob": "^12.11.0",
     "@slack/logger": "^3.0.0",
     "@slack/webhook": "^6.1.0",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "hygen": "^6.2.11",
+    "jsonwebtoken": "^8.5.1",
     "luxon": "^3.0.4",
     "module-alias": "^2.2.2",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "pluralize": "^8.0.0",
     "sequelize": "^6.23.1",
+    "sqlite3": "^5.1.2",
     "validatorjs": "^3.22.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.1.2",
     "nodemon": "^2.0.19",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "supertest": "^6.3.0"
   },
   "_moduleAliases": {
     "@app": "app",

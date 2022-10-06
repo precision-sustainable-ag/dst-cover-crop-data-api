@@ -1,13 +1,15 @@
-import Post from '../app/models/Post.js'
+const {ModelsProvider} = require('../app/providers/ModelsProvider')
 
-const MIGRATIONS = [
-    Post,
-];
 
-for (let migration of MIGRATIONS){
 
-    migration.register();
+async function run(){
+    const MIGRATIONS = await ModelsProvider.factory();
 
-    migration.sync();
 
+    for (let migration of Object.values(MIGRATIONS)) {
+    
+        await migration.sync();
+    }
 }
+
+run();

@@ -1,6 +1,6 @@
 
-import { ForbiddenAccess } from '../../exceptions/ForbiddenAccess.js'
+const { ForbiddenAccess } = require('../../exceptions/ForbiddenAccess');
 
-export default (req,res,next)=>{
+module.exports =  (req,res,next)=>{
     throw new ForbiddenAccess();
 }

@@ -1,11 +1,11 @@
-import { IncomingWebhook } from '@slack/webhook';
-import log_conf from '../../../config/logging.js'
-import { Logger } from './Logger.js';
+const { IncomingWebhook } = require('@slack/webhook');
+const log_conf = require('../../../config/logging');
+const { Logger } = require('./Logger');
 
 const WebHookURL = log_conf.slack.webhook;
 const WebHook = new IncomingWebhook(WebHookURL);
 
-export class SlackLogger extends Logger {
+class SlackLogger extends Logger {
     
     configKey(){
         return 'slack';
@@ -24,4 +24,8 @@ export class SlackLogger extends Logger {
         });
     }
 
+}
+
+module.exports = {
+    SlackLogger, default: SlackLogger
 }

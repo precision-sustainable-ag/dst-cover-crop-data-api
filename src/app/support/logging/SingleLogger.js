@@ -1,8 +1,8 @@
-import fs from 'fs'
-import { app_path } from '../helpers/path.js';
-import { Logger, LOG_LEVELS } from './Logger.js';
+const fs = require('fs');
+const { app_path } = require('../helpers/path');
+const { Logger, LOG_LEVELS } = require('./Logger');
 
-export class SingleLogger extends Logger{
+class SingleLogger extends Logger{
     
     configKey(){
         return 'single';
@@ -17,4 +17,8 @@ export class SingleLogger extends Logger{
         });
     }
 
+}
+
+module.exports = {
+    SingleLogger, default:SingleLogger
 }

@@ -1,37 +1,40 @@
-import {DateTime} from 'luxon'
-import log_conf from '../../../config/logging.js'
+const {DateTime} = require('luxon');
+const log_conf = require('../../../config/logging');
 
-export const DEBUG = {
+const DEBUG  = {
     order: 1,
     label: 'DEBUG',
-    slack: log_conf.slack.debug
+    slack: log_conf.slack.debug,
+    console: log_conf.console.debug,
 };
 
-export const INFO = {
+const INFO = {
     order: 2,
     label: 'INFO',
-    slack: log_conf.slack.info
+    slack: log_conf.slack.info,
+    console: log_conf.console.info,
 };
 
-export const WARNING = {
+const WARNING = {
     order: 3,
     label: 'WARNING',
-    slack: log_conf.slack.warning
+    slack: log_conf.slack.warning,
+    console: log_conf.console.warning,
 };
 
-export const CRITICAL = {
+const CRITICAL = {
     order: 4,
     label: 'CRITICAL',
-    slack: log_conf.slack.critical
+    slack: log_conf.slack.critical,
+    console: log_conf.console.critical
 };
 
-export const LOG_LEVELS = {
+const LOG_LEVELS = {
     info:INFO, debug:DEBUG, warning:WARNING, critical:CRITICAL
 };
 
 
-
-export class Logger {
+class Logger {
 
     configKey(){
         return 'console';
@@ -45,9 +48,12 @@ export class Logger {
     log({message, heading, level}){
         const LOG_LEVEL = this.logLevel();
 
-        if(typeof message == 'object') message = JSON.stringify(message, null, "\t");
         if(!level) level = INFO;
-        if(!heading) heading = '';
+        if(!heading) heading = level;
+        
+        if(!message){ message = '';}
+        else if(message instanceof Error) message = message.stack
+        else if(typeof message == 'object')message = JSON.stringify(message, null, "\t");
 
         const time = DateTime.now();
         // const stmnt = ;
@@ -65,8 +71,14 @@ export class Logger {
 
     }
 
-    write(stmnt){
-        console.log(stmnt.flat);
+    write(stmnt, level){
+        // console.log(stmnt.flat);
+        console.log("\x1b[1m", `[${stmnt.level}\t|${stmnt.time}]`,level.console.color,stmnt.heading)
+        console.log("\x1b[0m",stmnt.message);
     }
 
+}
+
+module.exports = {
+    DEBUG, INFO, WARNING, CRITICAL, LOG_LEVELS, Logger, default:Logger
 }

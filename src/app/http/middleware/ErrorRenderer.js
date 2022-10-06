@@ -1,18 +1,18 @@
 
-import { RenderableException } from '../../exceptions/RenderableException.js'
-import { InternalServerError } from '../../exceptions/InternalServerError.js'
-import { Log } from '../../providers/LoggingProvider.js';
+const { RenderableException } = require('../../exceptions/RenderableException');
+const { InternalServerError } = require('../../exceptions/InternalServerError');
+const { Log } = require('../../providers/LoggingProvider');
 
 
-export default (err, req, res, next) => {
+module.exports =  (err, req, res, next) => {
 
-    if (err instanceof RenderableException && !err instanceof InternalServerError){
+    if (err instanceof RenderableException && !(err instanceof InternalServerError)){
         return err.render(res);
     }
 
-    Log.Critical({message:err, heading:'Critical Failure!'});
+    Log.Critical({message:err.toString(), heading:'Critical Failure!'});
     let error = err;
-    if(!error instanceof InternalServerError) error =  new InternalServerError();
+    if(!(error instanceof InternalServerError)) error =  new InternalServerError(error.toString());
 
     return error.render(res);
 

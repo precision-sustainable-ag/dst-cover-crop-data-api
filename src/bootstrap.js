@@ -1,32 +1,35 @@
-import Middleware from './app/http/middleware/kernel.js'
-import ModelsProvider from './app/providers/ModelsProvider.js';
-import DatabaseProvider from './app/providers/DatabaseProvider.js';
-import LoggingProvider from './app/providers/LoggingProvider.js';
-import Routes from './routes/kernel.js';
+const {ModelsProvider} = require('./app/providers/ModelsProvider');
+const {DatabaseProvider} = require('./app/providers/DatabaseProvider');
+const {LoggingProvider} = require('./app/providers/LoggingProvider');
+const {ValidatorProvider} = require('./app/providers/ValidatorProvider');
+const {MiddlewareProvider} = require('./app/providers/MiddlewareProvider');
+const {RoutesProvider} = require('./app/providers/RoutesProvider');
 
-
-export const Providers = [
+const Providers = [
     LoggingProvider, //logging provider should be first so any other provider failures can be logged.
     DatabaseProvider,
     ModelsProvider,
+    ValidatorProvider
 ];
 
-export async function RegisterProviders(){
+async function RegisterProviders(app){
     for(let provider of Providers){
-        if(await provider.register() == false) return false;
+        if(await provider.register(app) == false) return false;
     }
 }
 
-export async function bootstrap(app){
-    if(await RegisterProviders() == false) return false;
+async function bootstrap(app){
+    if(await RegisterProviders(app) == false) return false;
     // first bootstrap global middleware
-    Middleware.bootstrap.global(app);
+    await MiddlewareProvider.RegisterGlobalMiddleware(app);
     // third bootstrap routes
-    Routes.bootstrap(app);
+    await RoutesProvider.register(app);
     // lastly bootstrap end of life cycle middleware
-    Middleware.bootstrap.eol(app);
+    await MiddlewareProvider.RegisterEndOfLifecycleMiddleware(app)
 
     return true;
 }
 
-export default bootstrap
+module.exports = {
+    bootstrap, RegisterProviders, Providers
+}

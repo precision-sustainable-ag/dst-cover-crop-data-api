@@ -1,11 +1,8 @@
-import {env} from './kernel.js'
+const {env} = require('./kernel');
 
-export default {
+module.exports =  {
     channel: env.LOG_CHANNEL,
     stack: ['daily','slack'],
-    console: {
-        level: 'debug',
-    },
     single: {
         level: 'critical',
     },
@@ -30,6 +27,25 @@ export default {
         critical: {
             emoji: ':boom:',
             color: '#DC143C'
+        },
+    },
+    /**
+     * Console color reference:
+     * https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+     */
+    console: {
+        level: 'debug',
+        debug: {
+            color: "\x1b[92m"
+        },
+        info: {
+            color: "\x1b[96m"
+        },
+        warning: {
+            color: "\x1b[93m"
+        },
+        critical: {
+            color: "\x1b[91m"
         },
     },
 }

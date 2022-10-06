@@ -1,7 +1,7 @@
 
-import { RenderableException } from "./RenderableException.js";
+const { RenderableException } = require('./RenderableException');
 
-export class ForbiddenAccess extends RenderableException {
+class ForbiddenAccess extends RenderableException {
 
     constructor(){
         super();
@@ -11,4 +11,8 @@ export class ForbiddenAccess extends RenderableException {
         };
     }
 
+}
+
+module.exports =  {
+    ForbiddenAccess
 }

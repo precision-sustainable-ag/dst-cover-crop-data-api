@@ -1,7 +1,8 @@
-import { Validate } from "../../support/helpers/validator.js";
-import BodyParser from 'body-parser'
+const BodyParser = require('body-parser')
+const { ValidatorProvider } = require('../../providers/ValidatorProvider');
+const { Log } = require('../../providers/LoggingProvider');
 
-export default class Request {
+class Request  {
 
 
     rules(){
@@ -14,9 +15,29 @@ export default class Request {
     
     data(req){
         if(req.method == 'GET'){
-            return this._data = req.params;
+            return this._data = req.query;
         }
         return this._data = req.body;
+    }
+
+    authorized(){
+        return false;
+    }
+
+
+    authorize(){
+        return (req, res, next) => {
+
+            if(!req.authorized){
+                req.authorized = this.authorized();
+            }
+            next();
+        }
+    }
+
+    getRules(){
+        const rules = this.rules();
+        return rules;
     }
 
     validate() {
@@ -24,7 +45,11 @@ export default class Request {
         return (req,res,next) => {
             const rules = _instance.rules(req);
             const data = _instance.data(req);
-            Validate({data,rules});
+            
+            ValidatorProvider.factory().validate({data,rules});
+
+            req.validated = data
+
             return next();
         };
     }
@@ -34,8 +59,13 @@ export default class Request {
 
         return [
             _instance.parser(),
+            _instance.authorize(),
             _instance.validate()
         ];
     }
 
+}
+
+module.exports = {
+    Request
 }

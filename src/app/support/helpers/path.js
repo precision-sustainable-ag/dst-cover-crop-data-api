@@ -1,19 +1,20 @@
-import path from 'path'
-import url from 'url'
-import fs from 'fs'
+const path = require('path');
+// const url = require('url');
+const fs = require('fs');
 
-export const SRC_DIR_PATH = path.join(path.dirname(url.fileURLToPath(import.meta.url)),'../../..');
+// export const SRC_DIR_PATH = path.join(path.dirname(url.fileURLToPath(import.meta.url)),'../../..');
+const SRC_DIR_PATH = path.join(__dirname,'../../..');
 
-export function app_path(...subpath){
+function app_path(...subpath){
     return path.join(SRC_DIR_PATH, ...subpath)
 }
 
-export function view(filepath){
+function view(filepath){
     return app_path('views',filepath)
 }
 
 
-export async function getFilesFrom(...subpath){
+async function getFilesFrom(...subpath){
     const _dir = app_path(...subpath);
 
     return await new Promise((resolve, reject)=>{
@@ -22,4 +23,8 @@ export async function getFilesFrom(...subpath){
             resolve(files);
         });
     });
+}
+
+module.exports = {
+    SRC_DIR_PATH, app_path, view, getFilesFrom
 }

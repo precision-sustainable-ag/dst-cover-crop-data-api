@@ -1,5 +1,5 @@
 
-export class RenderableException extends Error {
+class RenderableException extends Error {
 
     constructor(){
         super();
@@ -13,4 +13,8 @@ export class RenderableException extends Error {
             .send(this.body);
     }
 
+}
+
+module.exports =  {
+    RenderableException
 }
