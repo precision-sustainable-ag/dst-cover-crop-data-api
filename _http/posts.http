@@ -1,21 +1,25 @@
 
-# @name hello_world
-GET {{protocol}}://{{domain}}
+@auth_token = {{get_auth_token.response.body.data}}
 
 ###
-# @name forbidden
-GET {{protocol}}://{{domain}}/ohashljk
+# @name get_auth_token
+GET {{protocol}}://{{auth-domain}}/auth
+?key={{key}}
+&secret={{secret}}
 
 ###
 # @name create_post
 POST {{protocol}}://{{domain}}/posts
+Authorization: {{auth_token}}
 content-type: application/json
 
 {
-    "frank":"murphy",
-    "title":"poop"
+    "title":"some title",
+    "body":"bodie odie odie"
 }
 
 ###
-# @name list_posts
+# @name get_posts
 GET {{protocol}}://{{domain}}/posts
+Authorization: {{auth_token}}
+

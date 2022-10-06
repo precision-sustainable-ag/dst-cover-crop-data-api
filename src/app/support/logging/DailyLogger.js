@@ -1,9 +1,9 @@
-import fs from 'fs'
-import { app_path } from '../helpers/path.js';
-import { Logger } from './Logger.js';
-import {DateTime} from 'luxon'
+const fs = require('fs');
+const { app_path } = require('../helpers/path');
+const { Logger } = require('./Logger');
+const {DateTime} = require('luxon');
 
-export class DailyLogger extends Logger {
+class DailyLogger extends Logger {
 
     configKey(){
         return 'daily';
@@ -19,4 +19,8 @@ export class DailyLogger extends Logger {
         });
     }
 
+}
+
+module.exports = {
+    DailyLogger, default:DailyLogger
 }

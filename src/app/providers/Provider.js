@@ -1,6 +1,6 @@
 
 
-export default class Provider {
+class Provider {
 
     static async register(){
         return true;
@@ -10,4 +10,8 @@ export default class Provider {
         return null;
     }
 
+}
+
+module.exports = {
+    Provider
 }

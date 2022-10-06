@@ -1,6 +1,6 @@
-import {env} from './kernel.js'
+const {env} = require('./kernel');
 
-export default {
+module.exports =  {
     name: env.APP_NAME,
     port: env.APP_PORT,
 }

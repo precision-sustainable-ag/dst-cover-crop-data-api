@@ -1,7 +1,7 @@
 
-import { RenderableException } from "./RenderableException.js";
+const { RenderableException } = require('./RenderableException');
 
-export class UnprocessableEntity extends RenderableException {
+class UnprocessableEntity extends RenderableException {
 
 
     constructor({ data, errors }){
@@ -13,4 +13,8 @@ export class UnprocessableEntity extends RenderableException {
         };
     }
 
+}
+
+module.exports = {
+    UnprocessableEntity
 }

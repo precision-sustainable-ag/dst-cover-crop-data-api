@@ -1,13 +1,20 @@
-import PostsSeed from './PostSeed.js'
+const CommentsSeed = require("./CommentsSeed");
+const PostsSeed = require("./PostsSeed");
 
 
 const Seeds = [
     PostsSeed,
+    CommentsSeed
 ];
 
+module.exports = class Seeder {
 
-for(let seed of Seeds){
+    static async sow(){
 
-    seed.plant();
-
+        for(let seed of Seeds){
+    
+            const data = await seed.plant();
+    
+        }
+    }
 }

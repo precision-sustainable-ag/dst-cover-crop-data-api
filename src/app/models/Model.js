@@ -1,36 +1,71 @@
-import { Model as SequelizeModel } from 'sequelize';
-import DatabaseProvider from '../providers/DatabaseProvider.js';
+const { Model: SequelizeModel } = require('sequelize');
+const { DatabaseProvider } = require('../providers/DatabaseProvider');
+const { Log } = require('../providers/LoggingProvider');
 
 /**
  * For more information on sequelize attributes & options
  * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
  */
-export default class Model extends SequelizeModel {
+class Model extends SequelizeModel {
 
-    // Overridable functions
+    /** 
+     * leave null for sequelize to infer 
+     * the table name as a pluralized snake cased version of the class name:
+     * example:
+     *  Class Post will look for table posts
+     *  Class CommonCategory will look for table common_categories
+     */ 
     static table(){
         return null
     }
 
+    /**
+     * For more information on sequelize attributes & options
+     * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
+     */
     static attributes(){
         return {
             // Model attributes are defined here
         }
     }
 
+    /**
+     * to learn more about available relations please reference sequelize docs
+     * https://sequelize.org/docs/v6/core-concepts/assocs/
+     */
+    static relations(){
+        return {
+            
+        }
+    }
+    
+    /**
+     * to learn more about available options please reference sequelize docs
+     * https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
+     */
     static options(){
         return {
             // Other model options go here
             sequelize: DatabaseProvider.factory(), // We need to pass the connection instance
             modelName: this.getTable(), // We need to choose the model name,
             underscored: true, // tells sequelize to convert table names and column names into snake case
+            paranoid: true, // soft deletes ( deleted_at column )
         }
     }
 
+    /**
+     * Visit sequlize docs for list of available hooks and their firing order.
+     * https://sequelize.org/docs/v6/other-topics/hooks/#available-hooks
+     */
+    static hooks(){
+        return {
+
+        }
+    }
     
-    // Parent Functions
     static getTable(){
-        const table = this.table() ?? this.name;
+        let table = this.table() ?? this.name;
+        table = table.split(/(?=[A-Z])/).join('_').toLowerCase();
         return table.toLowerCase();
     }
     
@@ -41,6 +76,7 @@ export default class Model extends SequelizeModel {
         return {
             ..._options,
             ...options,
+            hooks: this.hooks()
         }
     }
 
@@ -49,7 +85,27 @@ export default class Model extends SequelizeModel {
     }
 
     static register(){
+        Log.Debug({heading:`Registering Model ${this.name}`})
         this.init(this.attributes(), this.getOptions());
     }
 
+    static registerRelations(){
+        for(let [relationType, relations] of Object.entries(this.relations())){
+
+            if(!(relationType in this)) continue
+
+            for(let relation of relations){
+
+                if(relation.options) this[relationType](relation.model, relation.options)
+                else this[relationType](relation.model);
+
+            }
+
+        }
+    }
+
+}
+
+module.exports = {
+    Model
 }

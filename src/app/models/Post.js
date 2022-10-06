@@ -1,11 +1,11 @@
-import { DataTypes } from 'sequelize';
-import Model from './Model.js'
+const { DataTypes } = require('sequelize');
+const { Model } = require('./Model')
 
 /**
  * For more information on sequelize attributes & options
  * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
  */
-export default class Post extends Model {
+class Post extends Model {
 
     /**
      * For more information on sequelize attributes & options
@@ -14,14 +14,21 @@ export default class Post extends Model {
     static attributes(){
         return {
             // Model attributes are defined here
+            id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                primaryKey: true,
+                autoIncrement: true
+            },
             title: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             body: {
-                type: DataTypes.STRING,
-                allowNull: false // defaults to true.
-            }
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
+
         }
     }
 
@@ -51,3 +58,9 @@ export default class Post extends Model {
 
 
 }
+
+module.exports =  {
+    Post
+};
+
+

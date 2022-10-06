@@ -1,6 +1,9 @@
+const { UnAuthorized } = require('../../exceptions/UnAuthorized');
+const { Log } = require('../../providers/LoggingProvider');
+const { Resource } = require('../resources/Resource');
 
 
-export class Controller {
+class Controller {
 
     static factory(){
         const _instance = new this();
@@ -18,13 +21,27 @@ export class Controller {
 
     static wrap(method){
 
-        return async (req, res, next) => {
+        return  async (req, res, next) => {
+            try{
 
-            const _return = method(req)
+                if(!req.authorized) throw new UnAuthorized();
 
-            return res.send(_return);
+                const result = await method(req)
 
+                if(result instanceof Resource){
+                    return result.render({res,req});
+                }
+
+                return res.send(result);
+
+            } catch(err){
+                next(err);
+            }
         }
     }
 
+}
+
+module.exports = {
+    Controller
 }

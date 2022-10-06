@@ -1,11 +1,12 @@
-import log_conf from '../../config/logging.js'
-import { DEBUG, INFO, WARNING, CRITICAL, Logger } from '../support/logging/Logger.js'
-import { SingleLogger } from '../support/logging/SingleLogger.js';
-import { DailyLogger } from '../support/logging/DailyLogger.js';
-import { SlackLogger } from '../support/logging/SlackLogger.js';
-import Provider from './Provider.js';
+const { DEBUG, INFO, WARNING, CRITICAL, Logger } = require('../support/logging/Logger');
+const { SingleLogger } = require('../support/logging/SingleLogger');
+const { DailyLogger } = require('../support/logging/DailyLogger');
+const { SlackLogger } = require('../support/logging/SlackLogger');
+const {Provider} = require('./Provider');
+const log_conf = require('../../config/logging');
 
-export default class LoggingProvider extends Provider {
+
+class LoggingProvider extends Provider {
 
     static async register(){
 
@@ -42,18 +43,18 @@ export default class LoggingProvider extends Provider {
 
 }
 
-export const STACK = 'stack';
+const STACK = 'stack';
 
-export const LOGGERS = {
+const LOGGERS = {
     'console': Logger,
     'single': SingleLogger,
     'daily': DailyLogger,
     'slack': SlackLogger
 }
 
-export const CHANNELS = []
+const CHANNELS = []
 
-export class Log {
+class Log {
 
     static Debug({message,heading}){
         const level = DEBUG;
@@ -91,4 +92,9 @@ export class Log {
 
     }
 
+}
+
+
+module.exports = {
+    LoggingProvider, Log, CHANNELS, STACK
 }

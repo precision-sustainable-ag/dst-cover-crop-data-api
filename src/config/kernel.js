@@ -1,7 +1,9 @@
 
-import dotenv from 'dotenv'
-import { app_path } from '../app/support/helpers/path.js';
+const dotenv = require('dotenv')
+const { app_path } = require('../app/support/helpers/path');
 
-export const env = dotenv.config({path:app_path('.env')})?.parsed;
+const env = dotenv.config({path:app_path('.env')})?.parsed;
 
-export default env;
+module.exports =  {
+    env, default: env
+};

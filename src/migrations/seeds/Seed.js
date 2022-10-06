@@ -1,13 +1,12 @@
+const { Log } = require('../../app/providers/LoggingProvider');
 
-import Post from '../../app/models/Post.js'
-
-export default class Seed {
+module.exports = class Seed {
 
     static model(){
         return null;
     }
     
-    static data(){
+    static async data(){
 
         return [
             {}
@@ -15,14 +14,16 @@ export default class Seed {
 
     }
 
-    static plant(){
+    static async plant(){
 
         const model = this.model();
+        const data = await this.data();
         if (!model) return;
         model.register();
-        for(let row of this.data()){
-            model.create(row);
+        for(let row of data){
+            await model.create(row);
         }
+        return data;
 
     }
 
