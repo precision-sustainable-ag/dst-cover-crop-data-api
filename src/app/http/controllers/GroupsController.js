@@ -4,12 +4,14 @@ const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
 
+const include = [];
 
 class GroupsController extends Controller {
 
     async create(req){
 
         const payload = req.validated;
+        payload.include = include;
 
         const resource = await Group.create(payload);
 
@@ -24,7 +26,8 @@ class GroupsController extends Controller {
         const resource = await Group.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         return new Resource({resource});
@@ -37,7 +40,8 @@ class GroupsController extends Controller {
 
         const resource = await Group.findAll({
             limit: payload.limit,
-            offset: payload.offset
+            offset: payload.offset,
+            include
         });
 
         const count = await Group.count();
@@ -53,7 +57,8 @@ class GroupsController extends Controller {
         const resource = await Group.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         await resource.update(payload);
@@ -69,7 +74,8 @@ class GroupsController extends Controller {
         const resource = await Group.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         await resource.destroy();

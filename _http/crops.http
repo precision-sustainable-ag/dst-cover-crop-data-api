@@ -3,7 +3,7 @@
 @crop_id = {{get_crops.response.body.data[0].id}}
 ###
 # @name get_auth_token
-GET {{prot 0ocol}}://{{auth-domain}}/auth
+GET {{protocol}}://{{auth-domain}}/auth
 ?key={{key}}
 &secret={{secret}}
 
