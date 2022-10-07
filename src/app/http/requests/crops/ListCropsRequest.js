@@ -1,7 +1,11 @@
 const { PaginatedRequest } = require('../PaginatedRequest');
 
-class ListCommentsRequest extends PaginatedRequest {
+class ListCropsRequest extends PaginatedRequest {
 
+    /**
+     * For more information please check ValidatorJS documentation.
+     * https://github.com/mikeerickson/validatorjs
+     */
     rules(){
         return {
         }
@@ -14,7 +18,7 @@ class ListCommentsRequest extends PaginatedRequest {
 }
 
 module.exports =  {
-    ListCommentsRequest
+    ListCropsRequest
 };
 
 

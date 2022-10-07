@@ -1,0 +1,48 @@
+crop,scientific_name,usda_symbol,created_at,updated_at
+"Alfalfa, Dormant",Medicago sativa,MESA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Barley, Spring",Hordeum vulgare,HOVU,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Barley, Winter",Hordeum vulgare,HOVU,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Brassica, Forage",Brassica oleracea,BROL,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Buckwheat,Fagopyrum esculentum,FAES2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Cereal Rye, Spring",Secale cereale,SECE,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Cereal Rye, Winter",Secale cereale,SECE,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Clover, Alsike",Trifolium hybridum,TRHY,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Clover, Balansa",Trifolium michelianum,TRMI14,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Clover, Berseem",Trifolium alexandrinum,TRAL6,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Clover, Crimson",Trifolium incarnatum,TRIN3,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Clover, Red",Trifolium pratense,TRPR2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Clover, White",Trifolium repens,TRRE3,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Corn,Zea mays,ZEMA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Cowpea,Vigna unguiculata,VIUN,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Millet, Japanese",Echinochloa esculenta,ECES,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Millet, Pearl",Pennisetum glaucum,PEGL2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Millet, Pearl",Pennisetum glaucum ,PEGL2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Mustard,Brassica juncea,BRJU,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Oats,Avena sativa,AVSA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Oats, Black",Avena strigosa,AVST2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Oats, Spring",Avena sativa,AVSA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Pea, Spring",Pisum sativum,PISA6,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Pea, Winter",Pisum sativum,PISA6,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Phacelia,Phacelia tanacetifolia,PHTA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Radish, Forage",Raphanus sativus,RASA2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Radish, Oilseed",Raphanus sativus,RASA2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Rape, Oilseed, Spring",Brassica napus,BRNA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Rape, Oilseed, Winter",Brassica napus,BRNA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Rapeseed, Forage",Brassica napus,BRNA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Ryegrass, Annual",Lolium multiflorum,LOMU,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Ryegrass, Perennial",Lolium perenne,LOPE,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Sorghum,Sorghum bicolor,SOBI2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Sorghum-sudangrass,Sorghum bicolor x Sorghum bicolor var. Sudanense,SOBI5,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Soybeans,Glycine max,GLMA4,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Sudangrass,Sorghum X drummondii,SOBID,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Sunflower,Helianthus annuus,HEAN3,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Sunn Hemp,Crotalaria juncea,CRJU,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Sweetclover, Yellow",Melilotus officinalis,MEOF,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+Teff,Eragrostis tef,ERTE,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Triticale, Spring",X Triticosecale,TRITI2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Triticale, Winter",X Triticosecale,TRITI2,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Turnip, Forage",Brassica rapa,BRRA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Turnip, Purple Top",Brassica rapa,BRRA,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Vetch, Hairy",Vicia villosa,VIVI,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Wheat, Spring",Triticum aestivum,TRAE,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04
+"Wheat, Winter",Triticum aestivum,TRAE,2022-10-06 19:28:32.09175-04,2022-10-06 19:28:32.09175-04

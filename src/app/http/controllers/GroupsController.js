@@ -1,22 +1,17 @@
+const { Group } = require('../../models/Group');
 const { Controller } = require('./Controller');
-const { Post } = require('../../models/Post');
-const { Comment } = require('../../models/Comment');
+const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { ValidatorProvider} = require('../../providers/ValidatorProvider');
 
 
-class CommentsController extends Controller {
+class GroupsController extends Controller {
 
     async create(req){
 
         const payload = req.validated;
-        payload.postId = req.params.postId;
 
-        await ValidatorProvider.factory().validateRecordExists({key:'postId',model:Post,payload});
-
-        const resource = await Comment.create(payload);
+        const resource = await Group.create(payload);
 
         return new CreatedResource({resource});
 
@@ -26,7 +21,7 @@ class CommentsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Comment.findOne({
+        const resource = await Group.findOne({
             where: {
                 id: payload.id
             }
@@ -40,15 +35,12 @@ class CommentsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Comment.findAll({
+        const resource = await Group.findAll({
             limit: payload.limit,
-            offset: payload.offset,
-            where: {
-                postId: req.params.postId
-            }
+            offset: payload.offset
         });
 
-        const count = await Comment.count();
+        const count = await Group.count();
         
         return new PaginatedCollection({resource, count});
 
@@ -58,10 +50,9 @@ class CommentsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Comment.findOne({
+        const resource = await Group.findOne({
             where: {
-                id: payload.id,
-                postId: req.params.postId,
+                id: payload.id
             }
         })
 
@@ -75,7 +66,7 @@ class CommentsController extends Controller {
 
         const payload = req.validated;
         
-        const resource = await Comment.findOne({
+        const resource = await Group.findOne({
             where: {
                 id: payload.id
             }
@@ -88,6 +79,6 @@ class CommentsController extends Controller {
 
 }
 
-module.exports =  {
-    CommentsController
-}
+module.exports = {
+    GroupsController
+};

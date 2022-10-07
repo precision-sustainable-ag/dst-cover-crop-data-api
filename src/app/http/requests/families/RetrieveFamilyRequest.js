@@ -1,7 +1,11 @@
 const { GetRequest } = require('../GetRequest');
 
-class RetrieveCommentRequest extends GetRequest {
+class RetrieveFamilyRequest extends GetRequest {
 
+    /**
+     * For more information please check ValidatorJS documentation.
+     * https://github.com/mikeerickson/validatorjs
+     */
     rules(){
         return {
         }
@@ -14,7 +18,7 @@ class RetrieveCommentRequest extends GetRequest {
 }
 
 module.exports =  {
-    RetrieveCommentRequest
+    RetrieveFamilyRequest
 };
 
 

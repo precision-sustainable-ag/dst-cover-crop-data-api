@@ -1,17 +1,17 @@
-const { Post } = require('../../models/Post');
+const { Family } = require('../../models/Family');
 const { Controller } = require('./Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
 
 
-class PostsController extends Controller {
+class FamiliesController extends Controller {
 
     async create(req){
 
         const payload = req.validated;
-        console.log('payload',payload)
-        const resource = await Post.create(payload);
+
+        const resource = await Family.create(payload);
 
         return new CreatedResource({resource});
 
@@ -21,7 +21,7 @@ class PostsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Post.findOne({
+        const resource = await Family.findOne({
             where: {
                 id: payload.id
             }
@@ -35,12 +35,12 @@ class PostsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Post.findAll({
+        const resource = await Family.findAll({
             limit: payload.limit,
             offset: payload.offset
         });
 
-        const count = await Post.count();
+        const count = await Family.count();
         
         return new PaginatedCollection({resource, count});
 
@@ -50,7 +50,7 @@ class PostsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Post.findOne({
+        const resource = await Family.findOne({
             where: {
                 id: payload.id
             }
@@ -66,7 +66,7 @@ class PostsController extends Controller {
 
         const payload = req.validated;
         
-        const resource = await Post.findOne({
+        const resource = await Family.findOne({
             where: {
                 id: payload.id
             }
@@ -79,6 +79,6 @@ class PostsController extends Controller {
 
 }
 
-module.exports =  {
-    PostsController
-}
+module.exports = {
+    FamiliesController
+};

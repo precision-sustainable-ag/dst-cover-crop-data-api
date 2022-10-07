@@ -1,10 +1,6 @@
-const CommentsSeed = require("./CommentsSeed");
-const PostsSeed = require("./PostsSeed");
 
 
 const Seeds = [
-    PostsSeed,
-    CommentsSeed
 ];
 
 module.exports = class Seeder {

@@ -1,6 +1,4 @@
 
-const { Comment } = require('../models/Comment');
-const { Post } = require('../models/Post');
 const { getFilesFrom, app_path } = require('../support/helpers/path');
 const { Log } = require('./LoggingProvider');
 const Associations = require('../models/Associations');

@@ -5,7 +5,7 @@ const { Model } = require('./Model')
  * For more information on sequelize attributes & options
  * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
  */
-class Post extends Model {
+class Group extends Model {
 
     /**
      * For more information on sequelize attributes & options
@@ -20,15 +20,19 @@ class Post extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            title: {
+            label: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            body: {
-                type: DataTypes.TEXT,
-                allowNull: false,
-            },
+        }
+    }
 
+    /**
+     * For more information on sequelize relations
+     * please visit https://sequelize.org/docs/v6/core-concepts/assocs/
+     */
+    static relations(){
+        return {
         }
     }
 
@@ -60,7 +64,7 @@ class Post extends Model {
 }
 
 module.exports =  {
-    Post
+    Group
 };
 
 

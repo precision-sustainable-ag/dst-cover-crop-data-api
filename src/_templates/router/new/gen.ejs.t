@@ -2,14 +2,14 @@
 to: routes/<%= h.inflection.pluralize(name) %>.js
 ---
 
-const {Router} = require('express'
-const HasScopes = require('../app/http/middleware/HasScopes';
-const <%= h.inflection.pluralize(Name) %>Controller = require('../app/http/controllers/<%= h.inflection.pluralize(Name) %>Controller'
-const CreateRequest = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Request'
-const ListRequest = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/List<%= h.inflection.pluralize(Name) %>Request'
-const { GetRequest } = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Retrieve<%= h.inflection.singularize(Name) %>Request'
-const UpdateRequest = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Update<%= h.inflection.singularize(Name) %>Request'
-const DeleteRequest = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Delete<%= h.inflection.singularize(Name) %>Request'
+const {Router} = require('express');
+const HasScopes = require('../app/http/middleware/HasScopes');
+const { <%= h.inflection.pluralize(Name) %>Controller } = require('../app/http/controllers/<%= h.inflection.pluralize(Name) %>Controller');
+const { Create<%= h.inflection.singularize(Name) %>Request: CreateRequest } = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Request');
+const { List<%= h.inflection.pluralize(Name) %>Request: ListRequest } = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/List<%= h.inflection.pluralize(Name) %>Request');
+const { Retrieve<%= h.inflection.singularize(Name) %>Request: GetRequest } = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Retrieve<%= h.inflection.singularize(Name) %>Request');
+const { Update<%= h.inflection.singularize(Name) %>Request: UpdateRequest } = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Update<%= h.inflection.singularize(Name) %>Request');
+const { Delete<%= h.inflection.singularize(Name) %>Request: DeleteRequest } = require('../app/http/requests/<%= h.inflection.pluralize(name) %>/Delete<%= h.inflection.singularize(Name) %>Request');
 
 /**
  * We call the controller factory method
