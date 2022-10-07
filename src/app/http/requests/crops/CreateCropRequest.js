@@ -1,10 +1,6 @@
----
-to: app/http/requests/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Request.js
----
-
 const { Request } = require('../Request');
 
-class Create<%= h.inflection.singularize(Name) %>Request extends Request {
+class CreateCropRequest extends Request {
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -24,7 +20,7 @@ class Create<%= h.inflection.singularize(Name) %>Request extends Request {
 }
 
 module.exports =  {
-    Create<%= h.inflection.singularize(Name) %>Request
+    CreateCropRequest
 };
 
 

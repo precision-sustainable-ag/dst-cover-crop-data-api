@@ -1,16 +1,16 @@
-const { Comment } = require("./Comment");
-const { Post } = require("./Post");
+const { Crop } = require("./Crop");
+const { Family } = require("./Family");
 
 module.exports = [
 
-    { // posts has many comments
+    { // crop belongs to family
         parent: {
-            model: Post,
+            model: Family,
             relation: 'hasMany',
             options:{},
         },
         child: {
-            model: Comment,
+            model: Crop,
             relation: 'belongsTo',
             options:{},
         },

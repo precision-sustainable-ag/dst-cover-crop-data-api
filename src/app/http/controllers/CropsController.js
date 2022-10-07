@@ -1,21 +1,19 @@
----
-to: app/http/controllers/<%= h.inflection.pluralize(Name) %>Controller.js
----
-
-const { <%= h.inflection.singularize(Name) %> } = require('../../models/<%= Name %>');
+const { Crop } = require('../../models/Crop');
 const { Controller } = require('./Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
+const { Family } = require('../../models/Family');
+const { Group } = require('../../models/Group');
 
 
-class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
+class CropsController extends Controller {
 
     async create(req){
 
         const payload = req.validated;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.create(payload);
+        const resource = await Crop.create(payload);
 
         return new CreatedResource({resource});
 
@@ -25,7 +23,7 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.findOne({
+        const resource = await Crop.findOne({
             where: {
                 id: payload.id
             }
@@ -39,12 +37,15 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.findAll({
+        const resource = await Crop.findAll({
             limit: payload.limit,
-            offset: payload.offset
+            offset: payload.offset,
+            order: [
+                ['label']
+            ],
         });
 
-        const count = await <%= h.inflection.singularize(Name) %>.count();
+        const count = await Crop.count();
         
         return new PaginatedCollection({resource, count});
 
@@ -54,7 +55,7 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.findOne({
+        const resource = await Crop.findOne({
             where: {
                 id: payload.id
             }
@@ -70,7 +71,7 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
         
-        const resource = await <%= h.inflection.singularize(Name) %>.findOne({
+        const resource = await Crop.findOne({
             where: {
                 id: payload.id
             }
@@ -84,5 +85,5 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 }
 
 module.exports = {
-    <%= h.inflection.pluralize(Name) %>Controller
+    CropsController
 };

@@ -1,10 +1,6 @@
----
-to: app/http/requests/<%= h.inflection.pluralize(name) %>/Delete<%= h.inflection.singularize(Name) %>Request.js
----
+const { RetrieveRequest } = require('../RetrieveRequest');
 
-const { GetRequest } = require('../GetRequest');
-
-class Delete<%= h.inflection.singularize(Name) %>Request extends GetRequest {
+class UpdateCropRequest extends RetrieveRequest {
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -12,6 +8,7 @@ class Delete<%= h.inflection.singularize(Name) %>Request extends GetRequest {
      */
     rules(){
         return {
+            column: 'string',
         }
     }
 
@@ -20,11 +17,10 @@ class Delete<%= h.inflection.singularize(Name) %>Request extends GetRequest {
         return false;
     }
 
-
 }
 
 module.exports =  {
-    Delete<%= h.inflection.singularize(Name) %>Request
+    UpdateCropRequest
 };
 
 

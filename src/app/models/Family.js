@@ -1,12 +1,11 @@
 const { DataTypes } = require('sequelize');
-const { Model } = require('./Model');
-const { Post } = require('./Post');
+const { Model } = require('./Model')
 
 /**
  * For more information on sequelize attributes & options
  * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
  */
-class Comment extends Model {
+class Family extends Model {
 
     /**
      * For more information on sequelize attributes & options
@@ -21,25 +20,25 @@ class Comment extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            title: {
+            commonName: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            body: {
-                type: DataTypes.TEXT,
+            scientificName: {
+                type: DataTypes.STRING,
                 allowNull: false,
-            },
-            postId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: Post,
-                    key: 'id',
-                }
             },
         }
     }
 
+    /**
+     * For more information on sequelize relations
+     * please visit https://sequelize.org/docs/v6/core-concepts/assocs/
+     */
+    static relations(){
+        return {
+        }
+    }
 
     /** 
      * leave null for sequelize to infer 
@@ -69,7 +68,7 @@ class Comment extends Model {
 }
 
 module.exports =  {
-    Comment,
+    Family
 };
 
 

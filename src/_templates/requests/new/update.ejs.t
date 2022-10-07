@@ -2,9 +2,9 @@
 to: app/http/requests/<%= h.inflection.pluralize(name) %>/Update<%= h.inflection.singularize(Name) %>Request.js
 ---
 
-const RetrieveRequest = require('../RetrieveRequest';
+const { RetrieveRequest } = require('../RetrieveRequest');
 
-export class Put<%= h.inflection.singularize(Name) %>Request extends RetrieveRequest {
+class Update<%= h.inflection.singularize(Name) %>Request extends RetrieveRequest {
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -23,6 +23,8 @@ export class Put<%= h.inflection.singularize(Name) %>Request extends RetrieveReq
 
 }
 
-module.exports =  Put<%= h.inflection.singularize(Name) %>Request;
+module.exports =  {
+    Update<%= h.inflection.singularize(Name) %>Request
+};
 
 

@@ -1,0 +1,48 @@
+crop,usda_symbol,scientific_name,family_scientific_name,family_common_name,group
+"Alfalfa, Dormant",MESA,Medicago sativa,Fabaceae,Pea family,Legume
+"Barley, Spring",HOVU,Hordeum vulgare,Poaceae,Grass family,Grass
+"Barley, Winter",HOVU,Hordeum vulgare,Poaceae,Grass family,Grass
+"Brassica, Forage",BROL,Brassica oleracea,Brassicaceae,Mustard family,Brassica
+Buckwheat,FAES2,Fagopyrum esculentum,Polygonaceae,Buckwheat family,Broadleaf
+"Cereal Rye, Spring",SECE,Secale cereale,Poaceae,Grass family,Grass
+"Cereal Rye, Winter",SECE,Secale cereale,Poaceae,Grass family,Grass
+"Clover, Alsike",TRHY,Trifolium hybridum,Fabaceae,Pea family,Legume
+"Clover, Balansa",TRMI14,Trifolium michelianum,Fabaceae,Pea family,Legume
+"Clover, Berseem",TRAL6,Trifolium alexandrinum,Fabaceae,Pea family,Legume
+"Clover, Crimson",TRIN3,Trifolium incarnatum,Fabaceae,Pea family,Legume
+"Clover, Red",TRPR2,Trifolium pratense,Fabaceae,Pea family,Legume
+"Clover, White",TRRE3,Trifolium repens,Fabaceae,Pea family,Legume
+Corn,ZEMA,Zea mays,Poaceae,Grass family,Grass
+Cowpea,VIUN,Vigna unguiculata,Fabaceae,Pea family,Legume
+"Millet, Japanese",ECES,Echinochloa esculenta,Poaceae,Grass family,Grass
+"Millet, Pearl",PEGL2,Pennisetum glaucum,Poaceae,Grass family,Grass
+"Millet, Pearl",PEGL2,Pennisetum glaucum ,Poaceae,Grass family,Grass
+Mustard,BRJU,Brassica juncea,Brassicaceae,Mustard family,Brassica
+Oats,AVSA,Avena sativa,Poaceae,Grass family,Grass
+"Oats, Black",AVST2,Avena strigosa,Poaceae,Grass family,Grass
+"Oats, Spring",AVSA,Avena sativa,Poaceae,Grass family,Grass
+"Pea, Spring",PISA6,Pisum sativum,Fabaceae,Pea family,Legume
+"Pea, Winter",PISA6,Pisum sativum,Fabaceae,Pea family,Legume
+Phacelia,PHTA,Phacelia tanacetifolia,Boraginaceae,Borage family,Broadleaf
+"Radish, Forage",RASA2,Raphanus sativus,Brassicaceae,Mustard family,Brassica
+"Radish, Oilseed",RASA2,Raphanus sativus,Brassicaceae,Mustard family,Brassica
+"Rape, Oilseed, Spring",BRNA,Brassica napus,Brassicaceae,Mustard family,Brassica
+"Rape, Oilseed, Winter",BRNA,Brassica napus,Brassicaceae,Mustard family,Brassica
+"Rapeseed, Forage",BRNA,Brassica napus,Brassicaceae,Mustard family,Brassica
+"Ryegrass, Annual",LOMU,Lolium multiflorum,Poaceae,Grass family,Grass
+"Ryegrass, Perennial",LOPE,Lolium perenne,Poaceae,Grass family,Grass
+Sorghum,SOBI2,Sorghum bicolor,Poaceae,Grass family,Grass
+Sorghum-sudangrass,SOBI5,Sorghum bicolor x Sorghum bicolor var. Sudanense,Poaceae,Grass family,Grass
+Soybeans,GLMA4,Glycine max,Fabaceae,Pea family,Legume
+Sudangrass,SOBID,Sorghum X drummondii,Poaceae,Grass family,Grass
+Sunflower,HEAN3,Helianthus annuus,Asteraceae,Aster family,Broadleaf
+Sunn Hemp,CRJU,Crotalaria juncea,Fabaceae,Pea family,Legume
+"Sweetclover, Yellow",MEOF,Melilotus officinalis,Fabaceae,Pea family,Legume
+Teff,ERTE,Eragrostis tef,Poaceae,Grass family,Grass
+"Triticale, Spring",TRITI2,X Triticosecale,Poaceae,Grass family,Grass
+"Triticale, Winter",TRITI2,X Triticosecale,Poaceae,Grass family,Grass
+"Turnip, Forage",BRRA,Brassica rapa,Brassicaceae,Mustard family,Brassica
+"Turnip, Purple Top",BRRA,Brassica rapa,Brassicaceae,Mustard family,Brassica
+"Vetch, Hairy",VIVI,Vicia villosa,Fabaceae,Pea family,Legume
+"Wheat, Spring",TRAE,Triticum aestivum,Poaceae,Grass family,Grass
+"Wheat, Winter",TRAE,Triticum aestivum,Poaceae,Grass family,Grass
