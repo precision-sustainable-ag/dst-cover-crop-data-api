@@ -1,5 +1,6 @@
 
 @auth_token = {{get_auth_token.response.body.data}}
+@group_id = {{get_groups.response.body.data[0].id}}
 
 ###
 # @name get_auth_token
@@ -8,18 +9,36 @@ GET {{protocol}}://{{auth-domain}}/auth
 &secret={{secret}}
 
 ###
-# @name create_groups
+# @name create_group
 POST {{protocol}}://{{domain}}/groups
 Authorization: {{auth_token}}
 content-type: application/json
 
 {
-    "title":"some title",
-    "body":"bodie odie odie"
 }
 
 ###
 # @name get_groups
 GET {{protocol}}://{{domain}}/groups
+Authorization: {{auth_token}}
+
+###
+# @name retrieve_group
+GET {{protocol}}://{{domain}}/groups/{{group_id}}
+Authorization: {{auth_token}}
+
+###
+# @name update_group
+PUT {{protocol}}://{{domain}}/groups/5
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "label": "Updated Test Group"
+}
+
+###
+# @name update_group
+DELETE {{protocol}}://{{domain}}/groups/6
 Authorization: {{auth_token}}
 

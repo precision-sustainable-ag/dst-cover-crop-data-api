@@ -15,8 +15,27 @@ class EditRequest extends RetrieveRequest {
         return {
         };
     }
+    
+    /**
+     * Determines whether or not a given set of properties is required in request body.
+     * @param {*} req express request variable.
+     * @param {*} properties Model.attributes[i]
+     * @returns boolean
+     */
+    nullableAttributeResolver(req, properties){
+        if(req.method == 'POST'){
+            return properties?.allowNull;
+        }
+        return true;
+    }
 
-    getModelRules(){
+    /**
+     * resolves the model objects attribtues into a rules object.
+     * by default if the request is a PUT request then all fields are considered not required.
+     * and if the request is a POST then fields are considered required if the attribute is set to allowNull: false.
+     * this can be changed by overriding the nullableAttributeResolver function in a child class.
+     */
+    getModelRules(req){
         const rules = {};
         const model = this.model();
         const attributes = model.attributes();
@@ -24,7 +43,9 @@ class EditRequest extends RetrieveRequest {
         for(let [attribute, properties] of Object.entries(attributes)) {
             if(properties.primaryKey) continue;
             const dataType = ValidatorProvider.factory().ConvertDataTypeToRule(properties.type);
-            const required = properties.allowNull ? 'required|' : '';
+            const required = this.nullableAttributeResolver(req, properties) ? '' : 'required|';
+            // let required = '';
+            // if(req.method == 'POST') required = properties.allowNull ? '' : 'required|';
             rules[attribute] = `${required}${dataType}`;
         }
         
@@ -32,10 +53,10 @@ class EditRequest extends RetrieveRequest {
         return rules;
     }
 
-    getRules(){
-        const rules = this.rules();
-        const paramRules = this.getParamRules();
-        const modelRules = this.getModelRules();
+    getRules(req){
+        const rules = this.rules(req);
+        const paramRules = this.getParamRules(req);
+        const modelRules = this.getModelRules(req);
 
         return {
             ...modelRules,

@@ -1,6 +1,16 @@
-const { Request } = require('../Request');
+const { Group } = require('../../../models/Group');
+const { EditRequest } = require('../EditRequest');
 
-class CreateGroupRequest extends Request {
+class CreateGroupRequest extends EditRequest {
+
+    /**
+     * returns the model class,
+     * this is used when getting the validation rules 
+     * and will interpret the model attributes to generate mode rules.
+     */
+    model(){
+        return Group;
+    }
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -8,7 +18,6 @@ class CreateGroupRequest extends Request {
      */
     rules(){
         return {
-            column: 'required|string',
         }
     }
 

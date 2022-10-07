@@ -2,9 +2,19 @@
 to: app/http/requests/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Request.js
 ---
 
-const { Request } = require('../Request');
+const { <%= h.inflection.singularize(Name) %> } = require('../../../models/<%= Name %>');
+const { EditRequest } = require('../EditRequest');
 
-class Create<%= h.inflection.singularize(Name) %>Request extends Request {
+class Create<%= h.inflection.singularize(Name) %>Request extends EditRequest {
+
+    /**
+     * returns the model class,
+     * this is used when getting the validation rules 
+     * and will interpret the model attributes to generate mode rules.
+     */
+    model(){
+        return <%= h.inflection.singularize(Name) %>;
+    }
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -12,7 +22,6 @@ class Create<%= h.inflection.singularize(Name) %>Request extends Request {
      */
     rules(){
         return {
-            column: 'required|string',
         }
     }
 
