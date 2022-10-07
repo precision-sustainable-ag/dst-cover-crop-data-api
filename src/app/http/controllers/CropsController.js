@@ -6,12 +6,19 @@ const { CreatedResource } = require('../resources/CreatedResource');
 const { Family } = require('../../models/Family');
 const { Group } = require('../../models/Group');
 
+const include = [
+    {model:Family, attributes:['id','commonName','scientificName']}, 
+    {model:Group, attributes:['id','label']}
+];
 
 class CropsController extends Controller {
+
+
 
     async create(req){
 
         const payload = req.validated;
+        payload.include = include;
 
         const resource = await Crop.create(payload);
 
@@ -26,7 +33,8 @@ class CropsController extends Controller {
         const resource = await Crop.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         return new Resource({resource});
@@ -43,6 +51,7 @@ class CropsController extends Controller {
             order: [
                 ['label']
             ],
+            include
         });
 
         const count = await Crop.count();
@@ -58,7 +67,8 @@ class CropsController extends Controller {
         const resource = await Crop.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         await resource.update(payload);
@@ -74,7 +84,8 @@ class CropsController extends Controller {
         const resource = await Crop.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         await resource.destroy();
