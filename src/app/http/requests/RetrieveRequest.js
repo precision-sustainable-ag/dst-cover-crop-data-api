@@ -12,18 +12,21 @@ class RetrieveRequest extends Request {
         };
     }
 
-    getRules(){
-        const _rules = {};
-        // make all params required.
+    getParamRules(){
+        const rules = {};
         const params = this.params();
         for(let [param, dataType] of Object.entries(params)){
-            _rules[param] = `required|${dataType}`;
+            rules[param] = `required|${dataType}`;
         }
+    }
+
+    getRules(){
 
         const rules = this.rules();
-
+        const paramRules = this.getParamRules();
+        
         return {
-            ..._rules,
+            ...paramRules,
             ...rules,
         };
     }

@@ -8,12 +8,14 @@ const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
 
+const include = [];
 
 class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
     async create(req){
 
         const payload = req.validated;
+        payload.include = include;
 
         const resource = await <%= h.inflection.singularize(Name) %>.create(payload);
 
@@ -28,7 +30,8 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
         const resource = await <%= h.inflection.singularize(Name) %>.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         return new Resource({resource});
@@ -41,7 +44,8 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const resource = await <%= h.inflection.singularize(Name) %>.findAll({
             limit: payload.limit,
-            offset: payload.offset
+            offset: payload.offset,
+            include
         });
 
         const count = await <%= h.inflection.singularize(Name) %>.count();
@@ -57,7 +61,8 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
         const resource = await <%= h.inflection.singularize(Name) %>.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         await resource.update(payload);
@@ -73,7 +78,8 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
         const resource = await <%= h.inflection.singularize(Name) %>.findOne({
             where: {
                 id: payload.id
-            }
+            },
+            include
         })
 
         await resource.destroy();

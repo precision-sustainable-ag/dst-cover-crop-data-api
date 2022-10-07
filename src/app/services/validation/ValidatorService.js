@@ -3,6 +3,11 @@ const Validator = require('validatorjs');
 const { UnprocessableEntity } = require('../../exceptions/UnprocessableEntity');
 const { Log } = require('../../providers/LoggingProvider');
 
+const DATA_TYPE_CONVERSIONS = {
+    STRING: 'string',
+    DATETIME: 'date',
+    INTEGER: 'integer',
+}
 
 class ValidatorService {
 
@@ -76,6 +81,11 @@ class ValidatorService {
         where['id'] = payload[key];
         const record = await model.findOne({where});
         return record != null;
+    }
+
+    static ConvertDataTypeToRule(datatype){
+        const key = datatype.key ?? 'STRING';
+        return DATA_TYPE_CONVERSIONS[key];
     }
 
 }

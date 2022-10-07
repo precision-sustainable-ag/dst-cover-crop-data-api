@@ -43,7 +43,7 @@ class Request  {
     validate() {
         const _instance = this;
         return (req,res,next) => {
-            const rules = _instance.rules(req);
+            const rules = _instance.getRules(req);
             const data = _instance.data(req);
             
             ValidatorProvider.factory().validate({data,rules});

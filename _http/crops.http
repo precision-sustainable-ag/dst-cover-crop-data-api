@@ -1,25 +1,31 @@
 
 @auth_token = {{get_auth_token.response.body.data}}
-
+@crop_id = {{get_crops.response.body.data[0].id}}
 ###
 # @name get_auth_token
-GET {{protocol}}://{{auth-domain}}/auth
+GET {{prot 0ocol}}://{{auth-domain}}/auth
 ?key={{key}}
 &secret={{secret}}
 
 ###
-# @name create_post
-POST {{protocol}}://{{domain}}/posts
+# @name create_crops
+POST {{protocol}}://{{domain}}/crops
 Authorization: {{auth_token}}
 content-type: application/json
 
 {
-    "title":"some title",
-    "body":"bodie odie odie"
+
 }
 
 ###
 # @name get_crops
 GET {{protocol}}://{{domain}}/crops
+?limit=2
+Authorization: {{auth_token}}
+
+
+###
+# @name retrieve_crop
+GET {{protocol}}://{{domain}}/crops/{{crop_id}}
 Authorization: {{auth_token}}
 
