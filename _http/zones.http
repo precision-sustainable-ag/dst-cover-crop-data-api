@@ -1,0 +1,48 @@
+
+@auth_token = {{get_auth_token.response.body.data}}
+@zone_id = {{create_zone.response.body.data.id}}
+
+###
+# @name get_auth_token
+GET {{protocol}}://{{auth-domain}}/auth
+?key={{key}}
+&secret={{secret}}
+
+###
+# @name create_zone
+POST {{protocol}}://{{domain}}/zones
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "label":"Midwest south",
+    "regionId":1
+}
+
+###
+# @name get_zones
+GET {{protocol}}://{{domain}}/zones
+Authorization: {{auth_token}}
+
+###
+# @name retrieve_zone
+GET {{protocol}}://{{domain}}/zones/{{zone_id}}
+Authorization: {{auth_token}}
+
+###
+# @name update_zone
+PUT {{protocol}}://{{domain}}/zones/{{zone_id}}
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "label": "7"
+}
+
+###
+# @name update_zone
+DELETE {{protocol}}://{{domain}}/zones/{{zone_id}}
+Authorization: {{auth_token}}
+
+
+

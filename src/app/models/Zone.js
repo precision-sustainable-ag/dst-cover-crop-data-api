@@ -5,7 +5,7 @@ const { Model } = require('./Model')
  * For more information on sequelize attributes & options
  * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
  */
-class Family extends Model {
+class Zone extends Model {
 
     /**
      * For more information on sequelize attributes & options
@@ -20,12 +20,12 @@ class Family extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            scientificName: {
+            label: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            commonName: {
-                type: DataTypes.STRING,
+            regionId: {
+                type: DataTypes.INTEGER,
                 allowNull: false,
             },
         }
@@ -68,7 +68,7 @@ class Family extends Model {
 }
 
 module.exports =  {
-    Family
+    Zone
 };
 
 
