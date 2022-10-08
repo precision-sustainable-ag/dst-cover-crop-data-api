@@ -1,7 +1,7 @@
-const { Family } = require('../../../models/Family');
+const { Region } = require('../../../models/Region');
 const { EditRequest } = require('../EditRequest');
 
-class UpdateFamilyRequest extends EditRequest {
+class UpdateRegionRequest extends EditRequest {
 
     /**
      * returns the model class,
@@ -10,7 +10,7 @@ class UpdateFamilyRequest extends EditRequest {
      * by default no fields will be explicity required for an update.
      */
     model(){
-        return Family;
+        return Region;
     }
 
     /**
@@ -41,7 +41,7 @@ class UpdateFamilyRequest extends EditRequest {
 }
 
 module.exports =  {
-    UpdateFamilyRequest
+    UpdateRegionRequest
 };
 
 

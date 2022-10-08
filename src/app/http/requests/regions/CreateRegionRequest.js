@@ -1,28 +1,16 @@
-const { Family } = require('../../../models/Family');
+const { Region } = require('../../../models/Region');
 const { EditRequest } = require('../EditRequest');
 
-class UpdateFamilyRequest extends EditRequest {
+class CreateRegionRequest extends EditRequest {
 
     /**
      * returns the model class,
      * this is used when getting the validation rules 
      * and will interpret the model attributes to generate mode rules.
-     * by default no fields will be explicity required for an update.
      */
     model(){
-        return Family;
+        return Region;
     }
-
-    /**
-     * returns map of route parameter keys to inject into data
-     * and their data type.
-     */
-    params(){
-        return {
-            id: 'string'
-        };
-    }
-
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -41,7 +29,7 @@ class UpdateFamilyRequest extends EditRequest {
 }
 
 module.exports =  {
-    UpdateFamilyRequest
+    CreateRegionRequest
 };
 
 

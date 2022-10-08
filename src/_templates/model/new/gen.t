@@ -24,7 +24,7 @@ class <%= h.inflection.singularize(Name) %> extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            column: {
+            label: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },

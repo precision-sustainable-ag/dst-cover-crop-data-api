@@ -1,0 +1,45 @@
+
+@auth_token = {{get_auth_token.response.body.data}}
+@region_id = 1
+
+###
+# @name get_auth_token
+GET {{protocol}}://{{auth-domain}}/auth
+?key={{key}}
+&secret={{secret}}
+
+###
+# @name create_region
+POST {{protocol}}://{{domain}}/regions
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "label":"test"
+}
+
+###
+# @name get_regions
+GET {{protocol}}://{{domain}}/regions
+Authorization: {{auth_token}}
+
+###
+# @name retrieve_region
+GET {{protocol}}://{{domain}}/regions/{{region_id}}
+Authorization: {{auth_token}}
+
+###
+# @name update_region
+PUT {{protocol}}://{{domain}}/regions/{{region_id}}
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "label": "Updated Test region"
+}
+
+###
+# @name update_region
+DELETE {{protocol}}://{{domain}}/regions/{{region_id}}
+Authorization: {{auth_token}}
+

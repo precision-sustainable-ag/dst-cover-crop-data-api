@@ -1,6 +1,16 @@
-const { Request } = require('../Request');
+const { Family } = require('../../../models/Family');
+const { EditRequest } = require('../EditRequest');
 
-class CreateFamilyRequest extends Request {
+class CreateFamilyRequest extends EditRequest {
+
+    /**
+     * returns the model class,
+     * this is used when getting the validation rules 
+     * and will interpret the model attributes to generate mode rules.
+     */
+    model(){
+        return Family;
+    }
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -8,7 +18,6 @@ class CreateFamilyRequest extends Request {
      */
     rules(){
         return {
-            column: 'required|string',
         }
     }
 

@@ -1,19 +1,20 @@
-const { Family } = require('../../models/Family');
+const { Region } = require('../../models/Region');
 const { Controller } = require('./Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
+const { Zone } = require('../../models/Zone');
 
 const include = [];
 
-class FamiliesController extends Controller {
+class RegionsController extends Controller {
 
     async create(req){
 
         const payload = req.validated;
         payload.include = include;
 
-        const resource = await Family.create(payload);
+        const resource = await Region.create(payload);
 
         return new CreatedResource({resource});
 
@@ -23,11 +24,11 @@ class FamiliesController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Family.findOne({
+        const resource = await Region.findOne({
             where: {
                 id: payload.id
             },
-            include
+            include: [Zone]
         })
 
         return new Resource({resource});
@@ -38,13 +39,13 @@ class FamiliesController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Family.findAll({
+        const resource = await Region.findAll({
             limit: payload.limit,
             offset: payload.offset,
             include
         });
 
-        const count = await Family.count();
+        const count = await Region.count();
         
         return new PaginatedCollection({resource, count});
 
@@ -54,7 +55,7 @@ class FamiliesController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Family.findOne({
+        const resource = await Region.findOne({
             where: {
                 id: payload.id
             },
@@ -71,7 +72,7 @@ class FamiliesController extends Controller {
 
         const payload = req.validated;
         
-        const resource = await Family.findOne({
+        const resource = await Region.findOne({
             where: {
                 id: payload.id
             },
@@ -86,5 +87,5 @@ class FamiliesController extends Controller {
 }
 
 module.exports = {
-    FamiliesController
+    RegionsController
 };
