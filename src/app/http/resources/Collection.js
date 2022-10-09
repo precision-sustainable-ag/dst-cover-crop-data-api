@@ -6,8 +6,8 @@ class Collection extends Resource {
         return 'array';
     }
 
-    constructor({resource,status}){
-        super({resource,status});
+    constructor({resource,status,meta}){
+        super({resource,status,meta});
         if(!(this.resource instanceof Array)) this.resource = [this.resource];
     }
 

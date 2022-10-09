@@ -1,0 +1,45 @@
+
+@auth_token = {{get_auth_token.response.body.data}}
+@zone_id = {{get_zones.response.body.data[0].id}}
+@crop_id = {{get_crops.response.body.data[0].id}}
+
+###
+# @name get_auth_token
+GET {{protocol}}://{{auth-domain}}/auth
+?key={{key}}
+&secret={{secret}}
+
+###
+# used to get zone id parameter
+# @name get_zones
+GET {{protocol}}://{{domain}}/zones
+Authorization: {{auth_token}}
+
+###
+# used to get zone id parameter
+# @name get_crops
+GET {{protocol}}://{{domain}}/crops
+Authorization: {{auth_token}}
+
+###
+# @name retrieve_zones_crops
+GET {{protocol}}://{{domain}}/zones/{{zone_id}}/crops
+Authorization: {{auth_token}}
+
+###
+# @name get_a_specific_crops_zone_association
+GET {{protocol}}://{{domain}}/zones/{{zone_id}}/crops/{{crop_id}}
+Authorization: {{auth_token}}
+
+###
+# @name add_crop_to_zone
+POST {{protocol}}://{{domain}}/zones/{{zone_id}}/crops/{{crop_id}}
+Authorization: {{auth_token}}
+
+
+###
+# @name remove_crop_from_zone
+DELETE {{protocol}}://{{domain}}/zones/{{zone_id}}/crops/{{crop_id}}
+Authorization: {{auth_token}}
+
+

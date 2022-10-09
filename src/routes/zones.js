@@ -6,6 +6,7 @@ const { ListZonesRequest: ListRequest } = require('../app/http/requests/zones/Li
 const { RetrieveZoneRequest: GetRequest } = require('../app/http/requests/zones/RetrieveZoneRequest');
 const { UpdateZoneRequest: UpdateRequest } = require('../app/http/requests/zones/UpdateZoneRequest');
 const { DeleteZoneRequest: DeleteRequest } = require('../app/http/requests/zones/DeleteZoneRequest');
+const CropsZonesRouter = require('./cropsZones.js');
 
 /**
  * We call the controller factory method
@@ -21,6 +22,7 @@ router.get('/', HasScopes(['data_read']), ListRequest.handle(),Controller.list);
 router.get('/:id', HasScopes(['data_read']), GetRequest.handle(),Controller.retrieve);
 router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
 router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
+router.use(CropsZonesRouter)
 
 module.exports =  router
 

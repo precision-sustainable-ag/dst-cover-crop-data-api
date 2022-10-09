@@ -1,4 +1,5 @@
 const { Crop } = require("./Crop");
+const { CropsZone } = require("./CropsZone");
 const { Family } = require("./Family");
 const { Group } = require("./Group");
 const { Region } = require("./Region");
@@ -31,7 +32,7 @@ module.exports = [
             options:{},
         },
     },
-    
+
     { // regions have many zones
         parent: {
             model: Region,
@@ -42,6 +43,49 @@ module.exports = [
             model: Zone,
             relation: 'belongsTo',
             options:{},
+        },
+    },
+
+    { // crops have many crops_zones
+        parent: {
+            model: Crop,
+            relation: 'hasMany',
+            options:{},
+        },
+        child: {
+            model: CropsZone,
+            relation: 'belongsTo',
+            options:{},
+        },
+    },
+
+    { // zones have many crops_zones
+        parent: {
+            model: Zone,
+            relation: 'hasMany',
+            options:{},
+        },
+        child: {
+            model: CropsZone,
+            relation: 'belongsTo',
+            options:{},
+        },
+    },
+
+    { // crop belongs to many zones through crops_zones
+        parent: {
+            model: Crop,
+            relation: 'belongsToMany',
+            options:{
+                through: CropsZone
+            },
+        },
+        child: {
+            model: Zone,
+            relation: 'belongsToMany',
+            options:{
+                through: CropsZone
+            },
         },
     },
 

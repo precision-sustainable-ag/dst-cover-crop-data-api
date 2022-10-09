@@ -17,7 +17,7 @@ class RoutesProvider {
              * we are excluding comments router becuase 
              * the comments router will be a subrouter in the posts router.
              */
-            'comments', 
+            'cropsZones.js', 
         ];
     }
     
