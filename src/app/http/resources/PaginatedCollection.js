@@ -6,25 +6,25 @@ class PaginatedCollection extends Collection {
         return 'paginated';
     }
 
-    constructor({resource,status,count}){
-        super({resource,status});
+    constructor({resource,status,count,meta}){
+        super({resource,status,meta});
         this.count = count;
     }
 
-    getResource(req){
+    getMeta(req){
         const records = this.count;
         const limit = req.validated.limit;
+        const meta = this.meta;
         return {
-            object:this.object(),
-            data: this.resource,
-            meta: {
-                page: req.validated.page,
-                limit,
-                records,
-                pages: Math.ceil(records/limit),
-            }
-        };
+            page: req.validated.page,
+            limit,
+            records,
+            pages: Math.ceil(records/limit),
+            ...meta
+        }
     }
+
+
 
 }
 

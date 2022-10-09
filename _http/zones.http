@@ -29,6 +29,7 @@ Authorization: {{auth_token}}
 GET {{protocol}}://{{domain}}/zones/{{zone_id}}
 Authorization: {{auth_token}}
 
+
 ###
 # @name update_zone
 PUT {{protocol}}://{{domain}}/zones/{{zone_id}}

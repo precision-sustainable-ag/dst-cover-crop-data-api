@@ -11,7 +11,7 @@ module.exports =  async (req,res,next)=>{
         next();
     } catch(err){
         req.authorized = false
-        Log.Debug({heading:'Invalidated token'})
+        Log.Debug({heading:'Invalid token'})
         next();
     }
 }

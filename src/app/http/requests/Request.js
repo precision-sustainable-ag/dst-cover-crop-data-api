@@ -47,8 +47,13 @@ class Request  {
             const data = _instance.data(req);
             
             ValidatorProvider.factory().validate({data,rules});
-
-            req.validated = data
+            req.validated = {};
+            for(let key in rules){
+                // if(data[key] != null && data[key != 'undefined'])
+                if(typeof data[key] == 'undefined' || data[key] == null) continue;
+                req.validated[key] = data[key];
+            }
+            // req.validated = data
 
             return next();
         };

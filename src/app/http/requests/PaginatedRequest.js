@@ -3,6 +3,16 @@ const pag_conf = require('../../../config/pagination');
 
 class PaginatedRequest extends GetRequest {
 
+    /**
+     * returns map of route parameter keys to inject into data
+     * and their data type.
+     */
+     params(){
+        return {
+
+        };
+    }
+
     static defaultRules(){
         return {
             page: 'required|integer',
@@ -10,10 +20,16 @@ class PaginatedRequest extends GetRequest {
         }
     }
 
-    getRules(){
+    getRules(req){
         const rules = this.rules();
+        const paramRules = this.getParamRules();
+
+        req.query.page = this.convertToInt(req.query.page, pag_conf.default.page);
+        req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
+
         return {
             ...PaginatedRequest.defaultRules(),
+            ...paramRules,
             ...rules,
         };
     }
@@ -25,14 +41,6 @@ class PaginatedRequest extends GetRequest {
         } catch(err){
             return defaultVal;
         }
-    }
-
-    data(req) {
-
-        req.query.page = this.convertToInt(req.query.page, pag_conf.default.page);
-        req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
-
-        return this._data = req.query;
     }
 
 }
