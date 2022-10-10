@@ -4,7 +4,7 @@
   "description": "express blog",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env APP_ENV=test jest --verbose --testTimeout=5000 --detectOpenHandles ./tests",
+    "test": "cross-env APP_ENV=test jest ./tests",
     "start": "node app.js",
     "dev": "nodemon app.js",
     "db-sync": "node migrations/sync.js",
@@ -14,6 +14,12 @@
     "db-seed-fresh": "npm run db-fresh && npm run db-seed",
     "make": "npx --prefix ./_generator hygen ",
     "make:resource": "npx --prefix ./_generator hygen model new --name=$npm_config_name && npx --prefix ./_generator hygen controller new --name=$npm_config_name && npx --prefix ./_generator hygen router new --name=$npm_config_name --scope=$npm_config_scope && npx --prefix ./_generator hygen requests new:create --name=$npm_config_name && npx --prefix ./_generator hygen requests new:update --name=$npm_config_name  && npx --prefix ./_generator hygen requests new:retrieve --name=$npm_config_name && npx --prefix ./_generator hygen requests new:paginated --name=$npm_config_name && npx --prefix ./_generator hygen requests new:delete --name=$npm_config_name"
+  },
+  "jest": {
+    "verbose": true,
+    "detectOpenHandles": true,
+    "testEnvironment": "node",
+    "globalSetup": "./tests/SetUp.js"
   },
   "repository": {
     "type": "git",

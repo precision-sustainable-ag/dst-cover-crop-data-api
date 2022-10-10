@@ -6,6 +6,8 @@ const { bootstrap } = require('../../bootstrap')
 
 class AppProvider extends Provider {
 
+    static APP;
+
     static async register(){
         const config = this.getConfig();
         Log.Info({message:config, heading:'Testing Database Connection Credentials'})
@@ -29,6 +31,8 @@ class AppProvider extends Provider {
 
     static async factory(){
 
+        if(this.APP){ return this.APP; }
+
         
         const app = express()
 
@@ -40,7 +44,7 @@ class AppProvider extends Provider {
             return null;
         } 
 
-        return app;
+        return this.APP = app;
 
     }
 
