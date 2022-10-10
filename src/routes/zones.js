@@ -22,6 +22,10 @@ router.get('/', HasScopes(['data_read']), ListRequest.handle(),Controller.list);
 router.get('/:id', HasScopes(['data_read']), GetRequest.handle(),Controller.retrieve);
 router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
 router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
+/**
+ * Because we are using this router as a subrouter, we dont want to auto-generate routes for /cropsZones.
+ * we accomplish this by adding cropsZones.js to the exlcude array in the app/providers/RouterProvider.js file.
+ */
 router.use(CropsZonesRouter)
 
 module.exports =  router

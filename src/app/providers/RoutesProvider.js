@@ -18,6 +18,7 @@ class RoutesProvider {
              * the comments router will be a subrouter in the posts router.
              */
             'cropsZones.js', 
+            'synonyms.js', 
         ];
     }
     

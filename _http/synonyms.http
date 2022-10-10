@@ -1,0 +1,54 @@
+
+@auth_token = {{get_auth_token.response.body.data}}
+@crop_id = {{get_crops.response.body.data[0].id}}
+@synonym_id = {{create_crops_synonym.response.body.data.id}}
+###
+# @name get_auth_token
+GET {{protocol}}://{{auth-domain}}/auth
+?key={{key}}
+&secret={{secret}}
+
+
+###
+# @name get_crops
+GET {{protocol}}://{{domain}}/crops
+?limit=2
+Authorization: {{auth_token}}
+
+
+###
+# @name create_crops_synonym
+POST {{protocol}}://{{domain}}/crops/{{crop_id}}/synonyms
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "label":"testing synonym"
+}
+
+###
+# @name get_crops_synonyms
+GET {{protocol}}://{{domain}}/crops/{{crop_id}}/synonyms
+?limit=2
+Authorization: {{auth_token}}
+
+###
+# @name retrieve_crop_synonym
+GET {{protocol}}://{{domain}}/crops/{{crop_id}}/synonyms/{{synonym_id}}
+Authorization: {{auth_token}}
+
+###
+# @name update_crop_synonym
+PUT {{protocol}}://{{domain}}/crops/{{crop_id}}/synonyms/{{synonym_id}}
+Authorization: {{auth_token}}
+Content-Type: application/json
+
+{
+    "label":"updated synonym"
+}
+
+###
+# @name delete_crop_synonym
+DELETE {{protocol}}://{{domain}}/crops/{{crop_id}}/synonyms/{{synonym_id}}
+Authorization: {{auth_token}}
+

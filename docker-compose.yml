@@ -26,6 +26,8 @@ services:
     command: sh -c  "npm run db-fresh && npm run db-seed && npm start"
     ports:
       - 3000:3000
+    volumes:
+      - "./app:/usr/src/app/app"
     depends_on:
       - database
       - cache

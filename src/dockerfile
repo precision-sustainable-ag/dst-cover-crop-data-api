@@ -1,12 +1,12 @@
 FROM node:16
 
-WORKDIR /express
+WORKDIR /app
+COPY . /app
 
-COPY . .
-
-RUN npm ci --only=production
+RUN npm ci
 
 EXPOSE 3000
 
-
-ENTRYPOINT []
+#Give the path of your endpoint
+ENTRYPOINT ["nodemon", "/usr/src/app/app.js"]  
+CMD ["npm", "run", "dev"]
