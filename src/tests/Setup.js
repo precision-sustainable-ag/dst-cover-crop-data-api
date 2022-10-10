@@ -12,10 +12,15 @@
 // async function InitLogger(){
 //     await LoggingProvider.register();
 // }
+const { AppProvider } = require("../app/providers/AppProvider");
 
 module.exports = async () => {
-    await InitLogger();
-    await InitDatabase();
+
+    const app = await AppProvider.factory();
+    process.testSetup = {
+        app
+    }
+
 }
 
 
