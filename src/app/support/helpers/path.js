@@ -1,8 +1,6 @@
 const path = require('path');
-// const url = require('url');
 const fs = require('fs');
 
-// export const SRC_DIR_PATH = path.join(path.dirname(url.fileURLToPath(import.meta.url)),'../../..');
 const SRC_DIR_PATH = path.join(__dirname,'../../..');
 
 function app_path(...subpath){

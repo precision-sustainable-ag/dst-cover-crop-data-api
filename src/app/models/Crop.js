@@ -1,4 +1,6 @@
 const { DataTypes } = require('sequelize');
+const { Family } = require('./Family');
+const { Group } = require('./Group');
 const { Model } = require('./Model')
 
 /**
@@ -35,10 +37,18 @@ class Crop extends Model {
             groupId: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
+                references: {
+                    model: Group,
+                    key: 'id',
+                }
             },
             familyId: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
+                references: {
+                    model: Family,
+                    key: 'id',
+                }
             },
         }
     }
