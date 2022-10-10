@@ -14,6 +14,11 @@ const { DeleteCropsZoneRequest: DeleteRequest } = require('../app/http/requests/
  */
 const Controller = CropsZonesController.factory();
 
+
+/**
+ * Because we are using this router as a subrouter in zones, we dont want to auto-generate routes for /cropsZones.
+ * we accomplish this by adding cropsZones.js to the exlcude array in the app/providers/RouterProvider.js file.
+ */
 const router = Router();
 
 router.get('/:zoneId/crops', HasScopes(['data_read']), ListRequest.handle(),Controller.list);

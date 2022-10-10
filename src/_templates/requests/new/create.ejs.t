@@ -25,6 +25,16 @@ class Create<%= h.inflection.singularize(Name) %>Request extends EditRequest {
         }
     }
 
+    /**
+     * returns map of route parameter keys to inject into data
+     * and their data type.
+     */
+    params(){
+        return {
+        };
+    }
+    
+
     // return true to by-pass need for authorization
     authorized(){
         return false;

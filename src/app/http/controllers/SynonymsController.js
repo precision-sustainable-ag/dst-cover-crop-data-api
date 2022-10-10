@@ -1,23 +1,20 @@
----
-to: app/http/controllers/<%= h.inflection.pluralize(Name) %>Controller.js
----
-
-const { <%= h.inflection.singularize(Name) %> } = require('../../models/<%= h.inflection.singular(Name) %>');
+const { Synonym } = require('../../models/Synonym');
 const { Controller } = require('./Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
+const { RecordNotFound } = require('../../exceptions/RecordNotFound');
 
 const include = [];
 
-class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
+class SynonymsController extends Controller {
 
     async create(req){
 
         const payload = req.validated;
         payload.include = include;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.create(payload);
+        const resource = await Synonym.create(payload);
 
         return new CreatedResource({resource});
 
@@ -27,9 +24,10 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.findOne({
+        const resource = await Synonym.findOne({
             where: {
-                id: payload.id
+                id: payload.synonymId,
+                cropId: payload.cropId,
             },
             include
         })
@@ -42,13 +40,16 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.findAll({
+        const resource = await Synonym.findAll({
             limit: payload.limit,
             offset: payload.offset,
+            where: {
+                cropId: payload.cropId,
+            },
             include
         });
 
-        const count = await <%= h.inflection.singularize(Name) %>.count();
+        const count = await Synonym.count();
         
         return new PaginatedCollection({resource, count});
 
@@ -58,12 +59,18 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
 
-        const resource = await <%= h.inflection.singularize(Name) %>.findOne({
+        const resource = await Synonym.findOne({
             where: {
-                id: payload.id
+                id: payload.synonymId,
+                cropId: payload.cropId,
             },
             include
         })
+
+
+        if(!resource) {
+            throw new RecordNotFound({data:payload});
+        }
 
         await resource.update(payload);
 
@@ -75,12 +82,17 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 
         const payload = req.validated;
         
-        const resource = await <%= h.inflection.singularize(Name) %>.findOne({
+        const resource = await Synonym.findOne({
             where: {
-                id: payload.id
+                id: payload.synonymId,
+                cropId: payload.cropId,
             },
             include
         })
+
+        if(!resource) {
+            throw new RecordNotFound({data:payload});
+        }
 
         await resource.destroy();
 
@@ -90,5 +102,5 @@ class <%= h.inflection.pluralize(Name) %>Controller extends Controller {
 }
 
 module.exports = {
-    <%= h.inflection.pluralize(Name) %>Controller
+    SynonymsController
 };
