@@ -7,14 +7,57 @@ describe("POST /crops", () => {
     const app = process.testSetup.app;
     const payload = {
         label: 'testcrop',
+        scientificName:"test",
+        usdaSymbol:"TST"
+    }
+
+    const family = {
+        scientificName:"test",
+        commonName: "tested"
+    }
+
+    const group = {
+        label:"test"
+    }
+
+    const req = () => new Promise((resolve,reject)=>{
+        JwtService.encode({scopes:['data_create','data_update']})
+        .then(token => {
+                request(app).post("/families")  
+                .set('Authorization',token)
+                .send(family).then(fam => {
+                    request(app).post("/groups")
+                    .set('Authorization',token)
+                    .send(group).then(grp => {
+                        payload.familyId = fam.body.data.id;
+                        payload.groupId = grp.body.data.id;
+                        resolve(
+                            request(app).post("/crops")
+                            .set('Authorization',token)
+                            .send(payload)
+                        );
+                    })
+                })
+        }).catch(err => reject(err));
+    });
+
+    It.ShouldReturnStatus(req,201);
+
+
+    it("should return crop object. ", async () => {
         await req().then(res => {
             Expect.CropRecord(res.body.data);
+        });
+    });
+
+});
 
 describe("GET /crops", () => {
     const app = process.testSetup.app;
+
     const req = () => request(app).get("/crops");
     
-    It.ShouldReturnPaginationObject(req);
+    It.ShouldReturnPaginatedResponse(req);
     
     it("should return crop object as data array elements. ", async () => {
         await req().then(res => {
@@ -28,6 +71,7 @@ describe("GET /crops", () => {
 describe("GET /crops/:id", () => {
     const app = process.testSetup.app;
 
+    const req = () => new Promise((resolve, reject) => {
         request(app).get("/crops").then(
             res => {
                 const id = res.body.data[0].id;
