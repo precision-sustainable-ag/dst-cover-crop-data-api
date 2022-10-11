@@ -70,8 +70,8 @@ class Model extends SequelizeModel {
     }
     
     static getOptions(){
-        const options = this.options();
         const _options = Model.options();
+        const options = this.options();
         _options.modelName = this.getTable();
         return {
             ..._options,
@@ -86,7 +86,9 @@ class Model extends SequelizeModel {
 
     static register(){
         Log.Debug({heading:`Registering Model ${this.name}`})
-        this.init(this.attributes(), this.getOptions());
+        const attributes = this.attributes();
+        const options = this.getOptions();
+        this.init(attributes, options);
     }
 
     static registerRelations(){

@@ -6,6 +6,7 @@ const { ListSynonymsRequest: ListRequest } = require('../app/http/requests/synon
 const { RetrieveSynonymRequest: GetRequest } = require('../app/http/requests/synonyms/RetrieveSynonymRequest');
 const { UpdateSynonymRequest: UpdateRequest } = require('../app/http/requests/synonyms/UpdateSynonymRequest');
 const { DeleteSynonymRequest: DeleteRequest } = require('../app/http/requests/synonyms/DeleteSynonymRequest');
+const Public = require('../app/http/middleware/Public');
 
 /**
  * We call the controller factory method
@@ -20,9 +21,17 @@ const Controller = SynonymsController.factory();
  */
 const router = Router();
 
+/**
+ * all get requests are 100% open to public
+ */
+router.get('/:cropId/synonyms', Public, ListRequest.handle(),Controller.list);
+router.get('/:cropId/synonyms/:synonymId', Public, GetRequest.handle(),Controller.retrieve);
+
+/**
+ * All requests that edit data must have
+ * a data-entry authorization token with the required scopes.
+ */
 router.post('/:cropId/synonyms', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
-router.get('/:cropId/synonyms', HasScopes(['data_read']), ListRequest.handle(),Controller.list);
-router.get('/:cropId/synonyms/:synonymId', HasScopes(['data_read']), GetRequest.handle(),Controller.retrieve);
 router.put('/:cropId/synonyms/:synonymId', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
 router.delete('/:cropId/synonyms/:synonymId', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
 

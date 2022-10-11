@@ -2,6 +2,9 @@ const {env} = require('./kernel');
 
 module.exports =  {
     channel: env.LOG_CHANNEL,
+    exclude: {
+        env: ['production','test']
+    },
     stack: ['daily','slack'],
     single: {
         level: 'critical',
@@ -11,7 +14,7 @@ module.exports =  {
     },
     slack: {
         webhook: env.SLACK_WEBHOOK_URL,
-        level: 'critical',
+        level: env.SLACK_LOG_LEVEL ?? 'critical',
         debug: {
             emoji: ':female_zombie:',
             color: '#FFD700'

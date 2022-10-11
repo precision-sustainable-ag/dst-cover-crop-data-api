@@ -10,6 +10,7 @@ GET {{protocol}}://{{auth-domain}}/auth
 ?key={{key}}
 &secret={{secret}}
 
+
 ###
 # @name get_posts
 GET {{protocol}}://{{domain}}/posts
@@ -27,10 +28,12 @@ content-type: application/json
     "body":"bodie odie odie"
 }
 
+
 ###
 # @name get_comments
 GET {{protocol}}://{{domain}}/posts/{{post_id}}/comments
 Authorization: {{auth_token}}
+
 
 ###
 # @name update_comment
@@ -43,10 +46,12 @@ content-type: application/json
     "body":"bodie odie odie odie heeenneeyyy"
 }
 
+
 ###
 # @name retrieve_comment
 GET {{protocol}}://{{domain}}/posts/{{post_id}}/comments/{{comment_id}}
 Authorization: {{auth_token}}
+
 
 ###
 # @name delete_comment

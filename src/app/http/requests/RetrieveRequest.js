@@ -15,7 +15,6 @@ class RetrieveRequest extends Request {
     getParamRules(){
         const rules = {};
         const params = this.params();
-        console.log(this)
         for(let [param, dataType] of Object.entries(params)){
             rules[param] = `required|${dataType}`;
         }
@@ -41,7 +40,6 @@ class RetrieveRequest extends Request {
         }
         // inject all params into data.
         const params = this.params();
-        console.log('PARAMS',params);
         for(let key in params){
             this._data[key] = req.params[key];
         }

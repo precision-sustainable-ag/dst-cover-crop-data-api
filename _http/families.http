@@ -2,11 +2,13 @@
 @auth_token = {{get_auth_token.response.body.data}}
 @family_id = {{create_family.response.body.data.id}}
 
+
 ###
 # @name get_auth_token
 GET {{protocol}}://{{auth-domain}}/auth
 ?key={{key}}
 &secret={{secret}}
+
 
 ###
 # @name create_family
@@ -19,15 +21,18 @@ content-type: application/json
     "scientificName": "Test"
 }
 
+
 ###
 # @name get_families
 GET {{protocol}}://{{domain}}/families
 Authorization: {{auth_token}}
 
+
 ###
 # @name retrieve_family
 GET {{protocol}}://{{domain}}/families/{{family_id}}
 Authorization: {{auth_token}}
+
 
 ###
 # @name update_family
@@ -39,6 +44,7 @@ content-type: application/json
     "commonName" : "updated Test Com",
     "scientificName": "Test"
 }
+
 
 ###
 # @name delete_family

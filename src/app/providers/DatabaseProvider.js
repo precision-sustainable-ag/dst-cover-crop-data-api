@@ -3,14 +3,6 @@ const { Log } = require('./LoggingProvider');
 const {Provider} = require('./Provider');
 const db_conf = require('../../config/database');
 
-const Database = new Sequelize(db_conf.database, db_conf.username, db_conf.password, {
-    host: db_conf.host,
-    /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
-    dialect: db_conf.connection,
-    logging: db_conf.logging ?? false
-});
-
-
 class DatabaseProvider extends Provider {
 
     static database;
@@ -41,7 +33,7 @@ class DatabaseProvider extends Provider {
     }
 
     static async registerInMemory(){
-        this.database = new Sequelize('sqlite::memory:');
+        this.database = new Sequelize('sqlite::memory:',{logging:false});
         this.config = {
             connection: 'sqlite',
             host:'memory',
@@ -51,12 +43,26 @@ class DatabaseProvider extends Provider {
 
     static factory(){
         if(this.database){ return this.database; }
-        return this.database = Database;
+        return this.database = new Sequelize(db_conf.database, db_conf.username, db_conf.password, {
+            host: db_conf.host,
+            /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
+            dialect: db_conf.connection,
+            logging: db_conf.logging ?? false
+        });
+    }
+
+    static async sync(modelsProvider, options={}){
+        const MIGRATIONS = await modelsProvider.factory();
+
+        for (let migration of Object.values(MIGRATIONS)) {
+        
+            await migration.sync(options);
+        }
     }
 
 }
 
 
 module.exports = {
-    DatabaseProvider, Database
+    DatabaseProvider
 }

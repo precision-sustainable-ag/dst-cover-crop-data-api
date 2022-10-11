@@ -2,31 +2,33 @@
 
 class It {
 
-    static ShouldReturn200(req){
-        return it("should return staus 200", async () => {
+    static ShouldReturnStatus(req, status){
+        return it(`should return staus ${status}`, async () => {
             await req().then(res => {
-                expect(res.statusCode).toBe(200);
+                expect(res.statusCode).toBe(status);
             });
         });
     }
 
-    static ShouldReturnPaginationObject(req){
-        return it("should return pagination object", async () => {
+    static ShouldReturnObjectType(req,object){
+        return it(`should return object property with value ${object}`, async () => {
             await req().then(res => {
                 expect(res.body.object).toBeTruthy();
-                expect(res.body.object).toBe('paginated');
+                expect(res.body.object).toBe(object);
             });
         });
     }
 
-    static ShouldReturnPaginationMetaData(req){
+
+    static ShouldReturnMetaData(req, keys){
         return it("should return pagination meta data", async () => {
             await req().then(res => {
                 expect(typeof res.body.meta).toBe('object');
-                expect(res.body.meta.page).toBeTruthy();
-                expect(res.body.meta.limit).toBeTruthy();
-                expect(res.body.meta.records).toBeTruthy();
-                expect(res.body.meta.pages).toBeTruthy();
+
+                for(let key of keys){
+                    expect(res.body.meta[key]).toBeTruthy();
+                }
+
             });
         });
     }
@@ -39,6 +41,28 @@ class It {
             });
         });
     }
+
+    static ShouldReturnDataAsObject(req){
+        return it("should return data as array", async () => {
+            await req().then(res => {
+                expect(res.body.data).toBeTruthy();
+                expect(typeof res.body.data).toBe('object');
+            });
+        });
+    }
+
+    static ShouldReturnPaginatedResponse(req){
+        It.ShouldReturnStatus(req,200);
+        It.ShouldReturnObjectType(req,'paginated');
+        It.ShouldReturnMetaData(req,['page','limit','records','pages']);
+        It.ShouldReturnDataAsArray(req);
+    }
+
+    static ShouldReturnRetrieveResponse(req){
+        It.ShouldReturnStatus(req,200);
+        It.ShouldReturnObjectType(req,'object');
+        It.ShouldReturnDataAsObject(req);
+    } 
 }
 
 class Expect {
@@ -51,13 +75,23 @@ class Expect {
 
     static CropRecord(record){
         Expect.DatabaseRecord(record);
+        Expect.CropObject(record);
+    }
+    
+    static CropObject(record){
         expect(record.label).toBeTruthy();
         expect(record.scientificName).toBeTruthy();
         expect(record.usdaSymbol).toBeTruthy();
-        expect(record.family).toBeTruthy();
-        expect(record.family.commonName).toBeTruthy();
-        expect(record.family.scientificName).toBeTruthy();
-        expect(record.group).toBeTruthy();
+    }
+
+    static FamilyRecord(record){
+        Expect.DatabaseRecord(record);
+        Expect.FamilyObject(record);
+    }
+
+    static FamilyObject(record){
+        expect(record.commonName).toBeTruthy();
+        expect(record.scientificName).toBeTruthy();
     }
 
 }

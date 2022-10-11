@@ -6,6 +6,7 @@ const { ListCropsZonesRequest: ListRequest } = require('../app/http/requests/cro
 const { RetrieveCropsZoneRequest: GetRequest } = require('../app/http/requests/cropsZones/RetrieveCropsZoneRequest');
 const { UpdateCropsZoneRequest: UpdateRequest } = require('../app/http/requests/cropsZones/UpdateCropsZoneRequest');
 const { DeleteCropsZoneRequest: DeleteRequest } = require('../app/http/requests/cropsZones/DeleteCropsZoneRequest');
+const Public = require('../app/http/middleware/Public');
 
 /**
  * We call the controller factory method
@@ -21,8 +22,16 @@ const Controller = CropsZonesController.factory();
  */
 const router = Router();
 
-router.get('/:zoneId/crops', HasScopes(['data_read']), ListRequest.handle(),Controller.list);
-router.get('/:zoneId/crops/:cropId', HasScopes(['data_read']), GetRequest.handle(),Controller.retrieve);
+/**
+ * all get requests are 100% open to public
+ */
+router.get('/:zoneId/crops', Public, ListRequest.handle(),Controller.list);
+router.get('/:zoneId/crops/:cropId',Public, GetRequest.handle(),Controller.retrieve);
+
+/**
+ * All requests that edit data must have
+ * a data-entry authorization token with the required scopes.
+ */
 router.post('/:zoneId/crops/:cropId', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
 router.delete('/:zoneId/crops/:cropId', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
 

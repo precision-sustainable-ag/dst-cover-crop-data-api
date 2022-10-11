@@ -2,32 +2,14 @@
 const { Log } = require('./LoggingProvider');
 const {Provider} = require('./Provider');
 const express = require('express')
-const { bootstrap } = require('../../bootstrap')
+const { bootstrap } = require('../../bootstrap');
+const { DatabaseProvider } = require('./DatabaseProvider');
+const { ModelsProvider } = require('./ModelsProvider');
+const app_conf = require('../../config/app');
 
 class AppProvider extends Provider {
 
     static APP;
-
-    static async register(){
-        const config = this.getConfig();
-        Log.Info({message:config, heading:'Testing Database Connection Credentials'})
-        try {
-            const db = this.factory();
-            await db.authenticate();
-            Log.Info({message:'Connection has been established successfully.', heading: 'Completed Testing Database Connection Credentials'});
-            return true;
-        } catch (error) {
-            Log.Critical({
-                heading:'Database Connection Failed.', 
-                message: {
-                    error, config
-            }});
-            return false;
-        }
-
-    }
-
-
 
     static async factory(){
 
@@ -38,7 +20,29 @@ class AppProvider extends Provider {
 
         const bootstrapped = await bootstrap(app);
         
-        
+        if(!bootstrapped){
+            Log.Critical({message:`Failed to instantiate ${app_conf.name}.`, heading:'Bootstrapping Failed.'})
+            return null;
+        } 
+
+        return this.APP = app;
+
+    }
+
+    static async testFactory(){
+
+        if(this.APP){ return this.APP; }
+
+        const app = express();
+
+        // we must register db provider first to set up the factory to run in memory database.
+        await DatabaseProvider.registerInMemory();
+
+        const bootstrapped = await bootstrap(app);
+
+        // create fresh db.
+        await DatabaseProvider.sync(ModelsProvider,{force:true});
+
         if(!bootstrapped){
             Log.Critical({message:`Failed to instantiate ${app_conf.name}.`, heading:'Bootstrapping Failed.'})
             return null;

@@ -5,8 +5,9 @@ const { Log } = require('../../providers/LoggingProvider');
 
 const DATA_TYPE_CONVERSIONS = {
     STRING: 'string',
-    DATETIME: 'date',
+    DATE: 'date',
     INTEGER: 'integer',
+    BOOLEAN: 'boolean'
 }
 
 class ValidatorService {

@@ -49,7 +49,6 @@ class EditRequest extends RetrieveRequest {
             rules[attribute] = `${required}${dataType}`;
         }
         
-        console.log('>>>> Model Rules',rules)
         return rules;
     }
 

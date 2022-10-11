@@ -36,22 +36,17 @@ class ModelsProvider {
             if(className == 'Associations') continue;
 
             const module = require(app_path(`app/models/${file}`))
-            console.log('>>> Module',module)
             const model = module[className] ?? module;
             models.push(model);
         }
 
         return models;
-}
+    }
 
-static async register(){
+    static async registerModel(model){
 
-    const models = await this.getModels();
-
-    // first register all models
-    for(let model of models){
-        // have i already registered this model?
-        if(model.getTable() in MODELS) continue;
+        // is this model already registered?
+        if(model.getTable() in MODELS) return;
 
         /**
          * before we register this model,
@@ -64,35 +59,49 @@ static async register(){
             
             if(properties?.references){
                 const parent = properties.references.model;
+                // is this model already registered?
                 if(parent.getTable() in MODELS) continue;
                 // some models might reference themselves.
                 if(parent.getTable() == model.getTable()) continue;
-                await parent.register();
-                MODELS[parent.getTable()] = parent;
+                // register parent model.
+                await this.registerModel(parent);
             }
         }
 
+        // register this model
         await model.register();
+        // add model to models registry map.
         MODELS[model.getTable()] = model;
     }
 
-    for(let association of Associations){
-        const parent = association.parent;
-        const child = association.child;
+    static async register(){
 
-        parent.model[parent.relation](child.model,parent.options);
-        child.model[child.relation](parent.model,child.options);
+        const models = await this.getModels();
+
+        // first register all models
+        for(let model of models){
+            await this.registerModel(model);
+        }
+
+        for(let association of Associations){
+            const parent = association.parent;
+            const child = association.child;
+
+            parent.model[parent.relation](child.model,parent.options);
+            child.model[child.relation](parent.model,child.options);
+        }
+
+        Log.Info({message:Object.keys(MODELS),heading:'Registered Models'});
+
+        return true;
     }
-
-    Log.Info({message:Object.keys(MODELS),heading:'Registered Models'});
-
-    return true;
-}
 
     static factory(){
         if(Object.keys(MODELS).length <= 0){
             return new Promise((resolve, reject)=>{
-                ModelsProvider.register().then((registered)=>{resolve(MODELS)});
+                ModelsProvider.register()
+                .then((registered)=>{resolve(MODELS)})
+                .catch(err => reject(err));
             });
         }
         return MODELS;
