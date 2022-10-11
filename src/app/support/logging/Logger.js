@@ -1,5 +1,6 @@
 const {DateTime} = require('luxon');
 const log_conf = require('../../../config/logging');
+const app_conf = require('../../../config/app');
 
 const DEBUG  = {
     order: 1,
@@ -46,6 +47,8 @@ class Logger {
     }
 
     log({message, heading, level}){
+        if(log_conf.exclude.env.includes(app_conf.env)){ return; }
+
         const LOG_LEVEL = this.logLevel();
 
         if(!level) level = INFO;

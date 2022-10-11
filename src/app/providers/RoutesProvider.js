@@ -14,21 +14,14 @@ class RoutesProvider {
      static exclude(){
         return [
             /**
-             * we are excluding comments router becuase 
-             * the comments router will be a subrouter in the posts router.
+             * we are excluding these routers becuase 
+             * the are subroutes in another router.
              */
             'cropsZones.js', 
             'synonyms.js', 
+            'images.js', 
         ];
     }
-    
-
-
-    // static async getModels(){
-
-    //     const models = this.getModelsFromDir();
-    //     return models;
-    // }
 
     static async getRouters(){
 
@@ -58,7 +51,6 @@ class RoutesProvider {
             app.use(prefix,router);
             ROUTES[prefix] = router;
         }
-
 
         Log.Info({message:Object.keys(ROUTES),heading:'Registered Routes'});
 

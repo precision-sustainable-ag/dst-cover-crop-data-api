@@ -1,0 +1,65 @@
+
+@auth_token = {{get_auth_token.response.body.data}}
+@crop_id = {{get_crops.response.body.data[0].id}}
+@image_id = {{create_image.response.body.data.id}}
+
+
+###
+# @name get_auth_token
+GET {{protocol}}://{{auth-domain}}/auth
+?key={{key}}
+&secret={{secret}}
+
+
+###
+# used to get crop id.
+# @name get_crops
+GET {{protocol}}://{{domain}}/crops
+
+
+###
+# @name create_image
+POST {{protocol}}://{{domain}}/crops/{{crop_id}}/images
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "growthStage":"test",
+    "owner":"test",
+    "yearTaken":"10/1/22",
+    "src":"https://testauthorizationkeys.blob.core.windows.net/images/cola-skyline-preview.jpeg",
+    "isThumbnail":false
+}
+
+
+###
+# @name list_images
+GET {{protocol}}://{{domain}}/crops/{{crop_id}}/images
+Authorization: {{auth_token}}
+
+
+###
+# @name retrieve_image
+GET {{protocol}}://{{domain}}/crops/{{crop_id}}/images/{{image_id}}
+Authorization: {{auth_token}}
+
+
+###
+# @name update_image
+PUT {{protocol}}://{{domain}}/crops/{{crop_id}}/images/{{image_id}}
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "growthStage":"test-1",
+    "owner":"test",
+    "yearTaken":"10/1/22",
+    "src":"https://testauthorizationkeys.blob.core.windows.net/images/cola-skyline-preview.jpeg",
+    "isThumbnail":false
+}
+
+
+###
+# @name delete_image
+DELETE {{protocol}}://{{domain}}/crops/{{crop_id}}/images/{{image_id}}
+Authorization: {{auth_token}}

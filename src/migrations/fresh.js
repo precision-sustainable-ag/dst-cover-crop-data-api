@@ -1,15 +1,5 @@
 const {ModelsProvider} = require('../app/providers/ModelsProvider');
+const {DatabaseProvider} = require('../app/providers/DatabaseProvider');
 
 
-async function run(){
-    const MIGRATIONS = await ModelsProvider.factory();
-    
-    
-    for (let migration of Object.values(MIGRATIONS)) {
-    
-        await migration.sync({force:true});
-    
-    }
-}
-
-run();
+DatabaseProvider.sync(ModelsProvider,{force:true});

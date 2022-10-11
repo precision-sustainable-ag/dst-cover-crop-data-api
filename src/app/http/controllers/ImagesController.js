@@ -1,25 +1,18 @@
-const { Crop } = require('../../models/Crop');
+const { Image } = require('../../models/Image');
 const { Controller } = require('./Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
-const { Family } = require('../../models/Family');
-const { Group } = require('../../models/Group');
 
-const include = [
-    {model:Family, attributes:['id','commonName','scientificName']}, 
-    {model:Group, attributes:['id','label']}
-];
+const include = [];
 
-class CropsController extends Controller {
-
-
+class ImagesController extends Controller {
 
     async create(req){
 
         const payload = req.validated;
 
-        const resource = await Crop.create(payload)
+        const resource = await Image.create(payload);
 
         return new CreatedResource({resource});
 
@@ -29,9 +22,10 @@ class CropsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Crop.findOne({
+        const resource = await Image.findOne({
             where: {
-                id: payload.id
+                id: payload.imageId,
+                cropId: payload.cropId
             },
             include
         })
@@ -44,16 +38,16 @@ class CropsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Crop.findAll({
+        const resource = await Image.findAll({
             limit: payload.limit,
             offset: payload.offset,
-            order: [
-                ['label']
-            ],
+            where:{
+                cropId: payload.cropId,
+            },
             include
         });
 
-        const count = await Crop.count();
+        const count = await Image.count();
         
         return new PaginatedCollection({resource, count});
 
@@ -63,9 +57,10 @@ class CropsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Crop.findOne({
+        const resource = await Image.findOne({
             where: {
-                id: payload.id
+                id: payload.imageId,
+                cropId: payload.cropId
             },
             include
         })
@@ -80,9 +75,10 @@ class CropsController extends Controller {
 
         const payload = req.validated;
         
-        const resource = await Crop.findOne({
+        const resource = await Image.findOne({
             where: {
-                id: payload.id
+                id: payload.imageId,
+                cropId: payload.cropId
             },
             include
         })
@@ -95,5 +91,5 @@ class CropsController extends Controller {
 }
 
 module.exports = {
-    CropsController
+    ImagesController
 };

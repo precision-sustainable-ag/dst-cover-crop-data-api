@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const { Crop } = require('./Crop');
 const { Model } = require('./Model');
 const { Region } = require('./Region');
 
@@ -6,7 +7,7 @@ const { Region } = require('./Region');
  * For more information on sequelize attributes & options
  * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
  */
-class Zone extends Model {
+class Image extends Model {
 
     /**
      * For more information on sequelize attributes & options
@@ -21,14 +22,39 @@ class Zone extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            label: {
+            growthStage: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            owner: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            yearTaken: {
+                type: DataTypes.DATE,
+                allowNull: false,
+            },
+            src: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            isThumbnail: {
+                type: DataTypes.BOOLEAN,
+                allowNull: true,
+                default: false,
+            },
+            cropId: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references:{
+                    model: Crop,
+                    key: 'id',
+                }
+            },
             regionId: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
+                allowNull: true,
+                references:{
                     model: Region,
                     key: 'id',
                 }
@@ -73,7 +99,7 @@ class Zone extends Model {
 }
 
 module.exports =  {
-    Zone
+    Image
 };
 
 

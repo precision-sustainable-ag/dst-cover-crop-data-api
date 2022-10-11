@@ -1,11 +1,14 @@
 
 @auth_token = {{get_auth_token.response.body.data}}
 @crop_id = {{create_crops.response.body.data.id}}
+
+
 ###
 # @name get_auth_token
 GET {{protocol}}://{{auth-domain}}/auth
 ?key={{key}}
 &secret={{secret}}
+
 
 ###
 # @name create_crops
@@ -16,8 +19,11 @@ content-type: application/json
 {
     "label":"Test Crop",
     "scientificName":"Test",
-    "usdaSymbol":"TST"
+    "usdaSymbol":"TST",
+    "familyId":1,
+    "groupId": 1
 }
+
 
 ###
 # @name get_crops
@@ -31,6 +37,7 @@ Authorization: {{auth_token}}
 GET {{protocol}}://{{domain}}/crops/{{crop_id}}
 Authorization: {{auth_token}}
 
+
 ###
 # @name update_crop
 PUT {{protocol}}://{{domain}}/crops/{{crop_id}}
@@ -42,6 +49,7 @@ content-type: application/json
     "scientificName":"Test",
     "usdaSymbol":"TST1"
 }
+
 
 ###
 # @name delete_crop

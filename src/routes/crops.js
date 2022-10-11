@@ -8,6 +8,7 @@ const { UpdateCropRequest: UpdateRequest } = require('../app/http/requests/crops
 const { DeleteCropRequest: DeleteRequest } = require('../app/http/requests/crops/DeleteCropRequest');
 const SynonymsRouter = require('./synonyms');
 const Public = require('../app/http/middleware/Public');
+const ImagesRouter = require('./images');
 /**
  * We call the controller factory method
  * because this will create the controller and wrap all of the controller functions
@@ -32,10 +33,11 @@ router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller
 router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
 
 /**
- * Because we are using this router as a subrouter in crops, we dont want to auto-generate routes for /synonyms.
- * we accomplish this by adding synonyms.js to the exlcude array in the app/providers/RouterProvider.js file.
+ * Registering sub-routers here. 
+ * Make sure to exclude these routers from the app/providers/RotuesProvider.js 
  */
 router.use(SynonymsRouter)
+router.use(ImagesRouter)
 
 module.exports =  router
 

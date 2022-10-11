@@ -2,7 +2,7 @@
 to: app/http/controllers/<%= h.inflection.pluralize(Name) %>Controller.js
 ---
 
-const { <%= h.inflection.singularize(Name) %> } = require('../../models/<%= h.inflection.singular(Name) %>');
+const { <%= h.inflection.singularize(Name) %> } = require('../../models/<%= h.inflection.singularize(Name) %>');
 const { Controller } = require('./Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
