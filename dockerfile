@@ -6,6 +6,6 @@ COPY ./src .
 
 RUN npm ci --only=production
 
-EXPOSE 3000
+EXPOSE 80
 
 ENTRYPOINT ["npm","start"]
