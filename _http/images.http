@@ -28,7 +28,7 @@ content-type: application/json
     "owner":"test",
     "yearTaken":"10/1/22",
     "src":"https://testauthorizationkeys.blob.core.windows.net/images/cola-skyline-preview.jpeg",
-    "isThumbnail":true
+    "isThumbnail":false
 }
 
 

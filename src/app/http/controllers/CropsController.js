@@ -63,8 +63,6 @@ class CropsController extends Controller {
             throw new RecordNotFound({data:payload})
         }
 
-
-
         return new Resource({resource});
 
     }
