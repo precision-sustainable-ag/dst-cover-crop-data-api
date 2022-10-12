@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: dstccdataapi 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dstccdataapi
+  template:
+    metadata:
+      labels:
+        app: dstccdataapi 
+    spec:
+      containers:
+        - name: dstccdataapi 
+          image: containerregistry4pd7i.azurecr.io/dstccdataapi
+          ports:
+          - containerPort: 80
