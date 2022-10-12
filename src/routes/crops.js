@@ -9,6 +9,8 @@ const { DeleteCropRequest: DeleteRequest } = require('../app/http/requests/crops
 const SynonymsRouter = require('./synonyms');
 const Public = require('../app/http/middleware/Public');
 const ImagesRouter = require('./images');
+
+
 /**
  * We call the controller factory method
  * because this will create the controller and wrap all of the controller functions
