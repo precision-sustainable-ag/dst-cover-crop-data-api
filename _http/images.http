@@ -28,7 +28,7 @@ content-type: application/json
     "owner":"test",
     "yearTaken":"10/1/22",
     "src":"https://testauthorizationkeys.blob.core.windows.net/images/cola-skyline-preview.jpeg",
-    "isThumbnail":false
+    "isThumbnail":true
 }
 
 
@@ -51,7 +51,7 @@ Authorization: {{auth_token}}
 content-type: application/json
 
 {
-    "growthStage":"test-1",
+    "growthStage":"test-2",
     "owner":"test",
     "yearTaken":"10/1/22",
     "src":"https://testauthorizationkeys.blob.core.windows.net/images/cola-skyline-preview.jpeg",

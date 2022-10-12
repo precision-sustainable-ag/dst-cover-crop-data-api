@@ -3,7 +3,9 @@ const { CropsZone } = require("./CropsZone");
 const { Family } = require("./Family");
 const { Group } = require("./Group");
 const { Region } = require("./Region");
+const { Synonym } = require("./Synonym");
 const { Zone } = require("./Zone");
+const { Image } = require("./Image");
 
 module.exports = [
 
@@ -41,6 +43,45 @@ module.exports = [
         },
         child: {
             model: Zone,
+            relation: 'belongsTo',
+            options:{},
+        },
+    },
+
+    { // crops have many images
+        parent: {
+            model: Crop,
+            relation: 'hasMany',
+            options:{},
+        },
+        child: {
+            model: Image,
+            relation: 'belongsTo',
+            options:{},
+        },
+    },
+
+    { // regions have many images
+        parent: {
+            model: Region,
+            relation: 'hasMany',
+            options:{},
+        },
+        child: {
+            model: Image,
+            relation: 'belongsTo',
+            options:{},
+        },
+    },
+
+    { // crops have many synonyms
+        parent: {
+            model: Crop,
+            relation: 'hasMany',
+            options:{},
+        },
+        child: {
+            model: Synonym,
             relation: 'belongsTo',
             options:{},
         },

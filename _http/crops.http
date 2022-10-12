@@ -34,7 +34,7 @@ Authorization: {{auth_token}}
 
 ###
 # @name retrieve_crop
-GET {{protocol}}://{{domain}}/crops/{{crop_id}}
+GET {{protocol}}://{{domain}}/crops/2
 Authorization: {{auth_token}}
 
 
