@@ -28,7 +28,6 @@ class CreateCropsZoneRequest extends EditRequest {
      */
     rules(){
         return {
-            poop:'string'
         }
     }
 
