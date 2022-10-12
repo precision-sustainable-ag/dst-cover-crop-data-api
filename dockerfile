@@ -3,6 +3,7 @@ FROM node:16
 WORKDIR /express
 
 COPY ./src .
+COPY .env .
 
 RUN npm ci --only=production
 
