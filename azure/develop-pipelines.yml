@@ -33,6 +33,8 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - script: | 
+        echo "randomsecret=$(randomsecret)" >> /home/vsts/work/1/s/.env
     - script: |	
         echo APP_NAME="$(APP_NAME)" >> /home/vsts/work/1/s/.env	
         echo APP_PORT="$(APP_PORT)" >> /home/vsts/work/1/s/.env	
