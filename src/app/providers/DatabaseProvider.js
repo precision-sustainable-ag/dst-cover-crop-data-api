@@ -43,12 +43,20 @@ class DatabaseProvider extends Provider {
 
     static factory(){
         if(this.database){ return this.database; }
-        return this.database = new Sequelize(db_conf.database, db_conf.username, db_conf.password, {
+        return this.database = new Sequelize({
+            database: db_conf.database,
+            username: db_conf.username,
+            password: db_conf.password,
             host: db_conf.host,
-            /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
+            port: db_conf.port,
             dialect: db_conf.connection,
-            logging: db_conf.logging ?? false
-        });
+            dialectOptions: {
+              ssl: {
+                require: db_conf.ssl ?? true, // This will help you. But you will see nwe error
+                rejectUnauthorized: false // This line will fix new error
+              }
+            },
+          });;
     }
 
     static async sync(modelsProvider, options={}){
