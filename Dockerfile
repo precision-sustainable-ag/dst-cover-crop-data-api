@@ -1,11 +1,8 @@
 FROM node:16
 
-WORKDIR /express
-
+WORKDIR /
 COPY . .
+RUN npm install
 
-RUN npm ci --only=production
-
-EXPOSE 3000
-
-ENTRYPOINT ["npm","start"]
+EXPOSE 80
+ENTRYPOINT npm start
