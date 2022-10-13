@@ -11,12 +11,12 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'ff0d626b-e7e7-4b43-ba53-0179b0a5a8fc'
+  dockerRegistryServiceConnection: 'df206357-c949-4b67-90a5-ad617f5f8b94'
   imageRepository: 'dstccdataapi'
   containerRegistry: 'containerregistry4pd7i.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'containerregistry4pd7i17835e64-auth'
+  imagePullSecret: 'containerregistry4pd7i2526db5b-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -72,7 +72,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'precisionsustainableagdstcovercropdataapi-1440.production'
+    environment: 'precisionsustainableagdstcovercropdataapi-1678.develop'
     strategy:
       runOnce:
         deploy:
@@ -102,12 +102,12 @@ stages:
     pool:
       vmImage: $(vmImageName)
 
-    environment: 'precisionsustainableagdstcovercropdataapi-1440.$(k8sNamespaceForPR)'
+    environment: 'precisionsustainableagdstcovercropdataapi-1678.$(k8sNamespaceForPR)'
     strategy:
       runOnce:
         deploy:
           steps:
-          - reviewApp: production
+          - reviewApp: develop
 
           - task: Kubernetes@1
             displayName: 'Create a new namespace for the pull request'
