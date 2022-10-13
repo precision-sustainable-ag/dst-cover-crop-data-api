@@ -1,10 +1,10 @@
 ---
-to: app/http/requests/<%= h.inflection.pluralize(name) %>/Retrieve<%= h.inflection.singularize(Name) %>Request.js
+to: src/app/http/requests/<%= h.inflection.pluralize(name) %>/List<%= h.inflection.pluralize(Name) %>Request.js
 ---
 
-const { GetRequest } = require('../GetRequest');
+const { PaginatedRequest } = require('../PaginatedRequest');
 
-class Retrieve<%= h.inflection.singularize(Name) %>Request extends GetRequest {
+class List<%= h.inflection.pluralize(Name) %>Request extends PaginatedRequest {
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -22,7 +22,7 @@ class Retrieve<%= h.inflection.singularize(Name) %>Request extends GetRequest {
 }
 
 module.exports =  {
-    Retrieve<%= h.inflection.singularize(Name) %>Request
+    List<%= h.inflection.pluralize(Name) %>Request
 };
 
 

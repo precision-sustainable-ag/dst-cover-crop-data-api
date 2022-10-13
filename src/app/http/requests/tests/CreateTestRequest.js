@@ -1,11 +1,7 @@
----
-to: app/http/requests/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Request.js
----
-
-const { <%= h.inflection.singularize(Name) %> } = require('../../../models/<%= Name %>');
+const { Test } = require('../../../models/Test');
 const { EditRequest } = require('../EditRequest');
 
-class Create<%= h.inflection.singularize(Name) %>Request extends EditRequest {
+class CreateTestRequest extends EditRequest {
 
     /**
      * returns the model class,
@@ -13,7 +9,7 @@ class Create<%= h.inflection.singularize(Name) %>Request extends EditRequest {
      * and will interpret the model attributes to generate mode rules.
      */
     model(){
-        return <%= h.inflection.singularize(Name) %>;
+        return Test;
     }
 
     /**
@@ -43,7 +39,7 @@ class Create<%= h.inflection.singularize(Name) %>Request extends EditRequest {
 }
 
 module.exports =  {
-    Create<%= h.inflection.singularize(Name) %>Request
+    CreateTestRequest
 };
 
 
