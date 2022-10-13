@@ -1,5 +1,5 @@
 ---
-to: routes/<%= h.inflection.pluralize(name) %>.js
+to: src/routes/<%= h.inflection.pluralize(name) %>.js
 ---
 
 const {Router} = require('express');

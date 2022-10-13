@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env APP_ENV=test jest ./tests",
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "db-sync": "node migrations/sync.js",
-    "db-fresh": "node migrations/fresh.js",
-    "db-alter": "node migrations/alter.js",
-    "db-seed": "node migrations/seed.js",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "db-sync": "node src/migrations/sync.js",
+    "db-fresh": "node src/migrations/fresh.js",
+    "db-alter": "node src/migrations/alter.js",
+    "db-seed": "node src/migrations/seed.js",
     "db-seed-fresh": "npm run db-fresh && npm run db-seed",
     "make": "npx --prefix ./_generator hygen ",
     "make:resource": "npx --prefix ./_generator hygen model new --name=$npm_config_name && npx --prefix ./_generator hygen controller new --name=$npm_config_name && npx --prefix ./_generator hygen router new --name=$npm_config_name --scope=$npm_config_scope && npx --prefix ./_generator hygen requests new:create --name=$npm_config_name && npx --prefix ./_generator hygen requests new:update --name=$npm_config_name  && npx --prefix ./_generator hygen requests new:retrieve --name=$npm_config_name && npx --prefix ./_generator hygen requests new:paginated --name=$npm_config_name && npx --prefix ./_generator hygen requests new:delete --name=$npm_config_name"

@@ -70,6 +70,7 @@ class CropsController extends Controller {
     async list(req){
 
         const payload = req.validated;
+        // return payload;
 
         const resource = await Crop.findAll({
             limit: payload.limit,

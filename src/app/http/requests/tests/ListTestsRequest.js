@@ -1,10 +1,6 @@
----
-to: app/http/requests/<%= h.inflection.pluralize(name) %>/Delete<%= h.inflection.singularize(Name) %>Request.js
----
+const { PaginatedRequest } = require('../PaginatedRequest');
 
-const { GetRequest } = require('../GetRequest');
-
-class Delete<%= h.inflection.singularize(Name) %>Request extends GetRequest {
+class ListTestsRequest extends PaginatedRequest {
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -14,17 +10,15 @@ class Delete<%= h.inflection.singularize(Name) %>Request extends GetRequest {
         return {
         }
     }
-
+    
     // return true to by-pass need for authorization
     authorized(){
         return false;
     }
-
-
 }
 
 module.exports =  {
-    Delete<%= h.inflection.singularize(Name) %>Request
+    ListTestsRequest
 };
 
 
