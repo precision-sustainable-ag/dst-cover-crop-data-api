@@ -49,10 +49,6 @@ stages:
         echo AZURE_BLOB_CONTAINER="$(AZURE_BLOB_CONTAINER)" >> /home/vsts/work/1/s/.env
         echo AZURE_BLOB_CONNECTION_STRING="$(AZURE_BLOB_CONNECTION_STRING)" >> /home/vsts/work/1/s/.env
       displayName: "Create .env"
-    - script: | 
-        echo "$(pwd)"
-        cat /home/vsts/work/1/s/.env
-        ls
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
