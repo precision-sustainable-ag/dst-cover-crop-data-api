@@ -56,6 +56,7 @@ class DatabaseProvider extends Provider {
                 rejectUnauthorized: false // This line will fix new error
               }
             },
+            logging: db_conf.logging ?? false
           });;
     }
 
