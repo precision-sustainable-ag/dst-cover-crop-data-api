@@ -1,7 +1,3 @@
----
-to: app/models/<%= h.inflection.singularize(Name) %>.js
----
-
 const { DataTypes } = require('sequelize');
 const { Model } = require('./Model')
 
@@ -9,7 +5,7 @@ const { Model } = require('./Model')
  * For more information on sequelize attributes & options
  * please visit https://sequelize.org/docs/v6/core-concepts/model-basics/#column-options
  */
-class <%= h.inflection.singularize(Name) %> extends Model {
+class Test extends Model {
 
     /**
      * For more information on sequelize attributes & options
@@ -68,7 +64,7 @@ class <%= h.inflection.singularize(Name) %> extends Model {
 }
 
 module.exports =  {
-    <%= h.inflection.singularize(Name) %>
+    Test
 };
 
 

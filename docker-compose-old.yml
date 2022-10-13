@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3'
 services:
   database:
     image: postgres:14.1-alpine
@@ -19,24 +19,33 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass JQODI9u1uioasdjkl][]12039dasjkl!@((Adlakjsdl))
     volumes:
       - cache:/data
-  cover_crops_api:
-    restart: always
+  express_api:
     build:
-      context: .
-      dockerfile: Dockerfile.dev
-      args:
-        - PORT=3000
+      context: ./src
     command: sh -c  "npm run db-fresh && npm run db-seed && npm run dev"
     ports:
       - 3000:3000
-    env_file:
-      - .docker.compose.env
     volumes:
-      - ./:/usr/local/apps/myapp/dev
-      - ignore:/usr/local/apps/myapp/dev/node_modules/
+      - "./src:/src"
+    depends_on:
+      - database
+      - cache
+    environment:
+      - APP_NAME="sample"
+      - APP_PORT=3000
+      - LOG_CHANNEL=stack
+      - SLACK_WEBHOOK_URL=https://hooks.slack.com/services/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
+      - DB_CONNECTION=postgres
+      - DB_DATABASE=blog
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=JQODI9u1uioasdjkl][]12039dasjkl!@((Adlakjsdl))
 volumes:
   db:
     driver: local
   cache:
     driver: local
-  ignore:

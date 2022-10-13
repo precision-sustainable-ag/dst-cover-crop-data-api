@@ -1,32 +1,20 @@
 ---
-to: app/http/requests/<%= h.inflection.pluralize(name) %>/Update<%= h.inflection.singularize(Name) %>Request.js
+to: src/app/http/requests/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Request.js
 ---
 
 const { <%= h.inflection.singularize(Name) %> } = require('../../../models/<%= Name %>');
 const { EditRequest } = require('../EditRequest');
 
-class Update<%= h.inflection.singularize(Name) %>Request extends EditRequest {
+class Create<%= h.inflection.singularize(Name) %>Request extends EditRequest {
 
     /**
      * returns the model class,
      * this is used when getting the validation rules 
      * and will interpret the model attributes to generate mode rules.
-     * by default no fields will be explicity required for an update.
      */
     model(){
         return <%= h.inflection.singularize(Name) %>;
     }
-
-    /**
-     * returns map of route parameter keys to inject into data
-     * and their data type.
-     */
-    params(){
-        return {
-            id: 'string'
-        };
-    }
-
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -37,6 +25,16 @@ class Update<%= h.inflection.singularize(Name) %>Request extends EditRequest {
         }
     }
 
+    /**
+     * returns map of route parameter keys to inject into data
+     * and their data type.
+     */
+    params(){
+        return {
+        };
+    }
+    
+
     // return true to by-pass need for authorization
     authorized(){
         return false;
@@ -45,7 +43,7 @@ class Update<%= h.inflection.singularize(Name) %>Request extends EditRequest {
 }
 
 module.exports =  {
-    Update<%= h.inflection.singularize(Name) %>Request
+    Create<%= h.inflection.singularize(Name) %>Request
 };
 
 
