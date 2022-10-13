@@ -1,11 +1,7 @@
-FROM node:16
-
-WORKDIR /express
-
-COPY ./src .
-
-RUN npm ci --only=production
+FROM node:18 as builder
+WORKDIR /
+COPY . .
+RUN npm install
 
 EXPOSE 80
-
-ENTRYPOINT ["npm","start"]
+ENTRYPOINT npm start

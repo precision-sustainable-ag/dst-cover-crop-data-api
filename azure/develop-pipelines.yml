@@ -33,8 +33,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - script: | 
-        echo "$(pwd)"
     - script: |	
         echo APP_NAME="$(APP_NAME)" >> /home/vsts/work/1/s/src/.env
         echo APP_PORT="$(APP_PORT)" >> /home/vsts/work/1/s/src/.env
@@ -51,6 +49,9 @@ stages:
         echo AZURE_BLOB_CONTAINER="$(AZURE_BLOB_CONTAINER)" >> /home/vsts/work/1/s/src/.env
         echo AZURE_BLOB_CONNECTION_STRING="$(AZURE_BLOB_CONNECTION_STRING)" >> /home/vsts/work/1/s/src/.env
       displayName: "Create .env"
+    - script: | 
+        echo "$(pwd)"
+        cat /home/vsts/work/1/s/src/.env
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
