@@ -1,7 +1,12 @@
-FROM node:16 as builder
-WORKDIR /usr/app
-COPY ./ ./
-RUN npm install
+FROM node:16
+
+WORKDIR /express
+
+COPY ./src .
+COPY .env .
+
+RUN npm ci --only=production
 
 EXPOSE 80
-ENTRYPOINT npm start
+
+ENTRYPOINT ["npm","start"]
