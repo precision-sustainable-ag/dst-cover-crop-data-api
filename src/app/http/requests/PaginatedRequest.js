@@ -35,6 +35,7 @@ class PaginatedRequest extends GetRequest {
     }
 
     convertToInt(val, defaultVal = 0){
+        if(val == '*'){ return null; }
         if(!val) return defaultVal;
         try{
             return parseInt(val);
