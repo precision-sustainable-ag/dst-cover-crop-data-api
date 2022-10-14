@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=blog
+      - POSTGRES_DB=postgres
     ports:
       - '5432:5432'
     volumes: 
@@ -26,13 +26,13 @@ services:
       dockerfile: Dockerfile.dev
       args:
         - PORT=${APP_PORT}
-    command: sh -c  "npm run db-fresh && npm run db-seed && npm run dev"
+    command: sh -c  "npm run db-fresh"
     ports:
       - 3000:${APP_PORT}
     env_file:
-      - .env
+      - .env.dev
     volumes:
-      - ./:/usr/local/apps/myapp/dev
+      - ./src:/app/src
       - ignore:/usr/local/apps/myapp/dev/node_modules/
 volumes:
   db:

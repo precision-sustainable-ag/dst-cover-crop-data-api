@@ -1,0 +1,29 @@
+const { renameSync } = require("fs")
+
+[['Canola', 'Canola_flowering_Salon_2020.jpg'],
+['Canola', 'Rapeseed_flowering_Raubenstein_2020.jpg'], 
+['Canola', 'Rapeseed_flowering_VanGessel_2020.jpg'],
+['Rapeseed', 'Rapeseed_flowering_Bjorkman_2020.jpg'],
+['Rapeseed', 'Rapeseed_flowering_Raubenstein_2020.jpg'],
+['Rapeseed', 'Rapeseed_young_Salon_2020.JPG'],
+['Sorghum Sudangrass', 'Additional', 'AS6402 Sorghum Sudangrass April.jpg'], 
+['Sorghum Sudangrass', 'Additional', 'Sudex in background_young_Salon_2020.JPG'], 
+['Sorghum Sudangrass', 'Additional', 'SxSudangrass weed suppression 44 dap Zone 5_Bjorkman.JPG.jpg'], 
+['Sorghum Sudangrass', 'Sorghum sudangrass_mature_Larson_2020.JPG'],
+['Sorghum Sudangrass', 'Sorghum_sudangrass_young_Larson_2020.JPG'],
+['_Useful_', 'Flax_mature_Salon_2020.JPG'], 
+['_Useful_', 'Wheat Triticale Rye early May Zone 5_Bjorkman.jpg'],
+['_Useful_', 'jap millet vs proso Salon.JPG'],
+['_Useful_', 'red, crimson and berseem cloverplt 070214 photo 082414 Salon.JPG'], 
+['matilde prg091713 042114 Salon.jpg']]
+
+
+
+after renames
+[['Canola', 'Canola_flowering_Salon_2020.jpg'],
+['Canola', 'Rapeseed_flowering_Raubenstein_2020.jpg'],
+['Canola', 'Rapeseed_flowering_VanGessel_2020.jpg'], ['_Useful_', 'Flax_mature_Salon_2020.JPG'],
+['_Useful_', 'Wheat Triticale Rye early May Zone 5_Bjorkman.jpg'],
+['_Useful_', 'jap millet vs proso Salon.JPG'], 
+['_Useful_', 'red, crimson and berseem cloverplt 070214 photo 082414 Salon.JPG'],
+['matilde prg091713 042114 Salon.jpg']]
