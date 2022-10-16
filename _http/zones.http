@@ -1,6 +1,6 @@
 
 @auth_token = {{get_auth_token.response.body.data}}
-@zone_id = {{create_zone.response.body.data.id}}
+@zone_id = {{get_zones.response.body.data[0].id}}
 
 
 ###
