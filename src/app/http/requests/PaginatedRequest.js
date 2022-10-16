@@ -13,7 +13,7 @@ class PaginatedRequest extends GetRequest {
         };
     }
 
-    defaultRules(){
+    static defaultRules(){
         return {
             page: 'required|integer',
             limit: 'required|integer'
