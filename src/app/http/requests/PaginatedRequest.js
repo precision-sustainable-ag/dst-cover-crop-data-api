@@ -7,32 +7,41 @@ class PaginatedRequest extends GetRequest {
      * returns map of route parameter keys to inject into data
      * and their data type.
      */
-     params(){
+    params(){
         return {
 
         };
     }
 
-    static defaultRules(){
+    defaultRules(){
         return {
             page: 'required|integer',
             limit: 'required|integer'
         }
     }
 
+
+    maxLimit(){
+        return pag_conf.default.maxLimit;
+    }
+
+
     getRules(req){
         const rules = this.rules();
         const paramRules = this.getParamRules();
 
         req.query.page = this.convertToInt(req.query.page, pag_conf.default.page);
-        if(req.query.limit == '*') req.query.limit = pag_conf.maxLimit
-        else req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
+        req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
+        if (req.query.limit <= 0) {
+            req.query.limit = this.maxLimit();
+        } 
 
         return {
             ...PaginatedRequest.defaultRules(),
             ...paramRules,
             ...rules,
         };
+
     }
 
     convertToInt(val, defaultVal = 0){

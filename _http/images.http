@@ -3,13 +3,11 @@
 @crop_id = {{get_crops.response.body.data[0].id}}
 @image_id = {{create_image.response.body.data.id}}
 
-
 ###
 # @name get_auth_token
 GET {{protocol}}://{{auth-domain}}/auth
 ?key={{key}}
 &secret={{secret}}
-
 
 ###
 # used to get crop id.
@@ -46,16 +44,12 @@ Authorization: {{auth_token}}
 
 ###
 # @name update_image
-PUT {{protocol}}://{{domain}}/crops/{{crop_id}}/images/{{image_id}}
+PUT {{protocol}}://{{domain}}/crops/47/images/4
 Authorization: {{auth_token}}
 content-type: application/json
 
 {
-    "growthStage":"test-2",
-    "owner":"test",
-    "yearTaken":"10/1/22",
-    "src":"https://testauthorizationkeys.blob.core.windows.net/images/cola-skyline-preview.jpeg",
-    "isThumbnail":false
+    "isThumbnail":true
 }
 
 
