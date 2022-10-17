@@ -32,6 +32,7 @@ class PaginatedRequest extends GetRequest {
 
         req.query.page = this.convertToInt(req.query.page, pag_conf.default.page);
         req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
+        
         if (req.query.limit <= 0) {
             req.query.limit = this.maxLimit();
         } 

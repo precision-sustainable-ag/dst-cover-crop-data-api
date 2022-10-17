@@ -1,0 +1,51 @@
+version: '3'
+services:
+  database:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=blog
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+  cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass JQODI9u1uioasdjkl][]12039dasjkl!@((Adlakjsdl))
+    volumes:
+      - cache:/data
+  express_api:
+    build:
+      context: ./src
+    command: sh -c  "npm run db-fresh && npm run db-seed && npm run dev"
+    ports:
+      - 3000:3000
+    volumes:
+      - "./src:/src"
+    depends_on:
+      - database
+      - cache
+    environment:
+      - APP_NAME="sample"
+      - APP_PORT=3000
+      - LOG_CHANNEL=stack
+      - SLACK_WEBHOOK_URL=https://hooks.slack.com/services/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
+      - DB_CONNECTION=postgres
+      - DB_DATABASE=blog
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=JQODI9u1uioasdjkl][]12039dasjkl!@((Adlakjsdl))
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local
