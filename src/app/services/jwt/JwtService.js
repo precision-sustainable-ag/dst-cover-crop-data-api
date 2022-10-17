@@ -3,6 +3,7 @@ const jwt_conf = require('../../../config/jwt')
 const { BlobService } = require('../azure/BlobService');
 const crypto = require('crypto');
 
+const KEYS_CONTAINER = 'rsa-keys'
 
 const HMAC_SHA256 = 'HS256';
 const RSA_SHA256 = 'RS256';
@@ -17,9 +18,9 @@ const keyGetters = {
 
 
 async function getRSAKey(){
-    const publicKey = await BlobService.Open({blob:PUBLIC_KEY})
+    const publicKey = await BlobService.Open({blob:PUBLIC_KEY,container:KEYS_CONTAINER})
         .then(strVal => {return crypto.createPublicKey(strVal)})
-    const privateKey = await BlobService.Open({blob:PRIVATE_KEY})
+    const privateKey = await BlobService.Open({blob:PRIVATE_KEY,container:KEYS_CONTAINER})
         .then(strVal => {return crypto.createPrivateKey(strVal);})
     return {
         public: publicKey,

@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const { Log } = require('./LoggingProvider');
 const {Provider} = require('./Provider');
 const db_conf = require('../../config/database');
+const { ssl } = require('../../config/database');
 
 class DatabaseProvider extends Provider {
 
@@ -40,24 +41,40 @@ class DatabaseProvider extends Provider {
         }
     }
 
+    static ssl(){
+        if(db_conf.ssl){
+            return {
+                dialectOptions: {
+                    ssl: {
+                      require: db_conf.ssl, // This will help you. But you will see nwe error
+                      rejectUnauthorized: false // This line will fix new error
+                    }
+                }
+            }
+        }
+        return {};
+    }
 
-    static factory(){
-        if(this.database){ return this.database; }
-        return this.database = new Sequelize({
+    static settings(){
+        const ssl = this.ssl();
+        return {
             database: db_conf.database,
             username: db_conf.username,
             password: db_conf.password,
             host: db_conf.host,
             port: db_conf.port,
             dialect: db_conf.connection,
-            dialectOptions: {
-              ssl: {
-                require: db_conf.ssl ?? true, // This will help you. But you will see nwe error
-                rejectUnauthorized: false // This line will fix new error
-              }
-            },
-            logging: db_conf.logging ?? false
-          });;
+            logging: db_conf.logging,
+            ...ssl
+        }
+    }
+
+    static factory(){
+        if(this.database){ return this.database; }
+
+        const settings = this.settings();
+
+        return this.database = new Sequelize(settings);
     }
 
     static async sync(modelsProvider, options={}){

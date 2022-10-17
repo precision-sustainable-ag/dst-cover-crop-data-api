@@ -31,7 +31,7 @@ class Image extends Model {
                 allowNull: false,
             },
             yearTaken: {
-                type: DataTypes.DATE,
+                type: DataTypes.INTEGER,
                 allowNull: false,
             },
             src: {
