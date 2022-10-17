@@ -11,6 +11,7 @@ class PaginatedCollection extends Collection {
         this.count = count;
     }
 
+
     getMeta(req){
         const records = this.count;
         const limit = req.validated.limit;

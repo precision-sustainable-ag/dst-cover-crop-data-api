@@ -28,7 +28,7 @@ router.get('/:cropId/images/:imageId', Public, GetRequest.handle(),Controller.re
  * a data-entry authorization token with the required scopes.
  */
 router.post('/:cropId/images', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
-router.put('/:cropId/images/:imageId', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
+router.put('/:cropId/images/:imageId', Public, UpdateRequest.handle(),Controller.update);
 router.delete('/:cropId/images/:imageId', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
 
 module.exports =  router
