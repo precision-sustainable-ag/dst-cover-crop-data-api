@@ -1,7 +1,7 @@
 const {env} = require('./kernel');
 
 module.exports =  {
-    name: env.APP_NAME,
-    port: env.APP_PORT,
+    name: env.APP_NAME ?? 'Express API',
+    port: env.APP_PORT ?? 3000,
     env: env.APP_ENV ?? 'local',
 }

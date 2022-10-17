@@ -25,7 +25,8 @@ class PaginatedRequest extends GetRequest {
         const paramRules = this.getParamRules();
 
         req.query.page = this.convertToInt(req.query.page, pag_conf.default.page);
-        req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
+        if(req.query.limit == '*') req.query.limit = pag_conf.maxLimit
+        else req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
 
         return {
             ...PaginatedRequest.defaultRules(),

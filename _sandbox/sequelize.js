@@ -1,12 +1,6 @@
 const {Sequelize} = require('sequelize');
 const db_conf = require('../src/config/database');
 
-// const database = new Sequelize(db_conf.database, db_conf.username, db_conf.password, {
-//     host: db_conf.host,
-//     /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
-//     dialect: db_conf.connection,
-//     logging: db_conf.logging ?? false
-// });
 
 const database = new Sequelize({
     database: db_conf.database,

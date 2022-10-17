@@ -26,7 +26,7 @@ content-type: application/json
 {
     "growthStage":"test",
     "owner":"test",
-    "yearTaken":"10/1/22",
+    "yearTaken":2020,
     "src":"https://testauthorizationkeys.blob.core.windows.net/images/cola-skyline-preview.jpeg",
     "isThumbnail":false
 }
