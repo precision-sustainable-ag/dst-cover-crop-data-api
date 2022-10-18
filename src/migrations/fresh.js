@@ -1,25 +1,10 @@
 const {ModelsProvider} = require('../app/providers/ModelsProvider');
 const {DatabaseProvider} = require('../app/providers/DatabaseProvider');
-const {Client} = require('pg');
 
-const settings = DatabaseProvider.settings();
 
-const pgClient = new Client({
-    user: settings.username,
-    password: settings.password,
-    host: settings.host,
-    database: 'postgres'
+DatabaseProvider.CreateDatabaseIfNotExists().then(exists => {
+    if(!exists) throw Error('Database does not exist.');
+    DatabaseProvider.CloseClient();
+    DatabaseProvider.sync(ModelsProvider,{force:true});
 });
-
-const CreateDatabaseIfNotExists = "SELECT 'CREATE DATABASE cover_crops' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'cover_crops')"
-
-pgClient.connect();
-
-pgClient.query(CreateDatabaseIfNotExists, (err, res) => {
-    if(res){
-        console.log('response',res);
-        DatabaseProvider.sync(ModelsProvider,{force:true});
-    }
-    pgClient.end();
-})
 
