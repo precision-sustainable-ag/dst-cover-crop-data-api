@@ -7,10 +7,10 @@ module.exports =  {
     },
     stack: ['console','daily','slack'],
     single: {
-        level: 'critical',
+        level: env.FILE_LOG_LEVEL ?? 'critical',
     },
     daily: {
-        level: 'critical',
+        level: env.FILE_LOG_LEVEL ?? 'critical',
     },
     slack: {
         webhook: env.SLACK_WEBHOOK_URL,
@@ -37,7 +37,7 @@ module.exports =  {
      * https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
      */
     console: {
-        level: 'debug',
+        level: env.CONSOLE_LOG_LEVEL ?? 'info',
         debug: {
             color: "\x1b[92m"
         },
