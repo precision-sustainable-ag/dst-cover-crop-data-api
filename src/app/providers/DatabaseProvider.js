@@ -42,7 +42,7 @@ class DatabaseProvider extends Provider {
     }
 
     static ssl(){
-        if(db_conf.ssl === true){
+        if(db_conf.ssl === 'true'){
             return {
                 dialectOptions: {
                     ssl: {

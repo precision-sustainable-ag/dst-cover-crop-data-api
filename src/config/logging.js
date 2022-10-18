@@ -5,7 +5,7 @@ module.exports =  {
     exclude: {
         env: ['production','test']
     },
-    stack: ['daily','slack'],
+    stack: ['console','daily','slack'],
     single: {
         level: 'critical',
     },

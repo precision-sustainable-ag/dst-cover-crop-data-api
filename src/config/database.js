@@ -7,6 +7,6 @@ module.exports =  {
     username:   env.DB_USERNAME,
     password:   env.DB_PASSWORD,
     database:   env.DB_DATABASE,
-    ssl:        env.DB_SSL ?? false,
+    ssl:        env?.DB_SSL ? env.DB_SSL : 'true',
     logging:    false, //!!must be either console.log or false.
 }
