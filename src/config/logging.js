@@ -3,7 +3,7 @@ const {env} = require('./kernel');
 module.exports =  {
     channel: env.LOG_CHANNEL,
     exclude: {
-        env: ['production','test']
+        env: ['test']
     },
     stack: ['console','daily','slack'],
     single: {
