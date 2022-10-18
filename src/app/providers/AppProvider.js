@@ -1,7 +1,7 @@
 
 const { Log } = require('./LoggingProvider');
 const {Provider} = require('./Provider');
-const express = require('express')
+const express = require('express');
 const { bootstrap } = require('../../bootstrap');
 const { DatabaseProvider } = require('./DatabaseProvider');
 const { ModelsProvider } = require('./ModelsProvider');
@@ -16,7 +16,7 @@ class AppProvider extends Provider {
         if(this.APP){ return this.APP; }
 
         
-        const app = express()
+        const app = express();
 
         const bootstrapped = await bootstrap(app);
         

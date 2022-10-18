@@ -27,7 +27,7 @@ class DatabaseProvider extends Provider {
                 heading:'Database Connection Failed.', 
                 message: {
                     error, config
-            }});
+                }});
             return false;
         }
 
@@ -42,7 +42,7 @@ class DatabaseProvider extends Provider {
     }
 
     static ssl(){
-        if(db_conf.ssl){
+        if(db_conf.ssl === true){
             return {
                 dialectOptions: {
                     ssl: {

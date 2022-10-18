@@ -26,14 +26,14 @@ services:
       dockerfile: Dockerfile.dev
       args:
         - PORT=${APP_PORT}
-    command: sh -c  "npm run db-fresh"
+    command: sh -c  "npm run dev"
     ports:
       - 3000:${APP_PORT}
     env_file:
-      - .env.dev
+      - .env
     volumes:
-      - ./src:/app/src
-      - ignore:/usr/local/apps/myapp/dev/node_modules/
+      - ./:/usr/local/apps/app
+      - ignore:/usr/local/apps/app/node_modules
 volumes:
   db:
     driver: local
