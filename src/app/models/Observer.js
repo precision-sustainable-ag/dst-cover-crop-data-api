@@ -20,9 +20,17 @@ class Observer extends Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            label: {
+            domain: {
                 type: DataTypes.STRING,
                 allowNull: false,
+            },
+            webhook: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: true,
             },
         }
     }
