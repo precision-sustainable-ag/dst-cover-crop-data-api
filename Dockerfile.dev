@@ -1,19 +1,15 @@
 FROM node:16-alpine
 
-WORKDIR /app
+WORKDIR /usr/local/apps/app
 
 COPY package.json ./
-COPY .env.dev ./.env
+COPY .env ./.env
 
 RUN npm install && npm cache clean --force
-ENV PATH=/usr/local/myapp/node_modules/.bin:$PATH
+ENV PATH=/usr/local/apps/app/node_modules/.bin:$PATH
 
-WORKDIR /src
-
-COPY src .
+COPY ./src ./src
 
 EXPOSE ${PORT}
-
-WORKDIR /app
 
 ENTRYPOINT []
