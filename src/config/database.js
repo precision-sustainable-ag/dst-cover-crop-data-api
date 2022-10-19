@@ -8,5 +8,6 @@ module.exports =  {
     password:   env.DB_PASSWORD,
     database:   env.DB_DATABASE,
     ssl:        env?.DB_SSL ? env.DB_SSL : 'true',
-    logging:    false, //!!must be either console.log or false.
+    logging:    env.DB_LOGGING == 'true' ? console.log : false, //!!must be either console.log or false.
+    watch:     env?.DB_WATCH ? env.DB_WATCH.split(',') : [],
 }

@@ -7,7 +7,7 @@ const {RoutesProvider} = require('./app/providers/RoutesProvider');
 
 const Providers = [
     LoggingProvider, //logging provider should be first so any other provider failures can be logged.
-    DatabaseProvider,
+    DatabaseProvider, //!db provider must be registered before models provider.
     ModelsProvider,
     ValidatorProvider
 ];
@@ -16,6 +16,10 @@ async function RegisterProviders(app){
     for(let provider of Providers){
         if(await provider.register(app) == false) return false;
     }
+
+    const models = ModelsProvider.factory();
+
+    await DatabaseProvider.registerListeners(models);
 }
 
 

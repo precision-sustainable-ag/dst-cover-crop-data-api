@@ -12,15 +12,24 @@ class ModelsProvider {
      * overrides auto-resolver. if you use this function, you must list all models here.                                                                                                                                                                                                             `
      * @returns returns ordered list of models.
      */ 
-     static models(){
+    static models(){
         return [ 
+        ];
+    }
+
+    static ignore(){
+        return [
+            'Associations',
+            'Model',
         ];
     }
 
     static async getModels(){
 
         const models = this.models();
+
         if(models.length <= 0) return this.getModelsFromDir();
+
         return models;
     }
 
@@ -29,11 +38,11 @@ class ModelsProvider {
         const modelsDir = 'app/models';
         const modelFiles = await getFilesFrom(modelsDir);
         const models = [];
+        const ignore = this.ignore();
 
         for(let file of modelFiles){
             const className = file.replace('.js','');
-            if(className == 'Model') continue;
-            if(className == 'Associations') continue;
+            if(ignore.includes(className)) continue;
 
             const module = require(app_path(`app/models/${file}`))
             const model = module[className] ?? module;
@@ -104,7 +113,8 @@ class ModelsProvider {
                 .catch(err => reject(err));
             });
         }
-        return MODELS;
+        console.log('MODELS',MODELS);
+        return {...MODELS};
     }
 
 }

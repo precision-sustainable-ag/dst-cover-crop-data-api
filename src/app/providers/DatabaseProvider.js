@@ -2,8 +2,8 @@ const { Sequelize } = require('sequelize');
 const { Log } = require('./LoggingProvider');
 const {Provider} = require('./Provider');
 const db_conf = require('../../config/database');
-const { ssl } = require('../../config/database');
 const { PostgresService } = require('../services/database/PostgresService');
+const Pluralize = require('pluralize');
 
 class DatabaseProvider extends Provider {
 
@@ -32,6 +32,21 @@ class DatabaseProvider extends Provider {
                 }});
             return false;
         }
+
+    }
+
+    static async registerListeners(models){
+        let watch = db_conf.watch;
+
+        if(watch.length == 0) watch = [];
+
+        if(watch.length == 1 && watch[0] == '*') watch = Object.keys(models);
+        
+        for(let index in watch){
+            watch[index] = Pluralize(watch[index]);
+        }
+
+        Log.Debug({heading:'DB Watch List', message:watch})
 
     }
 
