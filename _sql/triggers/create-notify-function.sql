@@ -1,5 +1,5 @@
 
-CREATE OR REPLACE FUNCTION notify_data_edit() RETURNS TRIGGER AS $notify_data_edit_test$
+CREATE OR REPLACE FUNCTION notify_data_edit() RETURNS TRIGGER AS $notify_data_edit$
     DECLARE
     	channel TEXT;
     BEGIN        
@@ -22,4 +22,4 @@ CREATE OR REPLACE FUNCTION notify_data_edit() RETURNS TRIGGER AS $notify_data_ed
         
         RETURN NULL; -- result is ignored since this is an AFTER trigger
     END;
-$notify_data_edit_test$ LANGUAGE plpgsql;
+$notify_data_edit$ LANGUAGE plpgsql;
