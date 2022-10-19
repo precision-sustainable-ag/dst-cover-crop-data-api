@@ -47,7 +47,7 @@ function iteration2(){
     
     
     client2.connect().then(()=>{
-        client2.query(`NOTIFY test, 'POOP'`).then(()=>{
+        client2.query(`NOTIFY test, '!THIS IS A TEST!'`).then(()=>{
             console.log('notified.');
             client2.end();
         })
@@ -58,13 +58,6 @@ function iteration2(){
 
 async function iteration3(){
     const service = new PostgresService(settings);
-
-    await service.open({database:'postgres'})
-        .createDatabaseIfNotExists('sample_create_db')
-        .execute().then(res => {
-            console.log('RES',res);
-            console.log('Created DB!');
-        });
 
     await service.listen({channel:'test', callback:(payload)=>console.log('>> PAYLOAD',payload)});
 
