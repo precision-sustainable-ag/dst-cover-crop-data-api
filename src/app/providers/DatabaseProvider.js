@@ -40,21 +40,13 @@ class DatabaseProvider extends Provider {
 
         if(this.config.connection != 'postgres') return false;
 
-        let watch = db_conf.watch;
-
-        if(watch.length == 0) watch = [];
-
-        if(watch.length == 1 && watch[0] == '*') watch = Object.keys(models);
-        
+        const watching = db_conf.watch;
         const service = DatabaseProvider.Service();
 
-        for(let channel of watch){
-            service.listen({channel, callback:(payload)=> BroadcastDataJob.Queue(payload)})
+        for(let event of watching){
+            service.listen({channel:event.channel,callback: (payload) => event.handler(payload)})
         }
-
-        Log.Info({heading:'Watching Database Channels:', message:watch});
-
-        return true;
+        
     }
 
     static async registerInMemory(){
