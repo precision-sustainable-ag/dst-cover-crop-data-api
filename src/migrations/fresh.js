@@ -7,7 +7,9 @@ DatabaseProvider.Service()
     .createDatabaseIfNotExists(settings.database)
     .execute()
     .then(() => {
-        DatabaseProvider.sync(ModelsProvider,{force:true})
+        DatabaseProvider.sync(ModelsProvider,{force:true}).then(()=>{
+            DatabaseProvider.Service().createTriggers().execute();
+        })
     });
 
 

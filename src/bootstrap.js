@@ -4,6 +4,8 @@ const {LoggingProvider} = require('./app/providers/LoggingProvider');
 const {ValidatorProvider} = require('./app/providers/ValidatorProvider');
 const {MiddlewareProvider} = require('./app/providers/MiddlewareProvider');
 const {RoutesProvider} = require('./app/providers/RoutesProvider');
+const { QueueProvider } = require('./app/providers/QueueProvider');
+const queues = require('./config/queues');
 
 const Providers = [
     LoggingProvider, //logging provider should be first so any other provider failures can be logged.
@@ -16,7 +18,7 @@ async function RegisterProviders(app){
     for(let provider of Providers){
         if(await provider.register(app) == false) return false;
     }
-
+    await QueueProvider.register(queues);
     const models = ModelsProvider.factory();
     await DatabaseProvider.registerListeners(models);
 }

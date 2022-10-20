@@ -4,7 +4,7 @@ const {Provider} = require('./Provider');
 const db_conf = require('../../config/database');
 const { PostgresService } = require('../services/database/PostgresService');
 const Pluralize = require('pluralize');
-const { BroadcastData } = require('../jobs/BroadcastData');
+const { BroadcastDataJob } = require('../jobs/BroadcastDataJob');
 
 class DatabaseProvider extends Provider {
 
@@ -37,6 +37,9 @@ class DatabaseProvider extends Provider {
     }
 
     static async registerListeners(models){
+
+        if(this.config.connection != 'postgres') return false;
+
         let watch = db_conf.watch;
 
         if(watch.length == 0) watch = [];
@@ -46,13 +49,12 @@ class DatabaseProvider extends Provider {
         const service = DatabaseProvider.Service();
 
         for(let channel of watch){
-            service.listen({channel, callback:(payload)=> new BroadcastData(payload).queue()})
+            service.listen({channel, callback:(payload)=> BroadcastDataJob.Queue(payload)})
         }
 
         Log.Info({heading:'Watching Database Channels:', message:watch});
 
-
-
+        return true;
     }
 
     static async registerInMemory(){

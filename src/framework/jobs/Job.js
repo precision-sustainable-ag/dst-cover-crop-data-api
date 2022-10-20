@@ -1,24 +1,26 @@
 const { Log } = require("../../app/providers/LoggingProvider");
+const { QueueProvider } = require("../../app/providers/QueueProvider");
 
 
 class Job {
 
-    channel(){
-        return null;
+    static channel(){
+        return 'default';
     }
 
-    constructor(payload){
-        this.payload = payload;
+    constructor(data={}, config={}){
+        this.payload = data;
+        this.config = config;
+    }
+
+    async handle(){
+        return true;
     }
 
 
-    async queue(){
+    static Queue(payload){
         const channel = this.channel();
-        const name = this.name;
-        Log.Debug({heading:`Queued ${name} on ${channel}`})
-        if(channel){
-            this.handle();
-        }
+        QueueProvider.Queue({channel, payload});
     }
 
 }

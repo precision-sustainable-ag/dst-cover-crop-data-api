@@ -19,9 +19,7 @@ content-type: application/json
 {
     "label":"Test Crop",
     "scientificName":"Test",
-    "usdaSymbol":"TST",
-    "familyId":1,
-    "groupId": 1
+    "usdaSymbol":"TST"
 }
 
 

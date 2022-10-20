@@ -3,18 +3,18 @@
 const { Job } = require("../../framework/jobs/Job");
 
 
-class BroadcastData extends Job {
+class BroadcastDataJob extends Job {
     
     
-    channel() {
+    static channel() {
         return 'broadcast';
     }
 
     data() {
-        const payload = this.payload;
-        const data = JSON.parse(this.payload.payload);
+        const msg = this.payload;
+        const data = JSON.parse(msg.payload);
         return {
-            model:  payload.channel,
+            model:  msg.channel,
             operation: data.operation,
             old: JSON.parse(data.old),
             new: JSON.parse(data.new),
@@ -31,5 +31,5 @@ class BroadcastData extends Job {
 }
 
 module.exports = {
-    BroadcastData
+    BroadcastDataJob
 }
