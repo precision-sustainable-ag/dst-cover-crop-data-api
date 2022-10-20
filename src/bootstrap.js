@@ -19,8 +19,7 @@ async function RegisterProviders(app){
         if(await provider.register(app) == false) return false;
     }
     await QueueProvider.register(queues);
-    const models = ModelsProvider.factory();
-    await DatabaseProvider.registerListeners(models);
+    await DatabaseProvider.registerListeners();
 }
 
 

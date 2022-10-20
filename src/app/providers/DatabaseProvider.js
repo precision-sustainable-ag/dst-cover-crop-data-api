@@ -36,7 +36,7 @@ class DatabaseProvider extends Provider {
 
     }
 
-    static async registerListeners(models){
+    static async registerListeners(){
 
         if(this.config.connection != 'postgres') return false;
 
@@ -46,7 +46,7 @@ class DatabaseProvider extends Provider {
         for(let event of watching){
             service.listen({channel:event.channel,callback: (payload) => event.handler(payload)})
         }
-        
+
     }
 
     static async registerInMemory(){
