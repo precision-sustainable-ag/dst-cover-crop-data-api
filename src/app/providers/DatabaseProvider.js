@@ -4,6 +4,7 @@ const {Provider} = require('./Provider');
 const db_conf = require('../../config/database');
 const { PostgresService } = require('../services/database/PostgresService');
 const Pluralize = require('pluralize');
+const { BroadcastData } = require('../jobs/BroadcastData');
 
 class DatabaseProvider extends Provider {
 
@@ -28,7 +29,7 @@ class DatabaseProvider extends Provider {
             Log.Critical({
                 heading:'Database Connection Failed.', 
                 message: {
-                    error, config
+                    error: error.stack, config
                 }});
             return false;
         }
@@ -42,11 +43,15 @@ class DatabaseProvider extends Provider {
 
         if(watch.length == 1 && watch[0] == '*') watch = Object.keys(models);
         
-        for(let index in watch){
-            watch[index] = Pluralize(watch[index]);
+        const service = DatabaseProvider.Service();
+
+        for(let channel of watch){
+            service.listen({channel, callback:(payload)=> new BroadcastData(payload).queue()})
         }
 
-        Log.Debug({heading:'DB Watch List', message:watch})
+        Log.Info({heading:'Watching Database Channels:', message:watch});
+
+
 
     }
 

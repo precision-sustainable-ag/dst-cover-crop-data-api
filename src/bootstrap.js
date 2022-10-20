@@ -18,7 +18,6 @@ async function RegisterProviders(app){
     }
 
     const models = ModelsProvider.factory();
-
     await DatabaseProvider.registerListeners(models);
 }
 

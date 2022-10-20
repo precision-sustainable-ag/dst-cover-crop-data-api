@@ -39,7 +39,7 @@ class PostgresService {
             const channel = msg.channel;
             if(channel in watching){
                 const callback = watching[channel];
-                callback(msg.payload);
+                callback(msg);
             }
         })
     }
