@@ -25,6 +25,7 @@ class BroadcastDataJob extends Job {
         const data = this.data();
 
         console.log('>>> Broadcasting',data);
+        return true;
     }
 
 

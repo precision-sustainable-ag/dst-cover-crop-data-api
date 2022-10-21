@@ -11,14 +11,30 @@ class QueueProvider extends Provider {
 
     static async register(queues){
 
-        for(let [channel, definition] of Object.entries(queues)){
-            definition.queue = this.buildQueue(channel);
-            this.queues[channel] = definition;
+        for(let [channel, config] of Object.entries(queues)){
+            // create the bull queue
+            config.queue = this.buildQueue(channel);
+            // store this definition for later use
+            this.queues[channel] = config;
+            // tell the queue how to process a job on this channel
+            // the config handler should be a job class
             const handler = this.queues[channel].handler;
-            this.queues[channel].queue.process((payload,done) => {
-                const job = new handler(payload.data,payload);
-                job.handle().then(()=>done());
-            });
+            this.queues[channel].queue.process(
+                (payload,done) => {
+                    // create the job class and handle the job.
+                    const job = new handler(payload.data,payload);
+                    // job handles should return true / false
+                    job.handle().then(status => {
+                        // successfully handled.
+                        if(status == true) return done();
+                        // unsuccessfully handled, unknown reason.
+                        return done(new Error(JSON.stringify({
+                            queue: payload.queue.name,
+                            data: payload.data,
+                            opts: payload.opts
+                        }, null, "\t")));
+                    });
+                });
         }
 
         return true;
