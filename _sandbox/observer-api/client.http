@@ -1,0 +1,12 @@
+
+GET http://localhost:3002
+
+###
+
+
+POST http://localhost:3002/observe/cover-crops
+Content-Type: application/json
+
+{
+    "example": "post"
+}
