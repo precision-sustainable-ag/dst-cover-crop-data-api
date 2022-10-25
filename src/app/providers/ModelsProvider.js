@@ -113,7 +113,7 @@ class ModelsProvider {
                 .catch(err => reject(err));
             });
         }
-        console.log('MODELS',MODELS);
+        
         return {...MODELS};
     }
 
