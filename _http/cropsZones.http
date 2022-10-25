@@ -21,13 +21,13 @@ Authorization: {{auth_token}}
 ###
 # used to get zone id parameter
 # @name get_crops
-GET {{protocol}}://{{domain}}/crops
+GET {{protocol}}://{{domain}}/crops?label=crop
 Authorization: {{auth_token}}
 
 
 ###
 # @name retrieve_zones_crops
-GET {{protocol}}://{{domain}}/zones/{{zone_id}}/crops
+GET {{protocol}}://{{domain}}/zones/{{zone_id}}/crops?label=crop
 Authorization: {{auth_token}}
 
 

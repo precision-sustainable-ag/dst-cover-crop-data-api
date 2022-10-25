@@ -9,8 +9,13 @@ class Job {
     }
 
     constructor(data={}, config={}){
+        // this.handle = this.wrapHandler()
         this.payload = data;
         this.config = config;
+    }
+
+    data(){
+        return {};
     }
 
     async handle(){
@@ -20,7 +25,7 @@ class Job {
 
     static Queue(payload){
         const channel = this.channel();
-        QueueProvider.Queue({channel, payload});
+        return QueueProvider.Queue({channel, payload});
     }
 
 }

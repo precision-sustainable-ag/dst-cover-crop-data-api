@@ -3,8 +3,6 @@ const { Log } = require('./LoggingProvider');
 const {Provider} = require('./Provider');
 const db_conf = require('../../config/database');
 const { PostgresService } = require('../services/database/PostgresService');
-const Pluralize = require('pluralize');
-const { BroadcastDataJob } = require('../jobs/BroadcastDataJob');
 
 class DatabaseProvider extends Provider {
 
@@ -36,11 +34,10 @@ class DatabaseProvider extends Provider {
 
     }
 
-    static async registerListeners(){
+    static async registerListeners(watching){
 
         if(this.config.connection != 'postgres') return false;
 
-        const watching = db_conf.watch;
         const service = DatabaseProvider.Service();
 
         for(let event of watching){

@@ -59,7 +59,7 @@ function iteration2(){
 async function iteration3(){
     const service = new PostgresService(settings);
 
-    await service.listen({channel:'crop', callback:(payload)=>console.log('>> PAYLOAD',payload)});
+    await service.listen({channel:'data_edit', callback:(payload)=>console.log('>> PAYLOAD',payload)});
 
     service.query({
         sql: `NOTIFY test, '!THIS IS A TEST!'`,

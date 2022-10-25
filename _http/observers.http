@@ -1,6 +1,6 @@
 
 @auth_token = {{get_auth_token.response.body.data}}
-@crop_id = {{get_crops.response.body.data[0].id}}
+@observer_id = {{get_observers.response.body.data[0].id}}
 
 
 ###
@@ -11,44 +11,43 @@ GET {{protocol}}://{{auth-domain}}/auth
 
 
 ###
-# @name create_crops
-POST {{protocol}}://{{domain}}/crops
+# @name create_observers
+POST {{protocol}}://{{domain}}/observers
 Authorization: {{auth_token}}
 content-type: application/json
 
 {
-    "label":"Test Crop",
-    "scientificName":"Test",
-    "usdaSymbol":"TST"
+    "domain":"example_client_api:3002",
+    "webhook":"http://example_client_api:3002/observe/cover-crops"
 }
 
 
 ###
-# @name get_crops
-GET {{protocol}}://{{domain}}/crops
+# @name get_observers
+GET {{protocol}}://{{domain}}/observers
 Authorization: {{auth_token}}
 
 
 ###
-# @name retrieve_crop
-GET {{protocol}}://{{domain}}/crops/{{crop_id}}
+# @name retrieve_observer
+GET {{protocol}}://{{domain}}/observers/{{observer_id}}
 Authorization: {{auth_token}}
 
 
 ###
-# @name update_crop
-PUT {{protocol}}://{{domain}}/crops/{{crop_id}}
+# @name update_observer
+PUT {{protocol}}://{{domain}}/observers/{{observer_id}}
 Authorization: {{auth_token}}
 content-type: application/json
 
 {
-    "label":"Test Crop",
-    "scientificName":"Test",
-    "usdaSymbol":"TST1"
+    "domain":"example_client_api:3003",
+    "webhook":"http://example_client_api:3002/observe/cover-crops"
 }
 
 
+
 ###
-# @name delete_crop
-DELETE {{protocol}}://{{domain}}/crops/{{crop_id}}
+# @name delete_observer
+DELETE {{protocol}}://{{domain}}/observers/{{observer_id}}
 Authorization: {{auth_token}}

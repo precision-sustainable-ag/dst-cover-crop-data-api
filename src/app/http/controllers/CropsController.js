@@ -8,6 +8,7 @@ const { Group } = require('../../models/Group');
 const { Image } = require('../../models/Image');
 const { RecordNotFound } = require('../../exceptions/RecordNotFound');
 const { Synonym } = require('../../models/Synonym');
+const { Op } = require('sequelize');
 
 const include = [
     {model:Family, attributes:['id','commonName','scientificName']}, 
@@ -70,18 +71,20 @@ class CropsController extends Controller {
     async list(req){
 
         const payload = req.validated;
-        // return payload;
 
-        const resource = await Crop.findAll({
+        const {count, rows} = await Crop.findAndCountAll({
             limit: payload.limit,
-            offset: payload.page,
+            offset: payload.offset,
             order: [
                 ['label']
             ],
+            where: {
+                label: { [Op.iLike]: `%${payload?.label ? payload.label : ''}%` }
+            },
             include
-        }).then(crops => crops.map(crop => transform(crop)));
+        });
 
-        const count = await Crop.count();
+        const resource = rows.map(crop => transform(crop));
         
         return new PaginatedCollection({resource, count});
 

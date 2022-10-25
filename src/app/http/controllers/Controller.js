@@ -25,7 +25,7 @@ class Controller {
             try{
 
                 if(!req.authorized) throw new UnAuthorized();
-
+                
                 const result = await method(req)
 
                 if(result instanceof Resource){

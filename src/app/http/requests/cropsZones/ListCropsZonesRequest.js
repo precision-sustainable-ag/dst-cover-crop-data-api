@@ -17,6 +17,7 @@ class ListCropsZonesRequest extends PaginatedRequest {
      */
     rules(){
         return {
+            label: 'string'
         }
     }
     

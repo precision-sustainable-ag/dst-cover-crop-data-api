@@ -19,8 +19,7 @@ class QueueProvider extends Provider {
             // tell the queue how to process a job on this channel
             // the config handler should be a job class
             const handler = this.queues[channel].handler;
-            this.queues[channel].queue.process(
-                (payload,done) => {
+            this.queues[channel].queue.process((payload,done) => {
                     // create the job class and handle the job.
                     const job = new handler(payload.data,payload);
                     // job handles should return true / false
@@ -33,6 +32,10 @@ class QueueProvider extends Provider {
                             data: payload.data,
                             opts: payload.opts
                         }, null, "\t")));
+
+                    }).catch(err => {
+                        Log.Critical({heading:`Failed Job ${payload.queue.name}`, message:err});
+                        done(err);
                     });
                 });
         }

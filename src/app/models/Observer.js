@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const { Log } = require('../providers/LoggingProvider');
 const { Model } = require('./Model')
 
 /**
@@ -66,6 +67,12 @@ class Observer extends Model {
      */
     static options(){
         return {}
+    }
+
+
+    // TODO: this needs to actually notify the registered observer, rather than just logging.
+    notify(message){
+        Log.Critical({heading:`Failed Job for ${this.domain}`,message});
     }
 
 

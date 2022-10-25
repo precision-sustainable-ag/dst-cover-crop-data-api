@@ -1,4 +1,3 @@
-const { BroadcastDataJob } = require('../app/jobs/BroadcastDataJob');
 const {env} = require('./kernel');
 
 module.exports =  {
@@ -10,10 +9,4 @@ module.exports =  {
     database:   env.DB_DATABASE,
     ssl:        env?.DB_SSL ? env.DB_SSL : 'true',
     logging:    env.DB_LOGGING == 'true' ? console.log : false, //!!must be either console.log or false.
-    watch:      [
-        {
-            channel: 'crop',
-            handler: (payload) => BroadcastDataJob.Queue(payload)
-        },
-    ],
 }

@@ -8,6 +8,7 @@ const { Crop } = require('../../models/Crop');
 const { Family } = require('../../models/Family');
 const { Group } = require('../../models/Group');
 const { Image } = require('../../models/Image');
+const { Op } = require('sequelize');
 
 
 const CropInclude = [
@@ -16,11 +17,14 @@ const CropInclude = [
     { model:Image },
 ];
 
+// list function depends on this order. 
+// items can be added below, but the order 
+// of the first two elements should not be changed.
 const include = [
     Zone,
     {
         model: Crop,
-        include: CropInclude
+        include: CropInclude,
     }
 ];
 
@@ -85,7 +89,15 @@ class CropsZonesController extends Controller {
 
         const payload = req.validated;
         const meta = {};
-        const collection = await CropsZone.findAll({
+
+        // this specifically references the crop include
+        // by index. if the array arrangement is changed
+        // this MUST also be changed.
+        if(payload?.label) include[1].where = {
+            label: { [Op.iLike]: `%${payload.label}%` }
+        };
+
+        const {count, rows} = await CropsZone.findAndCountAll({
             limit: payload.limit,
             offset: payload.offset,
             where:{ zoneId: payload.zoneId },
@@ -94,14 +106,12 @@ class CropsZonesController extends Controller {
         });
 
         // save zone information into meta object
-        if(collection.length > 0){
-            meta.zone = collection[0].zone;
+        if(rows.length > 0){
+            meta.zone = rows[0].zone;
         }
 
-        const resource = collection.map(cropsZone => transform(cropsZone.crop));
+        const resource = rows.map(cropsZone => transform(cropsZone.crop));
 
-        const count = await CropsZone.count({where:{ zoneId: payload.zoneId }});
-        
         return new PaginatedCollection({resource, count, meta});
 
     }

@@ -8,6 +8,7 @@ class ListCropsRequest extends PaginatedRequest {
      */
     rules(){
         return {
+            label: 'string',
         }
     }
     
