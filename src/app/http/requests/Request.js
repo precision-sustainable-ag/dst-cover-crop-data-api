@@ -2,7 +2,6 @@ const BodyParser = require('body-parser')
 const { ValidatorProvider } = require('../../providers/ValidatorProvider');
 const { Log } = require('../../providers/LoggingProvider');
 const app_conf = require('../../../config/app');
-const app = require('../../../config/app');
 
 class Request  {
 
