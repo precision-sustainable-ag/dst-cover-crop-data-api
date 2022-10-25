@@ -28,13 +28,40 @@ This template adds some opinions & boiler plate code to our api code repos for f
 > global-middleware -> route-specific-middleware -> end-of-life-middleware
 
 ## Middleware functions vs ExpressJS middleware
-Everything in ExpressJS is considered middleware, however in this template we have a classification of function handlers that we call "middleware." **__Middleware in the scope of this template is defined as functions that perform actions before or after the request is handled that is not specific any given route.__** Middleware functions should be stored in the app/http/middleware folder.
+Everything in ExpressJS is considered middleware, however in this template we have a classification of function handlers that we call "middleware." **__Middleware in the scope of this template is defined as functions that perform actions before or after the request is handled that is not specific to any given route.__** Middleware functions should be stored in the app/http/middleware folder.
 
 ## Global middleware & End-of-life Middleware
 When a [middleware function](#middleware-functions-vs-expressjs-middleware) needs to be **__applied before or after every request for all routes__** then it can be registered as either global or end-of-life middleware. **Global Middleware** occurs before every request, and **End-of-life** middleware occurs after every request. In order to register a [middleware function](#middleware-functions-vs-expressjs-middleware) as either global or end-of-life you will simple add it to the app/providers/MiddlewareProvider.js file in the appropiate registration function handler.
 
 ## Route Specific middleware
-Route specific middleware can be a [middleware function](#middleware-functions-vs-expressjs-middleware)
+Route specific middleware can be a [middleware function](#middleware-functions-vs-expressjs-middleware), but more commonly will be a [request handler](#request-handlers), and a [controller function](#controllers). Route specific middleware is registered in the declaration of the route, Routes are declared in the routes folder. When a file is added to routes folder, the app/providers/RoutesProvider.js will automatically resolve that file name as the prefix for that router during route registration. 
+#### for example:
+> for the given file structure:
+> 
+> - routes
+>    - posts.js
+
+##### where posts.js:
+```
+const {Router} = require('express');
+const { PostsController } = require('../app/http/controllers/PostsController');
+const { ListPostsRequest: ListRequest } = require('../app/http/requests/crops/ListPostsRequest');
+const { RetreivePostRequest: RetrieveRequest } = require('../app/http/requests/crops/RetreivePostRequest');
+
+const Controller = PostsController.factory();
+
+const router = Router();
+
+router.get('/', Public, ListRequest.handle(),Controller.list);
+router.get('/:id', Public, Retrieve.handle(),Controller.list);
+
+module.exports =  router
+```
+
+When the RouterProvider registeres the routes it will resolve this router as:
+> GET /posts
+> GET /posts/:id
+
 
 ## Run Nodemon locally ( without mock database)
 
