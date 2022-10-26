@@ -74,7 +74,7 @@ class CropsController extends Controller {
 
         const resource = await Crop.findAll({
             limit: payload.limit,
-            offset: payload.page,
+            offset: payload.offset,
             order: [
                 ['label']
             ],

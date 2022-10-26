@@ -16,6 +16,7 @@ class PaginatedRequest extends GetRequest {
     static defaultRules(){
         return {
             page: 'required|integer',
+            offset: 'required|integer',
             limit: 'required|integer'
         }
     }
@@ -32,6 +33,8 @@ class PaginatedRequest extends GetRequest {
 
         req.query.page = this.convertToInt(req.query.page, pag_conf.default.page);
         req.query.limit = this.convertToInt(req.query.limit, pag_conf.default.limit);
+        
+        req.query.offset = req.query.page > 1 ? req.query.page * req.query.limit : 0;
         
         if (req.query.limit <= 0) {
             req.query.limit = this.maxLimit();
