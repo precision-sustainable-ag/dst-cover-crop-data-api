@@ -1,6 +1,6 @@
-const { PaginatedRequest } = require('../PaginatedRequest');
+const { GetRequest } = require('../GetRequest');
 
-class ListCropsRequest extends PaginatedRequest {
+class DeleteObserverRequest extends GetRequest {
 
     /**
      * For more information please check ValidatorJS documentation.
@@ -8,18 +8,19 @@ class ListCropsRequest extends PaginatedRequest {
      */
     rules(){
         return {
-            label: 'string',
         }
     }
-    
+
     // return true to by-pass need for authorization
     authorized(){
         return false;
     }
+
+
 }
 
 module.exports =  {
-    ListCropsRequest
+    DeleteObserverRequest
 };
 
 

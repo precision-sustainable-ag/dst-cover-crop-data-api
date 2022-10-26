@@ -4,22 +4,14 @@
   "description": "express blog",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env APP_ENV=test jest ./src/tests --forceExit",
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
-    "db-sync": "node src/migrations/sync.js",
-    "db-fresh": "node src/migrations/fresh.js",
-    "db-alter": "node src/migrations/alter.js",
-    "db-seed": "node src/migrations/seed.js",
-    "db-seed-fresh": "npm run db-fresh && npm run db-seed",
-    "make": "npx --prefix ./_generator hygen ",
-    "make:resource": "npx --prefix ./_generator hygen model new --name=$npm_config_name && npx --prefix ./_generator hygen controller new --name=$npm_config_name && npx --prefix ./_generator hygen router new --name=$npm_config_name --scope=$npm_config_scope && npx --prefix ./_generator hygen requests new:create --name=$npm_config_name && npx --prefix ./_generator hygen requests new:update --name=$npm_config_name  && npx --prefix ./_generator hygen requests new:retrieve --name=$npm_config_name && npx --prefix ./_generator hygen requests new:paginated --name=$npm_config_name && npx --prefix ./_generator hygen requests new:delete --name=$npm_config_name"
+    "test": "echo 'no tests established'",
+    "start": "node app.js"
   },
   "jest": {
     "verbose": true,
     "detectOpenHandles": true,
     "testEnvironment": "node",
-    "globalSetup": "./src/tests/SetUp.js"
+    "globalSetup": "./tests/SetUp.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +28,7 @@
     "@azure/storage-blob": "^12.11.0",
     "@slack/logger": "^3.0.0",
     "@slack/webhook": "^6.1.0",
+    "axios": "^1.1.3",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "bull": "^4.10.1",

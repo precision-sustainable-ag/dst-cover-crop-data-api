@@ -1,0 +1,53 @@
+
+@auth_token = {{get_auth_token.response.body.data}}
+@observer_id = {{get_observers.response.body.data[0].id}}
+
+
+###
+# @name get_auth_token
+GET {{protocol}}://{{auth-domain}}/auth
+?key={{key}}
+&secret={{secret}}
+
+
+###
+# @name create_observers
+POST {{protocol}}://{{domain}}/observers
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "domain":"example_client_api:3002",
+    "webhook":"http://example_client_api:3002/observe/cover-crops"
+}
+
+
+###
+# @name get_observers
+GET {{protocol}}://{{domain}}/observers
+Authorization: {{auth_token}}
+
+
+###
+# @name retrieve_observer
+GET {{protocol}}://{{domain}}/observers/{{observer_id}}
+Authorization: {{auth_token}}
+
+
+###
+# @name update_observer
+PUT {{protocol}}://{{domain}}/observers/{{observer_id}}
+Authorization: {{auth_token}}
+content-type: application/json
+
+{
+    "domain":"example_client_api:3003",
+    "webhook":"http://example_client_api:3002/observe/cover-crops"
+}
+
+
+
+###
+# @name delete_observer
+DELETE {{protocol}}://{{domain}}/observers/{{observer_id}}
+Authorization: {{auth_token}}

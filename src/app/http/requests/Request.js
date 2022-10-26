@@ -1,6 +1,7 @@
 const BodyParser = require('body-parser')
 const { ValidatorProvider } = require('../../providers/ValidatorProvider');
 const { Log } = require('../../providers/LoggingProvider');
+const app_conf = require('../../../config/app');
 
 class Request  {
 
@@ -28,9 +29,12 @@ class Request  {
     authorize(){
         return (req, res, next) => {
 
+            if(app_conf.authorized) req.authorized = true;
+
             if(!req.authorized){
                 req.authorized = this.authorized();
             }
+
             next();
         }
     }

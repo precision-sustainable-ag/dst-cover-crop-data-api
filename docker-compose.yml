@@ -1,5 +1,6 @@
 version: '3.4'
 services:
+
   database:
     image: postgres:14.1-alpine
     restart: always
@@ -11,7 +12,8 @@ services:
       - '5432:5432'
     volumes: 
       - db:/var/lib/postgresql/data
-  cache:
+
+  redis:
     image: redis:latest
     restart: always
     ports:
@@ -19,6 +21,7 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass JQODI9u1uioasdjkl][]12039dasjkl!@((Adlakjsdl))
     volumes:
       - cache:/data
+
   cover_crops_api:
     restart: always
     build:
@@ -26,7 +29,7 @@ services:
       dockerfile: Dockerfile.dev
       args:
         - PORT=${APP_PORT}
-    command: sh -c  "npm run dev"
+    command: sh -c  "npm run db-fresh && npm run db-seed && npm run dev"
     ports:
       - 3000:${APP_PORT}
     env_file:
@@ -34,6 +37,18 @@ services:
     volumes:
       - ./:/usr/local/apps/app
       - ignore:/usr/local/apps/app/node_modules
+    
+  example_client_api:
+    restart: always
+    build:
+      context: ./_sandbox/observer-api
+      args:
+        - PORT=${APP_PORT}
+    ports:
+      - 3002:${APP_PORT}
+    env_file:
+      - ./_sandbox/observer-api/.env
+
 volumes:
   db:
     driver: local

@@ -10,9 +10,9 @@ module.exports =  (err, req, res, next) => {
         return err.render(res);
     }
 
-    Log.Critical({message:err.toString(), heading:'Critical Failure!'});
+    Log.Critical({message:err, heading:'Critical Failure!'});
     let error = err;
-    if(!(error instanceof InternalServerError)) error =  new InternalServerError(error.toString());
+    if(!(error instanceof InternalServerError)) error =  new InternalServerError(error.stack);
 
     return error.render(res);
 

@@ -2,12 +2,13 @@ const { Sequelize } = require('sequelize');
 const { Log } = require('./LoggingProvider');
 const {Provider} = require('./Provider');
 const db_conf = require('../../config/database');
-const { ssl } = require('../../config/database');
+const { PostgresService } = require('../services/database/PostgresService');
 
 class DatabaseProvider extends Provider {
 
     static database;
     static config;
+    static service;
 
     static getConfig(){
         if(this.config) return this.config;
@@ -26,9 +27,21 @@ class DatabaseProvider extends Provider {
             Log.Critical({
                 heading:'Database Connection Failed.', 
                 message: {
-                    error, config
+                    error: error.stack, config
                 }});
             return false;
+        }
+
+    }
+
+    static async registerListeners(watching){
+
+        if(this.config.connection != 'postgres') return false;
+
+        const service = DatabaseProvider.Service();
+
+        for(let event of watching){
+            service.listen({channel:event.channel,callback: (payload) => event.handler(payload)})
         }
 
     }
@@ -75,6 +88,12 @@ class DatabaseProvider extends Provider {
         const settings = this.settings();
 
         return this.database = new Sequelize(settings);
+    }
+
+    static Service(){
+        if(this.service) return this.service;
+
+        return this.service = new PostgresService(this.settings());
     }
 
     static async sync(modelsProvider, options={}){

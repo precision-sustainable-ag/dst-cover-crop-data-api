@@ -1,23 +1,13 @@
 const { PaginatedRequest } = require('../PaginatedRequest');
 
-class ListCropsZonesRequest extends PaginatedRequest {
+class ListObserversRequest extends PaginatedRequest {
 
-       /**
-     * returns map of route parameter keys to inject into data
-     * and their data type.
-     */
-    params(){
-        return {
-            zoneId: 'integer'
-        };
-    }
     /**
      * For more information please check ValidatorJS documentation.
      * https://github.com/mikeerickson/validatorjs
      */
     rules(){
         return {
-            label: 'string'
         }
     }
     
@@ -28,7 +18,7 @@ class ListCropsZonesRequest extends PaginatedRequest {
 }
 
 module.exports =  {
-    ListCropsZonesRequest
+    ListObserversRequest
 };
 
 
