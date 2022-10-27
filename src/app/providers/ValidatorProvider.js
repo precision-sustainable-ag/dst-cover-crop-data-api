@@ -14,6 +14,6 @@ class ValidatorProvider {
 }
 
 module.exports = {
-    ValidatorProvider, default: ValidatorProvider
+    ValidatorProvider
 }
 

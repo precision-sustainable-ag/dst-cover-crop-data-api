@@ -34,7 +34,13 @@ class QueueProvider extends Provider {
                         }, null, "\t")));
 
                     }).catch(err => {
-                        Log.Critical({heading:`Failed Job ${payload.queue.name}`, message:err});
+                        Log.Critical({
+                            heading:`Failed Job ${payload.queue.name}`, 
+                            message: {
+                                error: err.message,
+                                stack: err.stack
+                            }
+                        });
                         done(err);
                     });
                 });
@@ -51,7 +57,8 @@ class QueueProvider extends Provider {
             redis: { 
                 port: redis_conf.port, 
                 host: redis_conf.host, 
-                password: redis_conf.password 
+                password: redis_conf.password,
+                maxRetriesPerRequest: 3
             } 
         });
     }
@@ -65,14 +72,22 @@ class QueueProvider extends Provider {
 
         const queue = this.queues[channel].queue;
         
-        queue.add(payload);
+        queue.add(payload).catch(error => 
+            Log.Critical({
+                heading:`Failed to create ${channel} Job`,
+                message: {
+                    payload,
+                    error: error.message,
+                    stack: error.stack
+                }
+        }));
 
         return true;
     }
 
     static factory() {
 
-        return Job;
+        // return Job;
 
     }
 

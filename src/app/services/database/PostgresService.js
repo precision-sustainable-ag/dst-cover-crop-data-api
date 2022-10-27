@@ -23,7 +23,10 @@ class PostgresService {
             user: settings.username,
             password: settings.password,
             host: settings.host,
-            database: database
+            database: database,
+            ssl: {
+                rejectUnauthorized: false,
+            }
         });
     }
 
