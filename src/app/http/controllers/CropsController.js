@@ -9,6 +9,7 @@ const { Image } = require('../../models/Image');
 const { RecordNotFound } = require('../../exceptions/RecordNotFound');
 const { Synonym } = require('../../models/Synonym');
 const { Op } = require('sequelize');
+const { ValidatorProvider } = require('../../providers/ValidatorProvider');
 
 const include = [
     {model:Family, attributes:['id','commonName','scientificName']}, 
@@ -40,6 +41,9 @@ class CropsController extends Controller {
 
         const payload = req.validated;
 
+        if(payload?.familyId) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
+        if(payload?.groupId) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
+
         const resource = await Crop.create(payload)
 
         return new CreatedResource({resource});
@@ -50,7 +54,7 @@ class CropsController extends Controller {
 
         const payload = req.validated;
 
-        const resource = await Crop.findOne({
+        const record = await Crop.findOne({
             where: {
                 id: payload.id
             },
@@ -58,7 +62,11 @@ class CropsController extends Controller {
                 ...include,
                 {model:Synonym}
             ]
-        }).then(crop => transform(crop,{images:crop.images}));
+        })
+        
+        if(!record) throw new RecordNotFound({data:payload});
+
+        const resource = transform(record,{images:record.images});
 
         if(!resource){
             throw new RecordNotFound({data:payload})
@@ -93,6 +101,9 @@ class CropsController extends Controller {
     async update(req){
 
         const payload = req.validated;
+
+        if(payload?.familyId) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
+        if(payload?.groupId) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
 
         const resource = await Crop.findOne({
             where: {

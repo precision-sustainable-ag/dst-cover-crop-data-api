@@ -19,7 +19,8 @@ async function RegisterProviders(app){
     for(let provider of Providers){
         if(await provider.register(app) == false) return false;
     }
-    await QueueProvider.register(queues);
+
+    await QueueProvider.register(queues); 
     await DatabaseProvider.registerListeners(watching);
 }
 
