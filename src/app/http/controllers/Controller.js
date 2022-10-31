@@ -12,7 +12,9 @@ class Controller {
 
             if(propName != 'constructor') {
                 const prop = _instance[propName];
-                _instance[propName] = Controller.wrap(prop)
+                if(typeof prop === 'function'){
+                    _instance[propName] = Controller.wrap(prop)
+                }
             }
         }
 
@@ -20,7 +22,11 @@ class Controller {
     }
 
     static wrap(method){
-
+        /**
+         * return an ExpressJS middleware function that
+         * calls the passed in method and sends a response,
+         * or handles any caught errors.
+         */
         return  async (req, res, next) => {
             try{
 
@@ -28,6 +34,7 @@ class Controller {
 
                 const result = await method(req)
 
+                // resources handle sending responses.
                 if(result instanceof Resource){
                     return result.render({res,req});
                 }
