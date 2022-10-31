@@ -5,6 +5,8 @@ const {ValidatorProvider} = require('./app/providers/ValidatorProvider');
 const {MiddlewareProvider} = require('./app/providers/MiddlewareProvider');
 const {RoutesProvider} = require('./app/providers/RoutesProvider');
 
+// these providers registration function will be given 
+// an instance of the application when called.
 const Providers = [
     LoggingProvider, //logging provider should be first so any other provider failures can be logged.
     DatabaseProvider,

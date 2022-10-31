@@ -15,7 +15,6 @@ class AppProvider extends Provider {
 
         if(this.APP){ return this.APP; }
 
-        
         const app = express();
 
         const bootstrapped = await bootstrap(app);
@@ -23,7 +22,7 @@ class AppProvider extends Provider {
         if(!bootstrapped){
             Log.Critical({message:`Failed to instantiate ${app_conf.name}.`, heading:'Bootstrapping Failed.'})
             return null;
-        } 
+        }
 
         return this.APP = app;
 
