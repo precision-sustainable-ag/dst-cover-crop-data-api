@@ -28,10 +28,10 @@ This template adds some opinions & boiler plate code to our api code repos for f
 > global-middleware -> route-specific-middleware -> end-of-life-middleware
 
 ## Middleware functions vs ExpressJS middleware
-Everything in ExpressJS is considered middleware, however in this template we have a classification of function handlers that we call "middleware." **__Middleware in the scope of this template is defined as functions that perform actions before or after the request is handled that is not specific to any given route.__** Middleware functions should be stored in the app/http/middleware folder.
+Everything in ExpressJS is considered middleware, however in this template we have a classification of function handlers that we call "middleware." **__Middleware in the scope of this template is defined as functions that perform actions before or after the request is handled that is not specific to any given route.__** Middleware functions should be stored in the `app/http/middleware` folder.
 
 ## Global middleware & End-of-life Middleware
-When a [middleware function](#middleware-functions-vs-expressjs-middleware) needs to be **__applied before or after every request for all routes__** then it can be registered as either global or end-of-life middleware. **Global Middleware** occurs before every request, and **End-of-life** middleware occurs after every request. In order to register a [middleware function](#middleware-functions-vs-expressjs-middleware) as either global or end-of-life you will simple add it to the app/providers/MiddlewareProvider.js file in the appropiate registration function handler.
+When a [middleware function](#middleware-functions-vs-expressjs-middleware) needs to be **__applied before or after every request for all routes__** then it can be registered as either global or end-of-life middleware. **Global Middleware** occurs before every request, and **End-of-life** middleware occurs after every request. In order to register a [middleware function](#middleware-functions-vs-expressjs-middleware) as either global or end-of-life you will simply add it to the `app/providers/MiddlewareProvider.js` file in the appropiate registration function handler.
 
 ## Route Specific middleware
 Route specific middleware can be a [middleware function](#middleware-functions-vs-expressjs-middleware), but more commonly will be a [request handler](#request-handlers), and a [controller function](#controllers). Route specific middleware is registered in the declaration of the route (see [Routing](#routing) for more details). 
@@ -68,11 +68,11 @@ When the RouterProvider registeres the routes it will resolve this router as:
 
 ## Request Handlers
 
-Request handlers are created in the app/http/requests folder and **ALWAYS** extend one of the base Request classes. It is most common to create a separate request class for every route. Request handlers validate data & the incoming request. For example you might want the incoming query parameters to only include `example=some-text` this would be done by adding `example: ['required','string']` to the rules in the request file. 
+Request handlers are created in the `app/http/requests` folder and **ALWAYS** extend one of the base Request classes. It is most common to create a separate request class for every route. Request handlers validate data & the incoming request. For example you might want the incoming query parameters to only include `example=some-text` this would be done by adding `example: ['required','string']` to the rules in the request file. 
 
 ## Controllers
 
-Controllers are what handling manipulating the incoming data, satifying the request, and returning a response. Controllers are created in the `app/http/controllers` folder and **ALWAYS** extend the base Controller class. Controllers should always always be instantiated by calling the classes `factory()` method. The factory method wraps all of the functions defined in the child class so that they are wraped in a try catch, and match the ExpressJS middleware definition. The wrapper also handles building & sending the response. This allows controller functions to focus solely on handling the request & returning the data needed in the response. 
+Controllers handling manipulating the incoming data, satifying the request, and returning a response. Controllers are created in the `app/http/controllers` folder and **ALWAYS** extend the base Controller class. Controllers should **ALWAYS** be instantiated by calling the classes `factory()` method. The factory method wraps all of the functions defined in the child class so that they are wraped in a try catch, and match the ExpressJS middleware definition. The wrapper also handles building & sending the response. This allows controller functions to focus solely on handling the request & returning the data needed in the response. 
 
 ## Resources
 
@@ -103,5 +103,5 @@ docker-compose up --build
 
 run the following command in the project root.
 ```
-npm run start-dev
+npm run dev
 ```
