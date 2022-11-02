@@ -7,6 +7,7 @@ const { RetrieveCropsZoneRequest: GetRequest } = require('../app/http/requests/c
 const { UpdateCropsZoneRequest: UpdateRequest } = require('../app/http/requests/cropsZones/UpdateCropsZoneRequest');
 const { DeleteCropsZoneRequest: DeleteRequest } = require('../app/http/requests/cropsZones/DeleteCropsZoneRequest');
 const Public = require('../app/http/middleware/Public');
+const { PaginatedRequest } = require('../app/http/requests/PaginatedRequest');
 
 /**
  * We call the controller factory method
@@ -21,6 +22,7 @@ const Controller = CropsZonesController.factory();
  * we accomplish this by adding cropsZones.js to the exlcude array in the app/providers/RouterProvider.js file.
  */
 const router = Router();
+
 
 /**
  * all get requests are 100% open to public

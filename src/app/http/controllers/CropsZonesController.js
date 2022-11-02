@@ -116,6 +116,18 @@ class CropsZonesController extends Controller {
 
     }
 
+    async listRecords(req) {
+
+        const payload = req.validated;
+
+        const {count, rows} =  await CropsZone.findAndCountAll({
+            limit: payload.limit,
+            offset: payload.offset,
+            paranoid:false
+        });
+
+        return new PaginatedCollection({resource:rows, count});
+    }
 
     async delete(req){
 
