@@ -97,7 +97,7 @@ def registerImgs():
                 else:
                     NO_PARAMS.append(path)
                 # # UNCOMMENT THIS TO ACTUALLY POST THE IMAGES
-                # postImage(crop, payload)  
+                postImage(crop, payload)  
             elif path[0] != 'pdf':
                 UNKNOWNS.append(path)
 

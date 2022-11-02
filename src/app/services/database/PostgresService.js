@@ -5,6 +5,7 @@ const { Client } = require("pg");
 class PostgresService {
 
 
+
     constructor(settings){
 
         this.settings = settings;
@@ -12,21 +13,27 @@ class PostgresService {
         this.watching = {};
         this.client = null;
         this.listener = null;
+        this.ssl = this.getSSL();
+    }
 
+    getSSL(){
+        if(this.settings?.dialectOptions){
+            return this.settings.dialectOptions;
+        }
+        return {};
     }
 
     buildClient(database, settings){
         if(!settings) settings = this.settings;
         if(!database) database = settings.database;
+        const ssl = this.ssl;
 
         return new Client({
             user: settings.username,
             password: settings.password,
             host: settings.host,
             database: database,
-            ssl: {
-                rejectUnauthorized: false,
-            }
+            ...ssl
         });
     }
 
