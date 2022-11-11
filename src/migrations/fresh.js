@@ -3,7 +3,7 @@ const {DatabaseProvider} = require('../app/providers/DatabaseProvider');
 
 const settings = DatabaseProvider.settings();
 
-DatabaseProvider.Service()
+DatabaseProvider.Service().open({database:'postgres'})
     .createDatabaseIfNotExists(settings.database)
     .execute()
     .then(() => {
