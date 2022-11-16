@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { Model } = require('./Model');
+const { Model } = require('../../framework/models/Model');
 const { Region } = require('./Region');
 
 /**
