@@ -1,5 +1,5 @@
 const { Crop } = require('../../models/Crop');
-const { Controller } = require('./Controller');
+const { Controller } = require('../../../framework/controllers/Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
@@ -10,6 +10,7 @@ const { RecordNotFound } = require('../../exceptions/RecordNotFound');
 const { Synonym } = require('../../models/Synonym');
 const { Op } = require('sequelize');
 const { ValidatorProvider } = require('../../providers/ValidatorProvider');
+const app = require('../../../config/app');
 
 const include = [
     {model:Family, attributes:['id','commonName','scientificName']}, 
@@ -73,24 +74,27 @@ class CropsController extends Controller {
         }
 
         return new Resource({resource});
-
     }
 
     async list(req){
 
         const payload = req.validated;
 
-        const {count, rows} = await Crop.findAndCountAll({
+        const where = {
+            label: { [Op.iLike]: `%${payload?.label ? payload.label : ''}%` }
+        };
+
+        const rows = await Crop.findAll({
             limit: payload.limit,
             offset: payload.offset,
             order: [
                 ['label']
             ],
-            where: {
-                label: { [Op.iLike]: `%${payload?.label ? payload.label : ''}%` }
-            },
+            where,
             include
         });
+
+        const count = await Crop.count({where});
 
         const resource = rows.map(crop => transform(crop));
         

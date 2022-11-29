@@ -1,5 +1,5 @@
 const { CropsZone } = require('../../models/CropsZone');
-const { Controller } = require('./Controller');
+const { Controller } = require('../../../framework/controllers/Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');
@@ -116,6 +116,18 @@ class CropsZonesController extends Controller {
 
     }
 
+    async listRecords(req) {
+
+        const payload = req.validated;
+
+        const {count, rows} =  await CropsZone.findAndCountAll({
+            limit: payload.limit,
+            offset: payload.offset,
+            paranoid:false
+        });
+
+        return new PaginatedCollection({resource:rows, count});
+    }
 
     async delete(req){
 
