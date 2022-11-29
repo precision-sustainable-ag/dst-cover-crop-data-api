@@ -1,5 +1,5 @@
 const { Family } = require('../../models/Family');
-const { Controller } = require('./Controller');
+const { Controller } = require('../../../framework/controllers/Controller');
 const { PaginatedCollection } = require('../resources/PaginatedCollection');
 const { Resource } = require('../resources/Resource');
 const { CreatedResource } = require('../resources/CreatedResource');

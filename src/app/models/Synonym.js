@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { Crop } = require('./Crop');
-const { Model } = require('./Model')
+const { Model } = require('../../framework/models/Model')
 
 /**
  * For more information on sequelize attributes & options

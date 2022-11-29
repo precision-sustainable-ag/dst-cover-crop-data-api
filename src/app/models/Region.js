@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { Model } = require('./Model')
+const { Model } = require('../../framework/models/Model')
 
 /**
  * For more information on sequelize attributes & options

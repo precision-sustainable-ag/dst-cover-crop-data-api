@@ -1,6 +1,6 @@
-const { UnAuthorized } = require('../../exceptions/UnAuthorized');
-const { Log } = require('../../providers/LoggingProvider');
-const { Resource } = require('../resources/Resource');
+const { UnAuthorized } = require('../../app/exceptions/UnAuthorized');
+const { Log } = require('../../app/providers/LoggingProvider');
+const { Resource } = require('../../app/http/resources/Resource');
 
 
 class Controller {

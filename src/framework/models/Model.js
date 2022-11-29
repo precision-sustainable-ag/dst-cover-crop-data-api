@@ -1,5 +1,6 @@
 const { Model: SequelizeModel } = require('sequelize');
 const { DatabaseProvider } = require('../../app/providers/DatabaseProvider');
+const { Log } = require('../../app/providers/LoggingProvider');
 
 /**
  * For more information on sequelize attributes & options
