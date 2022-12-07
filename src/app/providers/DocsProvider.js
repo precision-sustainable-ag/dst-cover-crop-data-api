@@ -15,14 +15,14 @@ class DocsProvider extends Provider {
         app.openapi = openapi;
 
         const routes = routesProvider.factory();
-
+        
         for(let [file, router] of Object.entries(routes)){
 
             app.openapi.paths = {
                 ...app.openapi.paths,
                 ...router.document()
             }
-            
+
         }
         
         // expose endpoint to access documentation.

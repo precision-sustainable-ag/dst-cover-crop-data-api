@@ -23,10 +23,6 @@ class RetrieveResource extends Resource {
         return {};
     }
 
-    build(data){
-        return data;
-    }
-
     errors(){
         return [
             BadRequestError,

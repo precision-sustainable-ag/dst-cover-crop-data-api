@@ -23,10 +23,6 @@ class DeleteResource extends Resource {
         return {};
     }
 
-    build(data){
-        return data;
-    }
-
     errors(){
         return [
             BadRequestError,
