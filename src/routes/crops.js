@@ -1,47 +1,45 @@
-const {Router} = require('express');
-const HasScopes = require('../app/http/middleware/HasScopes');
-const { CropsController } = require('../app/http/controllers/CropsController');
-const { CreateCropRequest: CreateRequest } = require('../app/http/requests/crops/CreateCropRequest');
-const { ListCropsRequest: ListRequest } = require('../app/http/requests/crops/ListCropsRequest');
-const { RetrieveCropRequest: GetRequest } = require('../app/http/requests/crops/RetrieveCropRequest');
-const { UpdateCropRequest: UpdateRequest } = require('../app/http/requests/crops/UpdateCropRequest');
-const { DeleteCropRequest: DeleteRequest } = require('../app/http/requests/crops/DeleteCropRequest');
-const SynonymsRouter = require('./synonyms');
-const Public = require('../app/http/middleware/Public');
-const ImagesRouter = require('./images');
-
-
-/**
- * We call the controller factory method
- * because this will create the controller and wrap all of the controller functions
- * with a handler function that returns a valid ExpressJS Middleware function.
- */
-const Controller = CropsController.factory();
-
-const router = Router();
-
-/**
- * all get requests are 100% open to public
- */
-router.get('/', Public, ListRequest.handle(),Controller.list);
-router.get('/:id', Public, GetRequest.handle(),Controller.retrieve);
-
-/**
- * All requests that edit data must have
- * a data-entry authorization token with the required scopes.
- */
-router.post('/', Public, CreateRequest.handle(),Controller.create);
-router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
-router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
-
-/**
- * Registering sub-routers here. 
- * Make sure to exclude these routers from the app/providers/RotuesProvider.js 
- */
-router.use(SynonymsRouter)
-router.use(ImagesRouter)
-
-module.exports =  router
+const { CropsController } = require("../app/http/controllers/CropsController");
+const { CreateCropRequest } = require("../app/http/requests/crops/CreateCropRequest");
+const { ListCropsRequest } = require("../app/http/requests/crops/ListCropsRequest");
+const { RetrieveCropRequest } = require("../app/http/requests/crops/RetrieveCropRequest");
+const { CreateCropResource } = require("../app/http/resources/crops/CreateCropResource");
+const { ListCropResource } = require("../app/http/resources/crops/ListCropResource");
+const { RetrieveCropResoruce } = require("../app/http/resources/crops/RetrieveCropResoruce");
+const { UpdateCropResource } = require("../app/http/resources/crops/UpdateCropResource");
+const { PaginatedRequest } = require("../framework/requests/PaginatedRequest");
+const { Request } = require("../framework/requests/Request");
+const { Route } = require("../framework/routing/Route");
+const { Router } = require("../framework/routing/Router");
 
 
 
+
+
+
+module.exports = Router.expose({path:'/crops', routes: [
+
+    Route.post({path:'/', summary:"Create a Crop Object",
+        request: CreateCropRequest,
+        handler:CropsController.factory().create,
+        response: CreateCropResource
+    }),
+
+    Route.get({path:'/', summary:"Get List of Crop Objects",
+        request: ListCropsRequest,
+        handler:CropsController.factory().list,
+        response: ListCropResource
+    }),
+
+    Route.get({path:'/{id}', summary:"Retrieve a Crop Object",
+        request: RetrieveCropRequest,
+        handler: CropsController.factory().retrieve,
+        response: RetrieveCropResoruce
+    }),
+
+    Route.put({path:'/{id}', summary:"Update a Crop Object",
+        request: RetrieveCropRequest,
+        handler:CropsController.factory().update,
+        response: UpdateCropResource
+    }),
+
+]});

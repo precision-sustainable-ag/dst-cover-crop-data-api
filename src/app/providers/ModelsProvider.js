@@ -52,7 +52,7 @@ class ModelsProvider {
         return models;
     }
 
-    static async registerModel(model){
+    static async registerModel(model, dbProvider){
 
         // is this model already registered?
         if(model.getTable() in MODELS) return;
@@ -73,23 +73,23 @@ class ModelsProvider {
                 // some models might reference themselves.
                 if(parent.getTable() == model.getTable()) continue;
                 // register parent model.
-                await this.registerModel(parent);
+                await this.registerModel(parent,dbProvider);
             }
         }
 
         // register this model
-        await model.register();
+        await model.register(dbProvider);
         // add model to models registry map.
         MODELS[model.getTable()] = model;
     }
 
-    static async register(){
+    static async register(app, dbProvider){
 
         const models = await this.getModels();
 
         // first register all models
         for(let model of models){
-            await this.registerModel(model);
+            await this.registerModel(model,dbProvider);
         }
 
         for(let association of Associations){
@@ -105,10 +105,10 @@ class ModelsProvider {
         return true;
     }
 
-    static factory(){
+    static factory(app,dbProvider){
         if(Object.keys(MODELS).length <= 0){
             return new Promise((resolve, reject)=>{
-                ModelsProvider.register()
+                ModelsProvider.register(app,dbProvider)
                 .then((registered)=>{resolve(MODELS)})
                 .catch(err => reject(err));
             });

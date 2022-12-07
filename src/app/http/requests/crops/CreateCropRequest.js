@@ -1,37 +1,24 @@
+const bodyParser = require('body-parser');
+const {Request} = require('../../../../framework/requests/Request');
 const { Crop } = require('../../../models/Crop');
-const { EditRequest } = require('../EditRequest');
 
-class CreateCropRequest extends EditRequest {
-    
-    /**
-     * returns the model class,
-     * this is used when getting the validation rules 
-     * and will interpret the model attributes to generate mode rules.
-     */
-    model(){
-        return Crop;
+
+class CreateCropRequest extends Request {
+   
+    parser(){
+        return bodyParser.json();
     }
 
-    /**
-     * You can add additional rules that will not be resolved by model reflection, 
-     * or you can override any rules interpreted from the model class.
-     * For more information please check ValidatorJS documentation.
-     * https://github.com/mikeerickson/validatorjs
-     */
-    rules(){
-        return {
-        }
+    parameters(){
+        return [
+            
+        ];
     }
 
-    // return true to by-pass need for authorization
-    authorized(){
-        return false;
+    body(){
+        return Crop.schema({exclude:[{prop:'autoIncrement',value:true}]});
     }
 
 }
 
-module.exports =  {
-    CreateCropRequest
-};
-
-
+module.exports = { CreateCropRequest }

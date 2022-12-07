@@ -1,24 +1,22 @@
-const { GetRequest } = require('../GetRequest');
+const {Request} = require('../../../../framework/requests/Request');
 
-class RetrieveCropRequest extends GetRequest {
 
-    /**
-     * For more information please check ValidatorJS documentation.
-     * https://github.com/mikeerickson/validatorjs
-     */
-    rules(){
-        return {
-        }
-    }
-    
-    // return true to by-pass need for authorization
+class RetrieveCropRequest extends Request {
+   
     authorized(){
-        return false;
+        return true;
     }
+
+    parameters(){
+        return [
+            {in:'path',name:'id',schema:{type:'integer'},required:true},
+        ];
+    }
+
+    body(){
+        return {};
+    }
+
 }
 
-module.exports =  {
-    RetrieveCropRequest
-};
-
-
+module.exports = { RetrieveCropRequest }

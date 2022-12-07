@@ -33,10 +33,11 @@ class RoutesProvider {
             for(let file of files){
                 if(exclude.includes(file)) continue;
                 
-                const prefix = `/${file.replace('.js','')}`;
+                // const prefix = `/${file.replace('.js','')}`;
                 const module = await import(app_path(`${dir}/${file}`))
                 const router = module.default;
-                routers[prefix] = router;
+                console.log('imported',router);
+                routers[file] = router;
 
             }
 
@@ -47,9 +48,10 @@ class RoutesProvider {
 
         const routers = await this.getRouters();
 
-        for(let [prefix, router] of Object.entries(routers)) {
-            app.use(prefix,router);
-            ROUTES[prefix] = router;
+        for(let [file, router] of Object.entries(routers)) {
+            // app.use(prefix,router);
+            router.register(app)
+            ROUTES[file] = router;
         }
 
         Log.Info({message:Object.keys(ROUTES),heading:'Registered Routes'});
