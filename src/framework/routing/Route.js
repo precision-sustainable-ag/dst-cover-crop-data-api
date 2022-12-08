@@ -101,6 +101,19 @@ class Route extends Document {
         this._request = request;
         this._response = response;
         this._handler = handler;
+        this._middleware = [];
+    }
+
+    middleware(middleware){
+        if(middleware) return this.setMiddleware(middleware);
+        return this._middleware;
+    }
+    
+    setMiddleware(middleware){
+        if(middleware instanceof Array) this._middleware = [...this._middleware, ...middleware];
+        else this._middleware.push(middleware);
+
+        return this;
     }
 
     tag(T){

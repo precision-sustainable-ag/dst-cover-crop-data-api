@@ -19,7 +19,10 @@ class Observer extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                validate:{
+                    minimum: 1,
+                }
             },
             domain: {
                 type: DataTypes.STRING,

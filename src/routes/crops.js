@@ -6,15 +6,10 @@ const { CreateCropResource } = require("../app/http/resources/crops/CreateCropRe
 const { ListCropResource } = require("../app/http/resources/crops/ListCropResource");
 const { RetrieveCropResoruce } = require("../app/http/resources/crops/RetrieveCropResoruce");
 const { UpdateCropResource } = require("../app/http/resources/crops/UpdateCropResource");
-const { PaginatedRequest } = require("../framework/requests/PaginatedRequest");
-const { Request } = require("../framework/requests/Request");
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
-
-
-
-
-
+const { UpdateCropRequest } = require("../app/http/requests/crops/UpdateCropRequest");
+const Public = require('../app/http/middleware/Public');
 
 module.exports = Router.expose({path:'/crops', routes: [
 
@@ -22,7 +17,7 @@ module.exports = Router.expose({path:'/crops', routes: [
         request: CreateCropRequest,
         handler:CropsController.factory().create,
         response: CreateCropResource
-    }),
+    }).middleware([Public]),
 
     Route.get({path:'/', summary:"Get List of Crop Objects",
         request: ListCropsRequest,
@@ -37,9 +32,9 @@ module.exports = Router.expose({path:'/crops', routes: [
     }),
 
     Route.put({path:'/{id}', summary:"Update a Crop Object",
-        request: RetrieveCropRequest,
+        request: UpdateCropRequest,
         handler:CropsController.factory().update,
         response: UpdateCropResource
-    }),
+    }).middleware([Public]),
 
 ]});

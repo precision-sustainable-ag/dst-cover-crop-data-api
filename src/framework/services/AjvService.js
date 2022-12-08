@@ -35,17 +35,17 @@ class AjvService {
         return ajv;
     }
 
-    static Validate({schema,parameters, body, data}){
+    static Validate({schema, parameters, body, data}){
         const validator = this.GetValidator();
 
         if(!schema) schema = this.FormatOpenAPISchema({parameters,body});
-
+       
         const valid = validator.validate(schema, data);
-
+            
         if(!valid){
             throw new UnprocessibleEntityError(data, {parameters,body}, validator.errors);
         }
-
+        
         return data;
     }
 

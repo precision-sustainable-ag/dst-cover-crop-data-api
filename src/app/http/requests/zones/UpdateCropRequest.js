@@ -3,7 +3,7 @@ const {Request} = require('../../../../framework/requests/Request');
 const { Crop } = require('../../../models/Crop');
 
 
-class CreateCropRequest extends Request {
+class UpdateCropRequest extends Request {
    
     authorized(){
         return false;
@@ -15,7 +15,7 @@ class CreateCropRequest extends Request {
 
     parameters(){
         return [
-            
+            {in:'path',name:'id',schema:{type:'integer'},required:true},
         ];
     }
 
@@ -25,4 +25,4 @@ class CreateCropRequest extends Request {
 
 }
 
-module.exports = { CreateCropRequest }
+module.exports = { UpdateCropRequest }

@@ -20,7 +20,10 @@ class Image extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                validate:{
+                    minimum: 1,
+                }
             },
             growthStage: {
                 type: DataTypes.STRING,
@@ -49,6 +52,9 @@ class Image extends Model {
                 references:{
                     model: Crop,
                     key: 'id',
+                },
+                validate:{
+                    minimum: 1,
                 }
             },
             regionId: {
@@ -57,6 +63,9 @@ class Image extends Model {
                 references:{
                     model: Region,
                     key: 'id',
+                },
+                validate:{
+                    minimum: 1,
                 }
             },
         }

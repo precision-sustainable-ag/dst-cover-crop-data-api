@@ -13,14 +13,13 @@ class CropsController extends Controller {
 
     async create(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
 
         if(payload?.familyId) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
         if(payload?.groupId) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
 
         return await Crop.create(payload)
 
-        // return new CreatedResource({resource});
     }
 
     async retrieve(req){
@@ -61,24 +60,21 @@ class CropsController extends Controller {
 
         return {data:rows,count};
 
-
-        // return rows.map(crop => transform(crop));
-        
-
     }
 
     async update(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
-        if(payload?.familyId) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
-        if(payload?.groupId) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
+        if(payload?.familyId ) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
+        if(payload?.groupId ) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
 
-        const resource = await Crop.findOne({
+        let resource = await Crop.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
-            include
+            include: RetrieveIncludes
         })
 
         if(!resource){
@@ -87,9 +83,7 @@ class CropsController extends Controller {
 
         await resource.update(payload);
 
-        return resource;
-
-        // return new Resource({resource});
+        return await resource.reload();
 
     }
 
@@ -109,8 +103,8 @@ class CropsController extends Controller {
         }
 
         await resource.destroy();
+
         return resource;
-        // return new Resource({resource});
     }
 
 }

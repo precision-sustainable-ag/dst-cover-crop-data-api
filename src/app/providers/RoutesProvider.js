@@ -36,7 +36,6 @@ class RoutesProvider {
                 // const prefix = `/${file.replace('.js','')}`;
                 const module = await import(app_path(`${dir}/${file}`))
                 const router = module.default;
-                console.log('imported',router);
                 routers[file] = router;
 
             }

@@ -22,10 +22,6 @@ class UpdateCropResource extends RetrieveCropResoruce {
         return "Returns a Crop Object";
     }
 
-    build(data){
-        return data;
-    }
-
     errors(){
         return [
             BadRequestError,

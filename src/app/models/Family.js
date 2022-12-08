@@ -18,7 +18,10 @@ class Family extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                validate:{
+                    minimum: 1,
+                }
             },
             scientificName: {
                 type: DataTypes.STRING,

@@ -19,7 +19,10 @@ class Synonym extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                validate:{
+                    minimum: 1,
+                }
             },
             cropId: {
                 type: DataTypes.INTEGER,
@@ -27,6 +30,9 @@ class Synonym extends Model {
                 references:  {
                     model: Crop,
                     key: 'id',
+                },
+                validate:{
+                    minimum: 1,
                 }
             },
             label: {

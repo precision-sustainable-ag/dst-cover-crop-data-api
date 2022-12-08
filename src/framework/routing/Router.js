@@ -1,8 +1,14 @@
 const { Document } = require('../documents/Document');
+const { Route } = require('./Route');
 
 
 class Router extends Document {
 
+    static [Symbol.hasInstance](obj) {
+
+        if (obj.getRoutes) return true;
+        return false;
+    }
 
     static expose({path, routes, tags=[]}){
         return new this({path,routes,tags});
@@ -19,20 +25,27 @@ class Router extends Document {
         return this.path.replace('/','');
     }
 
-    getRoutes(){
+    getRoutes(prefix=''){
         if(this.map) return this.map;
         const tags = [this.tag(), ...this.tags];
-        const map = {};
+        let map = {};
 
         for(let route of this.routes){
-            let path = this.path + route.path;
-            route.tag(tags);
-            // remove trailing /
-            if(path.slice(-1) == '/') path = path.slice(0,-1);
-            if(!map[path]) map[path] = {};
-            map[path][route.method] = route
+            if(route instanceof Router){
+                const subs = route.getRoutes(prefix + this.path);
+                map = {
+                    ...map,
+                    ...subs
+                }
+            } else{
+                let path = prefix + this.path + route.path;
+                route.tag(tags);
+                // remove trailing /
+                if(path.slice(-1) == '/') path = path.slice(0,-1);
+                if(!map[path]) map[path] = {};
+                map[path][route.method] = route
+            }
         }
-
         return this.map = map;
     }
 
@@ -41,9 +54,9 @@ class Router extends Document {
         for(let [path,methods] of Object.entries(routes)){
             path = path.replace('{',':').replace('}','');
             for( let [method, route] of Object.entries(methods)){
-
                 app[method](
                     path,
+                    route.middleware(),
                     route.validate(),
                     route.handle(),
                     route.respond(),
