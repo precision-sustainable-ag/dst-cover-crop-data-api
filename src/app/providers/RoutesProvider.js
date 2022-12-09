@@ -1,10 +1,12 @@
 
 const { getFilesFrom, app_path } = require('../support/helpers/path')
 const { Log } = require('./LoggingProvider');
+const { Provider } = require('./Provider');
+
 
 const ROUTES = {};
 
-class RoutesProvider {
+class RoutesProvider extends Provider {
     
     /**
      * use this if registration order matters for your models.

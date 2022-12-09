@@ -2,11 +2,12 @@
 const { getFilesFrom, app_path } = require('../support/helpers/path');
 const { Log } = require('./LoggingProvider');
 const Associations = require('../models/Associations');
+const { Provider } = require('./Provider');
 
 
 const MODELS = {};
 
-class ModelsProvider {
+class ModelsProvider extends Provider{
     
     /**
      * overrides auto-resolver. if you use this function, you must list all models here.                                                                                                                                                                                                             `

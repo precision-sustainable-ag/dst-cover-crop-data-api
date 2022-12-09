@@ -7,10 +7,12 @@ const { Create<%= h.inflection.singularize(Name) %>Request } = require("../app/h
 const { List<%= h.inflection.pluralize(Name) %>Request } = require("../app/http/requests/<%= h.inflection.pluralize(name) %>/List<%= h.inflection.pluralize(Name) %>Request");
 const { Retrieve<%= h.inflection.singularize(Name) %>Request } = require("../app/http/requests/<%= h.inflection.pluralize(name) %>/Retrieve<%= h.inflection.singularize(Name) %>Request");
 const { Update<%= h.inflection.singularize(Name) %>Request } = require("../app/http/requests/<%= h.inflection.pluralize(name) %>/Update<%= h.inflection.singularize(Name) %>Request");
+const { Delete<%= h.inflection.singularize(Name) %>Request } = require("../app/http/requests/<%= h.inflection.pluralize(name) %>/Delete<%= h.inflection.singularize(Name) %>Request");
 const { Create<%= h.inflection.singularize(Name) %>Resource } = require("../app/http/resources/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Resource");
 const { List<%= h.inflection.pluralize(Name) %>Resource } = require("../app/http/resources/<%= h.inflection.pluralize(name) %>/List<%= h.inflection.pluralize(Name) %>Resource");
 const { Retrieve<%= h.inflection.singularize(Name) %>Resource } = require("../app/http/resources/<%= h.inflection.pluralize(name) %>/Retrieve<%= h.inflection.singularize(Name) %>Resource");
 const { Update<%= h.inflection.singularize(Name) %>Resource } = require("../app/http/resources/<%= h.inflection.pluralize(name) %>/Update<%= h.inflection.singularize(Name) %>Resource");
+const { Delete<%= h.inflection.singularize(Name) %>Resource } = require("../app/http/resources/<%= h.inflection.pluralize(name) %>/Delete<%= h.inflection.singularize(Name) %>Resource");
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');

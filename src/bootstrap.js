@@ -33,6 +33,7 @@ async function RegisterProviders(app){
 
         if(await _provider.register(...params) == false) return false;
     }
+    return true;
 }
 
 
