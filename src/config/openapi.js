@@ -8,8 +8,9 @@ module.exports = {
         version: env.APP_VERSION ?? '1.0.0'
     },
     servers: [
-        {url:"http://localhost:3000", description: "development"},
-        {url:"http://localhost:3000", description: "production"},
+        {url:`http://localhost:${env.APP_PORT}`, description: "local"},
+        {url:"https://develop.covercrop-data.org", description: "development"},
+        {url:"https://covercrop-data.org", description: "production"},
     ],
     paths: {}
 }
