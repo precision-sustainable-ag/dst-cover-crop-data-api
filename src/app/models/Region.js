@@ -19,7 +19,7 @@ class Region extends Model {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },

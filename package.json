@@ -13,7 +13,10 @@
     "db-seed": "node src/migrations/seed.js",
     "db-seed-fresh": "npm run db-fresh && npm run db-seed",
     "make": "npx --prefix ./_generator hygen ",
-    "make:resource": "npx --prefix ./_generator hygen model new --name=$npm_config_name && npx --prefix ./_generator hygen controller new --name=$npm_config_name && npx --prefix ./_generator hygen router new --name=$npm_config_name --scope=$npm_config_scope && npx --prefix ./_generator hygen requests new:create --name=$npm_config_name && npx --prefix ./_generator hygen requests new:update --name=$npm_config_name  && npx --prefix ./_generator hygen requests new:retrieve --name=$npm_config_name && npx --prefix ./_generator hygen requests new:paginated --name=$npm_config_name && npx --prefix ./_generator hygen requests new:delete --name=$npm_config_name"
+    "make:router": "npx --prefix ./_generator hygen router new:gen --name=$npm_config_name",
+    "make:requests": "npx --prefix ./_generator hygen requests new:create --name=$npm_config_name && npx --prefix ./_generator hygen requests new:update --name=$npm_config_name  && npx --prefix ./_generator hygen requests new:retrieve --name=$npm_config_name && npx --prefix ./_generator hygen requests new:list --name=$npm_config_name && npx --prefix ./_generator hygen requests new:delete --name=$npm_config_name",
+    "make:resources": "npx --prefix ./_generator hygen resources new:create --name=$npm_config_name && npx --prefix ./_generator hygen resources new:update --name=$npm_config_name  && npx --prefix ./_generator hygen resources new:retrieve --name=$npm_config_name && npx --prefix ./_generator hygen resources new:list --name=$npm_config_name && npx --prefix ./_generator hygen resources new:delete --name=$npm_config_name",
+    "make:resource": "npx --prefix ./_generator hygen model new --name=$npm_config_name && npx --prefix ./_generator hygen controller new --name=$npm_config_name && npx --prefix ./_generator hygen router new --name=$npm_config_name --scope=$npm_config_scope && npx run make:requests --name=$npm_config_name"
   },
   "jest": {
     "verbose": true,

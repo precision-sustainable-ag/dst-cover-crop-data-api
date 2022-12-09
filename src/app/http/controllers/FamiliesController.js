@@ -1,8 +1,7 @@
 const { Family } = require('../../models/Family');
 const { Controller } = require('../../../framework/controllers/Controller');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { Resource } = require('../resources/Resource');
-const { CreatedResource } = require('../resources/CreatedResource');
+const { RecordNotFound } = require('../../exceptions/RecordNotFound');
+const { RecordNotFoundError } = require('../../../framework/errors/RecordNotFoundError');
 
 const include = [];
 
@@ -10,77 +9,92 @@ class FamiliesController extends Controller {
 
     async create(req){
 
-        const payload = req.validated;
-        payload.include = include;
+        const payload = req.validated.body;
 
-        const resource = await Family.create(payload);
-
-        return new CreatedResource({resource});
+        return await Family.create(payload);
 
     }
 
     async retrieve(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
         const resource = await Family.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
-        })
+        });
 
-        return new Resource({resource});
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
+
+        return resource;
 
     }
 
     async list(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
-        const resource = await Family.findAll({
-            limit: payload.limit,
-            offset: payload.offset,
+        const rows = await Family.findAll({
+            limit: params.limit,
+            offset: params.offset,
             include
         });
 
         const count = await Family.count();
         
-        return new PaginatedCollection({resource, count});
+        return {data:rows, count}
 
     }
 
     async update(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
         const resource = await Family.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
         })
 
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
+
         await resource.update(payload);
 
-        return new Resource({resource});
-
+        return resource.reload();
     }
 
     async delete(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
         
         const resource = await Family.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
         })
 
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
+        
         await resource.destroy();
 
-        return new Resource({resource});
+        return resource;
     }
 
 }

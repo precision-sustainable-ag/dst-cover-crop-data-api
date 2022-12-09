@@ -74,9 +74,9 @@ class Model extends StaticDocument(SequelizeModel) {
             }
 
             if(props.format) schema.properties[attribute].format = props.format;
-            if(props.validate) schema.properties[attribute] = {
+            if(props.openapi) schema.properties[attribute] = {
                 ...schema.properties[attribute],
-                ...props.validate
+                ...props.openapi,
             }
 
             if(props.allowNull === false) schema.required.push(attribute);

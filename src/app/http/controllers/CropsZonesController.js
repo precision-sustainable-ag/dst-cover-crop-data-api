@@ -1,8 +1,5 @@
 const { CropsZone } = require('../../models/CropsZone');
 const { Controller } = require('../../../framework/controllers/Controller');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { Resource } = require('../resources/Resource');
-const { CreatedResource } = require('../resources/CreatedResource');
 const { Zone } = require('../../models/Zone');
 const { Crop } = require('../../models/Crop');
 const { Family } = require('../../models/Family');
@@ -49,13 +46,15 @@ class CropsZonesController extends Controller {
 
     async create(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
         payload.include = include;
 
         let resource = await CropsZone.findOne({
             where: {
-                cropId: payload.cropId,
-                zoneId: payload.zoneId,
+                cropId: params.cropId,
+                zoneId: params.zoneId,
             },
             include,
             paranoid:false,
@@ -68,79 +67,75 @@ class CropsZonesController extends Controller {
             await resource.restore({include});
         }
 
-        return new CreatedResource({resource});
-
+        return resource;
     }
 
     async retrieve(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
 
         const resource = await CropsZone.findOne({
-            where: payload,
+            where: {cropId:params.cropId,zoneId:params.zoneId},
             include
         })
 
-        return new Resource({resource});
-
+        return resource;
     }
 
     async list(req){
 
-        const payload = req.validated;
-        const meta = {};
+        
+        const params = req.validated.params;
 
         // this specifically references the crop include
         // by index. if the array arrangement is changed
         // this MUST also be changed.
-        if(payload?.label) include[1].where = {
-            label: { [Op.iLike]: `%${payload.label}%` }
+        if(params?.label) include[1].where = {
+            label: { [Op.iLike]: `%${params.label}%` }
         };
 
         const {count, rows} = await CropsZone.findAndCountAll({
-            limit: payload.limit,
-            offset: payload.offset,
-            where:{ zoneId: payload.zoneId },
+            limit: params.limit,
+            offset: params.offset,
+            where:{ zoneId: params.zoneId },
             include,
             attributes:[],
         });
 
-        // save zone information into meta object
-        if(rows.length > 0){
-            meta.zone = rows[0].zone;
-        }
-
         const resource = rows.map(cropsZone => transform(cropsZone.crop));
 
-        return new PaginatedCollection({resource, count, meta});
-
+        return {data:resource,count};
     }
 
     async listRecords(req) {
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
 
         const {count, rows} =  await CropsZone.findAndCountAll({
-            limit: payload.limit,
-            offset: payload.offset,
+            limit: params.limit,
+            offset: params.offset,
             paranoid:false
         });
 
-        return new PaginatedCollection({resource:rows, count});
+        return {data:rows, count};
+
     }
 
     async delete(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
         
         const resource = await CropsZone.findOne({
-            where: payload,
+            where: {cropId:params.cropId,zoneId:params.zoneId},
             include
         })
 
         await resource.destroy();
 
-        return new Resource({resource});
+        return resource;
     }
 
 }

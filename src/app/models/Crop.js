@@ -21,7 +21,7 @@ class Crop extends Model {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -44,7 +44,7 @@ class Crop extends Model {
                     model: Group,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -55,7 +55,7 @@ class Crop extends Model {
                     model: Family,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },

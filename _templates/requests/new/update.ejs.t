@@ -2,50 +2,40 @@
 to: src/app/http/requests/<%= h.inflection.pluralize(name) %>/Update<%= h.inflection.singularize(Name) %>Request.js
 ---
 
-const { <%= h.inflection.singularize(Name) %> } = require('../../../models/<%= Name %>');
-const { EditRequest } = require('../EditRequest');
 
-class Update<%= h.inflection.singularize(Name) %>Request extends EditRequest {
-
-    /**
-     * returns the model class,
-     * this is used when getting the validation rules 
-     * and will interpret the model attributes to generate mode rules.
-     * by default no fields will be explicity required for an update.
-     */
-    model(){
-        return <%= h.inflection.singularize(Name) %>;
-    }
-
-    /**
-     * returns map of route parameter keys to inject into data
-     * and their data type.
-     */
-    params(){
-        return {
-            id: 'string'
-        };
-    }
+const bodyParser = require('body-parser');
+const {Request} = require('../../../../framework/requests/Request');
+const { <%= h.inflection.singularize(Name) %> } = require('../../../models/<%= h.inflection.singularize(Name) %>');
 
 
-    /**
-     * For more information please check ValidatorJS documentation.
-     * https://github.com/mikeerickson/validatorjs
-     */
-    rules(){
-        return {
-        }
-    }
-
-    // return true to by-pass need for authorization
+class Update<%= h.inflection.singularize(Name) %>Request extends Request {
+   
     authorized(){
         return false;
     }
 
+    parser(){
+        return bodyParser.json();
+    }
+    
+    /**
+     * follow OpenAPI standards of parameter declaration
+     * https://spec.openapis.org/oas/v3.0.0#parameter-object
+     */
+    parameters(){
+        return [
+            {in:'path',name:'id',schema:{type:'integer'},required:true},
+        ];
+    }
+
+    /**
+     * follow OpenAPI 3.0.0 standards for schema declaration 
+     * https://spec.openapis.org/oas/v3.0.0#schema-object
+     */
+    body(){
+        return <%= h.inflection.singularize(Name) %>.schema({exclude:[{prop:'autoIncrement',value:true}]});
+    }
+
 }
 
-module.exports =  {
-    Update<%= h.inflection.singularize(Name) %>Request
-};
-
-
+module.exports = { Update<%= h.inflection.singularize(Name) %>Request }

@@ -21,7 +21,7 @@ class Image extends Model {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -53,7 +53,7 @@ class Image extends Model {
                     model: Crop,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -64,7 +64,7 @@ class Image extends Model {
                     model: Region,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },

@@ -17,9 +17,6 @@ class RoutesProvider {
              * we are excluding these routers becuase 
              * the are subroutes in another router.
              */
-            'cropsZones.js', 
-            'synonyms.js', 
-            'images.js', 
         ];
     }
 

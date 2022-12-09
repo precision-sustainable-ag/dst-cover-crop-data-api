@@ -5,7 +5,7 @@ class UnprocessibleEntityError extends RenderableError {
 
     constructor(data, schema, errors){
         super();
-        this.body = { data, schema, errors }
+        this.body = { recieved:data, schema, errors }
     }
 
     status(){
@@ -25,7 +25,7 @@ class UnprocessibleEntityError extends RenderableError {
             type: 'object',
             properties: {
                 type:{type:'string'},
-                data:{type:"object"},
+                recieved:{type:"object"},
                 schema: {
                     type: 'object',
                     properties: {

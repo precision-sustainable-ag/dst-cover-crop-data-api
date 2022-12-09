@@ -24,10 +24,6 @@ class UpdateResource extends Resource {
         return {}
     }
 
-    build(data){
-        return data;
-    }
-
     errors(){
         return [
             BadRequestError,

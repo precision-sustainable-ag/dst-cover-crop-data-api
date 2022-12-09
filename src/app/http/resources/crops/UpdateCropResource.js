@@ -3,11 +3,10 @@ const { BadRequestError } = require('../../../../framework/errors/BadRequestErro
 const { InternalServerError } = require('../../../../framework/errors/InternalServerError');
 const { RecordNotFoundError } = require('../../../../framework/errors/RecordNotFoundError');
 const { UnprocessibleEntityError } = require('../../../../framework/errors/UnprocessibleEntityError');
-const { Crop } = require('../../../models/Crop');
-const { RetrieveCropResoruce } = require('./RetrieveCropResoruce');
+const { RetrieveCropResource } = require('./RetrieveCropResource');
 
 
-class UpdateCropResource extends RetrieveCropResoruce {
+class UpdateCropResource extends RetrieveCropResource {
 
 
     status(){
@@ -20,6 +19,10 @@ class UpdateCropResource extends RetrieveCropResoruce {
     
     description(){
         return "Returns a Crop Object";
+    }
+
+    build(res,req){
+        return super.build(res,req);
     }
 
     errors(){

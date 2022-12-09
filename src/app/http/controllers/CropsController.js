@@ -5,8 +5,9 @@ const { Group } = require('../../models/Group');
 const { RecordNotFound } = require('../../exceptions/RecordNotFound');
 const { Op } = require('sequelize');
 const { ValidatorProvider } = require('../../providers/ValidatorProvider');
-const {includes:RetrieveIncludes} = require('../resources/crops/RetrieveCropResoruce');
+const {includes:RetrieveIncludes} = require('../resources/crops/RetrieveCropResource');
 const {includes:ListIncludes} = require('../resources/crops/ListCropResource');
+const { RecordNotFoundError } = require('../../../framework/errors/RecordNotFoundError');
 
 
 class CropsController extends Controller {
@@ -24,16 +25,18 @@ class CropsController extends Controller {
 
     async retrieve(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
 
         const record = await Crop.findOne({
             where: {
-                id: payload.params.id
+                id: params.id
             },
             include: RetrieveIncludes
         })
         
-        if(!record) throw new RecordNotFound({data:payload});
+        if(!record){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
         return record;
     }
@@ -78,7 +81,7 @@ class CropsController extends Controller {
         })
 
         if(!resource){
-            throw new RecordNotFound({data:payload})
+            throw new RecordNotFoundError(payload,['record not found'])
         }
 
         await resource.update(payload);
@@ -89,17 +92,17 @@ class CropsController extends Controller {
 
     async delete(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
         
         const resource = await Crop.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
         })
 
         if(!resource){
-            throw new RecordNotFound({data:payload})
+            throw new RecordNotFoundError(params,['record not found'])
         }
 
         await resource.destroy();

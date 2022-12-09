@@ -2,48 +2,40 @@
 to: src/app/http/requests/<%= h.inflection.pluralize(name) %>/Create<%= h.inflection.singularize(Name) %>Request.js
 ---
 
-const { <%= h.inflection.singularize(Name) %> } = require('../../../models/<%= Name %>');
-const { EditRequest } = require('../EditRequest');
 
-class Create<%= h.inflection.singularize(Name) %>Request extends EditRequest {
+const bodyParser = require('body-parser');
+const {Request} = require('../../../../framework/requests/Request');
+const { <%= h.inflection.singularize(Name) %> } = require('../../../models/<%= h.inflection.singularize(Name) %>');
 
-    /**
-     * returns the model class,
-     * this is used when getting the validation rules 
-     * and will interpret the model attributes to generate mode rules.
-     */
-    model(){
-        return <%= h.inflection.singularize(Name) %>;
-    }
 
-    /**
-     * For more information please check ValidatorJS documentation.
-     * https://github.com/mikeerickson/validatorjs
-     */
-    rules(){
-        return {
-        }
-    }
-
-    /**
-     * returns map of route parameter keys to inject into data
-     * and their data type.
-     */
-    params(){
-        return {
-        };
-    }
-    
-
-    // return true to by-pass need for authorization
+class Create<%= h.inflection.singularize(Name) %>Request extends Request {
+   
     authorized(){
         return false;
     }
 
+    parser(){
+        return bodyParser.json();
+    }
+    
+    /**
+     * follow OpenAPI standards of parameter declaration
+     * https://spec.openapis.org/oas/v3.0.0#parameter-object
+     */
+    parameters(){
+        return [
+            
+        ];
+    }
+
+    /**
+     * follow OpenAPI 3.0.0 standards for schema declaration 
+     * https://spec.openapis.org/oas/v3.0.0#schema-object
+     */
+    body(){
+        return <%= h.inflection.singularize(Name) %>.schema({exclude:[{prop:'autoIncrement',value:true}]});
+    }
+
 }
 
-module.exports =  {
-    Create<%= h.inflection.singularize(Name) %>Request
-};
-
-
+module.exports = { Create<%= h.inflection.singularize(Name) %>Request }

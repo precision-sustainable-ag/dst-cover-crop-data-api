@@ -20,7 +20,7 @@ class Synonym extends Model {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -31,7 +31,7 @@ class Synonym extends Model {
                     model: Crop,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },

@@ -86,11 +86,9 @@ class Request extends StaticDocument {
         const getData = this.getData;
 
         return (req, res, next) => {
-            console.log('... validating');
             let data = getData(req);
 
             data = AjvService.Validate({parameters, body, data});
-            console.log('validated',data);
 
             req.validated = data;
 
@@ -119,17 +117,14 @@ class Request extends StaticDocument {
         return (req,res,next)=> {
             const params = req.params;
             
-            console.log('checking numerics',req.params,req.query)
             for(let [key,val] of Object.entries(params)){
               const numeric = Number(val);
-              console.log(key,val,numeric)
               if(numeric) req.params[key] = numeric;
             }
           
             const query = req.query;
             for(let [key,val] of Object.entries(query)){
               const numeric = Number(val);
-              console.log(key,val,numeric)
               if(numeric) req.query[key] = numeric;
             }
           

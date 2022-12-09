@@ -24,17 +24,22 @@ class RecordNotFoundError extends RenderableError {
         return {
             type: 'object',
             properties: {
-                data: { type:'object' },
+                recieved: { type:'object' },
                 messages: { type: 'array', items:{type:'string'}}
             }
         }
     }
 
-    build(data){
-        data = this.errors;
+    wrapper(){
+        return this.schema();
+    }
+
+    build(){
+        const data = this.data;
+        const messages = this.messages;
         return {
             type:'object',
-            data,
+            recieved:data,
             messages
         };
     }

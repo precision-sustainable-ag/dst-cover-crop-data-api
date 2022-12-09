@@ -1,10 +1,6 @@
 const { PaginatedRequest } = require('../../../../framework/requests/PaginatedRequest');
-const { Family } = require('../../../models/Family');
-const { Group } = require('../../../models/Group');
 
-const includes = [
-    Family, Group
-];
+
 
 class ListCropsRequest extends PaginatedRequest {
    
@@ -25,4 +21,4 @@ class ListCropsRequest extends PaginatedRequest {
 
 }
 
-module.exports = { ListCropsRequest, includes }
+module.exports = { ListCropsRequest }

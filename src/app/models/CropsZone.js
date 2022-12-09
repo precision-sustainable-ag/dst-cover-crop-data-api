@@ -21,7 +21,7 @@ class CropsZone extends Model {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -32,7 +32,7 @@ class CropsZone extends Model {
                     model: Crop,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -43,7 +43,7 @@ class CropsZone extends Model {
                     model: Zone,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },

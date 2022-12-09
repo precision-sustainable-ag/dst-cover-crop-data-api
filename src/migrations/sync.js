@@ -1,19 +1,13 @@
-const {ModelsProvider} = require('../app/providers/ModelsProvider')
+const {ModelsProvider} = require('../app/providers/ModelsProvider');
+const {DatabaseProvider} = require('../app/providers/DatabaseProvider');
 
+const settings = DatabaseProvider.settings();
 
-
-async function run(){
-    const MIGRATIONS = await ModelsProvider.factory();
-
-
-    for (let migration of Object.values(MIGRATIONS)) {
-    
-        await migration.sync();
-    }
-}
-
-run();
-
-module.exports = {
-    run
-}
+DatabaseProvider.Service().open({database:'postgres'})
+    .createDatabaseIfNotExists(settings.database)
+    .execute()
+    .then(() => {
+        DatabaseProvider.sync(ModelsProvider,{}).then(()=>{
+            DatabaseProvider.Service().createTriggers().execute();
+        })
+    });

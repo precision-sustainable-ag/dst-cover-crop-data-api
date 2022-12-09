@@ -26,7 +26,7 @@ class CreateCropResource extends CreateResource {
     }
 
     build(res,req){
-        return res.data;
+        return super.build(res,req);
     }
 
     errors(){

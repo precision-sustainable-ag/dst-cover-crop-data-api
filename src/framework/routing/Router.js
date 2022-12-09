@@ -17,17 +17,31 @@ class Router extends Document {
     constructor({path, routes,tags=[]}){
         super()
         this.path = path;
+        if(tags.length <= 0) this._tag = this.path.replace('/','');
         this.tags = tags;
         this.routes = routes;
     }
 
-    tag(){
-        return this.path.replace('/','');
+    tag(T){
+        if(T) return this.setTag(T);
+        return this._tag;
+    }
+    
+    setTag(T){
+        this._tag = T;
+        return this;
+    }
+
+    getTags(){
+        const tag = this.tag();
+        const tags = this.tags;
+        if(tag) tags.push(tag);
+        return tags;
     }
 
     getRoutes(prefix=''){
         if(this.map) return this.map;
-        const tags = [this.tag(), ...this.tags];
+        const tags = this.getTags();
         let map = {};
 
         for(let route of this.routes){

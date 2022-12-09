@@ -20,7 +20,7 @@ class Zone extends Model {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
@@ -35,7 +35,7 @@ class Zone extends Model {
                     model: Region,
                     key: 'id',
                 },
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },

@@ -20,21 +20,24 @@ class Observer extends Model {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
-                validate:{
+                openapi:{
                     minimum: 1,
                 }
             },
             domain: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                format: 'hostname'
             },
             webhook: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                format:'url',
             },
             email: {
                 type: DataTypes.STRING,
                 allowNull: true,
+                format:'email'
             },
         }
     }

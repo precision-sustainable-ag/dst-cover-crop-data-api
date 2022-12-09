@@ -1,9 +1,7 @@
 const { Zone } = require('../../models/Zone');
 const { Controller } = require('../../../framework/controllers/Controller');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { Resource } = require('../resources/Resource');
-const { CreatedResource } = require('../resources/CreatedResource');
 const { Region } = require('../../models/Region');
+const { RecordNotFoundError } = require('../../../framework/errors/RecordNotFoundError');
 
 const include = [Region];
 
@@ -11,77 +9,93 @@ class ZonesController extends Controller {
 
     async create(req){
 
-        const payload = req.validated;
-        payload.include = include;
+        const payload = req.validated.body;
+        const params = req.validated.params;
+        payload.regionId = params.regionId;
+        // payload.include = include;
 
         const resource = await Zone.create(payload);
 
-        return new CreatedResource({resource});
+        return resource;
 
     }
 
     async retrieve(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
+        const params = req.validated.params;
 
         const resource = await Zone.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
-        })
+        });
 
-        return new Resource({resource});
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
+        return resource;
     }
 
     async list(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
+        const params = req.validated.params;
 
-        const resource = await Zone.findAll({
-            limit: payload.limit,
-            offset: payload.offset,
+        const rows = await Zone.findAll({
+            limit: params.limit,
+            offset: params.offset,
+            where:{regionId:params.regionId},
             include
         });
 
         const count = await Zone.count();
         
-        return new PaginatedCollection({resource, count});
-
+        return {data:rows, count};
     }
 
     async update(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
+        const params = req.validated.params;
 
         const resource = await Zone.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
-        })
+        });
+
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
         await resource.update(payload);
 
-        return new Resource({resource});
-
+        return resource.reload();
     }
 
     async delete(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
+        const params = req.validated.params;
         
         const resource = await Zone.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
-        })
+        });
+
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
         await resource.destroy();
 
-        return new Resource({resource});
+        return resource;
     }
 
 }
