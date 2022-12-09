@@ -10,7 +10,7 @@ module.exports = {
     servers: [
         {url:`http://localhost:${env.APP_PORT ?? 3000}`, description: "local"},
         {url:"https://develop.covercrop-data.org", description: "development"},
-        {url:"https://develop.covercrop-data.org", description: "production"},
+        {url:"https://covercrop-data.org", description: "production"},
     ],
     paths: {}
 }
