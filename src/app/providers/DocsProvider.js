@@ -26,7 +26,7 @@ class DocsProvider extends Provider {
         }
         
         // expose endpoint to access documentation.
-        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(app.openapi, options));
+        app.use('/', swaggerUi.serve, swaggerUi.setup(app.openapi, options));
 
         return true;
     }
