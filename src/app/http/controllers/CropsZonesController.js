@@ -49,7 +49,10 @@ class CropsZonesController extends Controller {
         
         const params = req.validated.params;
         const payload = req.validated.body;
-        payload.include = include;
+        payload.zoneId = params.zoneId;
+        payload.cropId = params.cropId;
+
+        console.log('crops zone',params,payload);
 
         let resource = await CropsZone.findOne({
             where: {
@@ -63,6 +66,7 @@ class CropsZonesController extends Controller {
         if(!resource){
             resource = await CropsZone.create(payload);
         }
+
         else if(resource.isSoftDeleted()){
             await resource.restore({include});
         }

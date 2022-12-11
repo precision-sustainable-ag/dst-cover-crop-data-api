@@ -66,7 +66,8 @@ class Router extends Document {
     register(app){
         const routes = this.getRoutes();
         for(let [path,methods] of Object.entries(routes)){
-            path = path.replace('{',':').replace('}','');
+            path = path.replaceAll('{',':').replaceAll('}','');
+            console.log('REGISTERING PATH',path);
             for( let [method, route] of Object.entries(methods)){
                 app[method](
                     path,

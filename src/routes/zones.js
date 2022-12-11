@@ -47,17 +47,18 @@ module.exports = Router.expose({path:'/zones', routes: [
 
     Router.expose({path:'/{zoneId}/crops', tags:['crops','zones','Crops by Zone'],routes:[
 
-        Route.post({path:'/', summary:"Add a Crop to a given Zone",
-            request: CreateCropsZoneRequest,
-            handler: CropsZonesController.factory().create,
-            response: CreateCropsZoneResource
-        }).middleware([Public]),
-
         Route.get({path:'/', summary:"Get list of Crop Objects for a given Zone",
             request: ListCropsZonesRequest,
             handler: CropsZonesController.factory().list,
             response: ListCropsZonesResource
         }).middleware([Public]),
+
+        Route.post({path:'/{cropId}', summary:"Add a Crop to a given Zone",
+            request: CreateCropsZoneRequest,
+            handler: CropsZonesController.factory().create,
+            response: CreateCropsZoneResource
+        }).middleware([Public]),
+
 
         Route.get({path:'/{cropId}', summary:"Get a Crop Objects for a given Zone",
             request: RetrieveCropsZoneRequest,

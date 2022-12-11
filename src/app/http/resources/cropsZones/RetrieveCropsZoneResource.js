@@ -2,8 +2,10 @@ const { BadRequestError } = require('../../../../framework/errors/BadRequestErro
 const { InternalServerError } = require('../../../../framework/errors/InternalServerError');
 const { RecordNotFoundError } = require('../../../../framework/errors/RecordNotFoundError');
 const { Resource } = require('../../../../framework/resources/Resource');
+const { Crop } = require('../../../models/Crop');
 
 const { CropsZone } = require('../../../models/CropsZone');
+const { Zone } = require('../../../models/Zone');
 
 
 const transform = (data) => {
@@ -34,7 +36,14 @@ class RetrieveCropsZoneResource extends Resource {
     }
 
     schema(){
-        return CropsZone.schema({});
+        return {
+            type:'object',
+            properties:{
+                ...CropsZone.schema({}).properties,
+                crop: Crop.schema({}),
+                zone: Zone.schema({})
+            },
+        };
     }
 
     build(res,req){
