@@ -19,6 +19,7 @@ class BadRequestError extends RenderableError {
         return {
             type: 'object',
             properties: {
+                type:{type:'string'},
                 key:{type:"string"},
                 messages: {type:'array',items:{type:'string'}}
             }

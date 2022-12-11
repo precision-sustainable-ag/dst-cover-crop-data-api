@@ -62,7 +62,6 @@ class Model extends StaticDocument(SequelizeModel) {
             type: "object",
             properties: {},
             required: [],
-            additionalProperties: false
         }
 
         for(let [attribute,props] of Object.entries(attributes)){
@@ -86,7 +85,7 @@ class Model extends StaticDocument(SequelizeModel) {
 
         return schema;
     }
-    
+
     static TypeMap = {
         [DataTypes.ENUM.key]: {type:'string'},
         [DataTypes.TEXT.key]: {type:'string'},

@@ -24,6 +24,7 @@ class RecordNotFoundError extends RenderableError {
         return {
             type: 'object',
             properties: {
+                type:{type:'string'},
                 recieved: { type:'object' },
                 messages: { type: 'array', items:{type:'string'}}
             }
@@ -38,7 +39,7 @@ class RecordNotFoundError extends RenderableError {
         const data = this.data;
         const messages = this.messages;
         return {
-            type:'object',
+            type:'array',
             recieved:data,
             messages
         };

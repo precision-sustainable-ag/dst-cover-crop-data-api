@@ -11,6 +11,7 @@ class Request extends StaticDocument {
             instance.authorize(),
             instance.urlNumberParser(),
             instance.parser(),
+            instance.filter(),
             instance.validate(),
         ];
     }
@@ -37,6 +38,14 @@ class Request extends StaticDocument {
 
     authorized(){
         return false;
+    }
+
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
     }
 
     /**
@@ -84,13 +93,35 @@ class Request extends StaticDocument {
         const body = this.body();
 
         const getData = this.getData;
+        const filtered = this.filtered();
+        const strict = this.strict();
 
         return (req, res, next) => {
-            let data = getData(req);
+            let data = filtered ? req.filtered : getData(req);
 
-            data = AjvService.Validate({parameters, body, data});
+            data = AjvService.Validate({parameters, body, data, strict});
 
             req.validated = data;
+
+            return next();
+        }
+    }
+
+    filter(){
+        const parameters = this.parameters()
+        const body = this.body();
+
+        const getData = this.getData;
+        const filtered = this.filtered();
+
+        return (req, res, next) => {
+            if(!filtered) return next();
+
+            let data = getData(req);
+
+            data = AjvService.Filter({parameters, body, data});
+
+            req.filtered = data;
 
             return next();
         }

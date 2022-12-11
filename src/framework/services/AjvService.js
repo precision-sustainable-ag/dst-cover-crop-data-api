@@ -38,16 +38,17 @@ class AjvService {
     }
 
     static GetValidator(){
-
         const ajv = new Ajv({allErrors:true});
         addFormats(ajv);
         return ajv;
     }
 
-    static Validate({schema, parameters, body, data}){
+    static Validate({schema, parameters, body, data,strict=true}){
         const validator = this.GetValidator();
 
         if(!schema) schema = this.FormatOpenAPISchema({parameters,body});
+
+        schema.additionalProperties = !strict; // if we allow additional properties, then we are not strict.
        
         const valid = validator.validate(schema, data);
             
@@ -56,6 +57,27 @@ class AjvService {
         }
         
         return data;
+    }
+
+    static Filter({parameters, body, data}){
+        const schema = this.FormatOpenAPISchema({parameters,body});
+        const paramKeys = Object.keys(schema.properties.params.properties);
+        const bodyKeys = Object.keys(schema.properties.body.properties);
+
+        const filtered = {params:{},body:{}};
+
+        for(let key of paramKeys){
+            if(typeof data.params[key] == 'undefined') continue;
+            filtered.params[key] = data.params[key];
+        }
+
+        for(let key of bodyKeys){
+            if(typeof data.body[key] == 'undefined') continue;
+            filtered.body[key] = data.body[key];
+        }
+
+
+        return filtered;
     }
 
 }
