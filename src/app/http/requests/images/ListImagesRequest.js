@@ -14,7 +14,7 @@ class ListImagesRequest extends PaginatedRequest {
     parameters(){
         return [
             {in:'path',name:'cropId',schema:{type:'integer'},required:true},
-            ...super.parameters(),
+            ...super.parameters(), // provides pagination parameters
         ];
     }
 

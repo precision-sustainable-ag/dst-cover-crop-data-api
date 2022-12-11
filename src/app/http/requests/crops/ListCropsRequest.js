@@ -10,7 +10,7 @@ class ListCropsRequest extends PaginatedRequest {
 
     parameters(){
         return [
-            ...super.parameters(),
+            ...super.parameters(),// provides pagination parameters
             {in:'query',name:'label',schema:{type:'string'}},
         ];
     }

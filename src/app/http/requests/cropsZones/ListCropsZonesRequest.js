@@ -14,7 +14,7 @@ class ListCropsZonesRequest extends PaginatedRequest {
     parameters(){
         return [
             {in:'path',name:'zoneId',schema:{type:'integer'},required:true},
-            ...super.parameters(),
+            ...super.parameters(), // provides pagination parameters
         ];
     }
 

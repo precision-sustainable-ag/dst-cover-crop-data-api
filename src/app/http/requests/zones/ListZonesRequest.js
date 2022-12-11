@@ -14,7 +14,7 @@ class ListZonesRequest extends PaginatedRequest {
     parameters(){
         return [
             {in:'path',name:'regionId',schema:{type:'integer'},required:true},
-            ...super.parameters(),
+            ...super.parameters(), // provides pagination parameters
         ];
     }
 

@@ -13,7 +13,7 @@ class ListRegionsRequest extends PaginatedRequest {
      */
     parameters(){
         return [
-            ...super.parameters(),
+            ...super.parameters(), // provides pagination parameters
         ];
     }
 
