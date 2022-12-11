@@ -2,7 +2,12 @@ const { BadRequestError } = require('../../../../framework/errors/BadRequestErro
 const { InternalServerError } = require('../../../../framework/errors/InternalServerError');
 const { Collection } = require('../../../../framework/resources/Collection');
 const { PaginatedCollection } = require('../../../../framework/resources/PaginatedCollection');
+const { Crop } = require('../../../models/Crop');
 const { CropsZone } = require('../../../models/CropsZone');
+const { Family } = require('../../../models/Family');
+const { Group } = require('../../../models/Group');
+const { Image } = require('../../../models/Image');
+const { ListCropResource } = require('../crops/ListCropResource');
 
 
 const transform = (record) => {
@@ -17,7 +22,7 @@ const includes = [
     
 ];
 
-class ListCropsZonesResource extends PaginatedCollection {
+class ListCropsZonesResource extends ListCropResource {
 
 
     status(){
@@ -33,9 +38,8 @@ class ListCropsZonesResource extends PaginatedCollection {
     }
 
     schema(){
-        return CropsZone.schema({});
+        return super.schema();
     }
-
 
     build(res,req){
         // res.data = res.data.map(crop => transform(crop)); // transforms each object in list.

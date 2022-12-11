@@ -84,7 +84,8 @@ class CropsZonesController extends Controller {
             include
         })
 
-        return resource;
+
+        return resource.crop;
     }
 
     async list(req){
@@ -107,7 +108,7 @@ class CropsZonesController extends Controller {
             attributes:[],
         });
 
-        const resource = rows.map(cropsZone => transform(cropsZone.crop));
+        const resource = rows.map(cropsZone => cropsZone.crop);
 
         return {data:resource,count};
     }

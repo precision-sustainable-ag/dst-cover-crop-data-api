@@ -45,7 +45,15 @@ class ListCropResource extends PaginatedCollection {
     }
 
     schema(){
-        return Crop.schema({});
+        return {
+            type:'object',
+            properties:{
+                ...Crop.schema({exclude:['groupId','familyId']}).properties,
+                thumbnail: Image.schema({}),
+                family: Family.schema({}),
+                group: Group.schema({}),
+            }
+        }
     }
 
 

@@ -6,6 +6,7 @@ const { Crop } = require('../../../models/Crop');
 
 const { CropsZone } = require('../../../models/CropsZone');
 const { Zone } = require('../../../models/Zone');
+const {RetrieveCropResource} = require('../crops/RetrieveCropResource');
 
 
 const transform = (data) => {
@@ -20,7 +21,7 @@ const includes = [
 
 ];
 
-class RetrieveCropsZoneResource extends Resource {
+class RetrieveCropsZoneResource extends RetrieveCropResource {
 
 
     status(){
@@ -36,6 +37,7 @@ class RetrieveCropsZoneResource extends Resource {
     }
 
     schema(){
+        return super.schema();
         return {
             type:'object',
             properties:{
