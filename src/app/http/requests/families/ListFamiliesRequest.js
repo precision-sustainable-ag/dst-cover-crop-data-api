@@ -6,6 +6,15 @@ class ListFamiliesRequest extends PaginatedRequest {
     authorized(){
         return false;
     }
+
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
+    
     
     /**
      * follow OpenAPI standards of parameter declaration
@@ -13,7 +22,7 @@ class ListFamiliesRequest extends PaginatedRequest {
      */
     parameters(){
         return [
-            ...super.parameters(),
+            ...super.parameters(), // provides pagination parameters
         ];
     }
 

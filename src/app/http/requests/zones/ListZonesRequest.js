@@ -6,6 +6,15 @@ class ListZonesRequest extends PaginatedRequest {
     authorized(){
         return false;
     }
+
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
+    
     
     /**
      * follow OpenAPI standards of parameter declaration

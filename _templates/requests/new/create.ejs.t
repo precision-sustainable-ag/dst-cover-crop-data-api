@@ -17,6 +17,14 @@ class Create<%= h.inflection.singularize(Name) %>Request extends Request {
     parser(){
         return bodyParser.json();
     }
+
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
     
     /**
      * follow OpenAPI standards of parameter declaration

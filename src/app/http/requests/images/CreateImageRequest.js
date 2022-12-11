@@ -9,6 +9,15 @@ class CreateImageRequest extends Request {
         return false;
     }
 
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
+    
+
     parser(){
         return bodyParser.json();
     }

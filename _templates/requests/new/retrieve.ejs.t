@@ -10,7 +10,15 @@ class Retrieve<%= h.inflection.singularize(Name) %>Request extends Request {
     authorized(){
         return false;
     }
-    
+
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
+
     /**
      * follow OpenAPI standards of parameter declaration
      * https://spec.openapis.org/oas/v3.0.0#parameter-object

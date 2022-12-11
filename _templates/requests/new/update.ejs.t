@@ -14,6 +14,14 @@ class Update<%= h.inflection.singularize(Name) %>Request extends Request {
         return false;
     }
 
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
+
     parser(){
         return bodyParser.json();
     }
