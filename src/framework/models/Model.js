@@ -69,8 +69,10 @@ class Model extends StaticDocument(SequelizeModel) {
             if(only.length > 0 && !only.include(attribute)) continue;
             if(this.excludeAttribute(exclude, attribute, props)) continue;
 
+            const dataTypeSchema = this.translateDataType(props?.type);
+
             schema.properties[attribute] = {
-                type: props?.type?.key.toLowerCase(),
+                ...dataTypeSchema
             }
 
             if(props.format) schema.properties[attribute].format = props.format;
@@ -84,6 +86,23 @@ class Model extends StaticDocument(SequelizeModel) {
 
         return schema;
     }
+    
+    static TypeMap = {
+        [DataTypes.ENUM.key]: {type:'string'},
+        [DataTypes.TEXT.key]: {type:'string'},
+        [DataTypes.DATE.key]: {type:'string'}
+    }
+
+    static translateDataType(dataType){
+        const key = dataType?.key;
+
+        if(!key) return {type:'string'};
+
+        const schema = this.TypeMap[key] ?? {type:key.toLowerCase()};
+        
+        return schema;
+    }
+
 
     static excludeAttribute(exclude, attribute, props){
         for(let exclusion of exclude){
