@@ -1,0 +1,23 @@
+
+
+
+GET http://localhost:3011/examples/token
+
+###
+
+POST http://localhost:3011/examples/token
+Content-Type: application/json
+
+{
+    "question":42,
+    "answer":["42"]
+}
+
+###
+
+
+GET http://localhost:3011/examples?test=ajksdiuhiu1h2
+
+###
+
+GET http://localhost:3011/examples/error

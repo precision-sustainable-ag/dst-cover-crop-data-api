@@ -1,9 +1,7 @@
 const { Synonym } = require('../../models/Synonym');
 const { Controller } = require('../../../framework/controllers/Controller');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { Resource } = require('../resources/Resource');
-const { CreatedResource } = require('../resources/CreatedResource');
 const { RecordNotFound } = require('../../exceptions/RecordNotFound');
+const { RecordNotFoundError } = require('../../../framework/errors/RecordNotFoundError');
 
 const include = [];
 
@@ -11,62 +9,69 @@ class SynonymsController extends Controller {
 
     async create(req){
 
-        const payload = req.validated;
-        payload.include = include;
+        const payload = req.validated.body;
 
         const resource = await Synonym.create(payload);
 
-        return new CreatedResource({resource});
+        return resource;
 
     }
 
     async retrieve(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
         const resource = await Synonym.findOne({
             where: {
-                id: payload.synonymId,
-                cropId: payload.cropId,
+                id: params.synonymId,
+                cropId: params.cropId,
             },
             include
-        })
+        });
 
-        return new Resource({resource});
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
+
+        return resource;
 
     }
 
     async list(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
 
-        const resource = await Synonym.findAll({
-            limit: payload.limit,
-            offset: payload.offset,
+        const rows = await Synonym.findAll({
+            limit: params.limit,
+            offset: params.offset,
             where: {
-                cropId: payload.cropId,
+                cropId: params.cropId,
             },
             include
         });
 
         const count = await Synonym.count();
         
-        return new PaginatedCollection({resource, count});
+        return {data:rows, count};
 
     }
 
     async update(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
         const resource = await Synonym.findOne({
             where: {
-                id: payload.synonymId,
-                cropId: payload.cropId,
+                id: params.synonymId,
+                cropId: params.cropId,
             },
             include
         })
-
 
         if(!resource) {
             throw new RecordNotFound({data:payload});
@@ -74,18 +79,20 @@ class SynonymsController extends Controller {
 
         await resource.update(payload);
 
-        return new Resource({resource});
+        return resource;
 
     }
 
     async delete(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
         
         const resource = await Synonym.findOne({
             where: {
-                id: payload.synonymId,
-                cropId: payload.cropId,
+                id: params.synonymId,
+                cropId: params.cropId,
             },
             include
         })
@@ -96,7 +103,7 @@ class SynonymsController extends Controller {
 
         await resource.destroy();
 
-        return new Resource({resource});
+        return resource;
     }
 
 }

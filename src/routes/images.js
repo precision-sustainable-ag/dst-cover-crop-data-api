@@ -1,37 +1,37 @@
-const {Router} = require('express');
-const HasScopes = require('../app/http/middleware/HasScopes');
-const { ImagesController } = require('../app/http/controllers/ImagesController');
-const { CreateImageRequest: CreateRequest } = require('../app/http/requests/images/CreateImageRequest');
-const { ListImagesRequest: ListRequest } = require('../app/http/requests/images/ListImagesRequest');
-const { RetrieveImageRequest: GetRequest } = require('../app/http/requests/images/RetrieveImageRequest');
-const { UpdateImageRequest: UpdateRequest } = require('../app/http/requests/images/UpdateImageRequest');
-const { DeleteImageRequest: DeleteRequest } = require('../app/http/requests/images/DeleteImageRequest');
+const { ImagesController } = require("../app/http/controllers/ImagesController");
+const { RetrieveImageRequest } = require("../app/http/requests/images/RetrieveImageRequest");
+const { UpdateImageRequest } = require("../app/http/requests/images/UpdateImageRequest");
+const { DeleteImageRequest } = require("../app/http/requests/images/DeleteImageRequest");
+const { RetrieveImageResource } = require("../app/http/resources/images/RetrieveImageResource");
+const { UpdateImageResource } = require("../app/http/resources/images/UpdateImageResource");
+const { DeleteImageResource } = require("../app/http/resources/images/DeleteImageResource");
+const { Route } = require("../framework/routing/Route");
+const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
 
 /**
- * We call the controller factory method
- * because this will create the controller and wrap all of the controller functions
- * with a handler function that returns a valid ExpressJS Middleware function.
+ * creating and getting list of images is in crops router
+ * because you can only get images by crops
+ * and a image requires a crop to be created.
  */
-const Controller = ImagesController.factory();
+module.exports = Router.expose({path:'/images', routes: [
 
-const router = Router();
+    Route.get({path:'/{id}', summary:"Retrieve a Image Object",
+        request: RetrieveImageRequest,
+        handler: ImagesController.factory().retrieve,
+        response: RetrieveImageResource
+    }).middleware([Public]),
 
-/**
- * all get requests are 100% open to public
- */
-router.get('/:cropId/images', Public, ListRequest.handle(),Controller.list);
-router.get('/:cropId/images/:imageId', Public, GetRequest.handle(),Controller.retrieve);
+    Route.put({path:'/{id}', summary:"Update a Image Object",
+        request: UpdateImageRequest,
+        handler:ImagesController.factory().update,
+        response: UpdateImageResource
+    }).middleware([Public]),
 
-/**
- * All requests that edit data must have
- * a data-entry authorization token with the required scopes.
- */
-router.post('/:cropId/images', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
-router.put('/:cropId/images/:imageId', Public, UpdateRequest.handle(),Controller.update);
-router.delete('/:cropId/images/:imageId', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
+    Route.delete({path:'/{id}', summary:"Delete a Image Object",
+        request: DeleteImageRequest,
+        handler:ImagesController.factory().delete,
+        response: DeleteImageResource
+    }).middleware([Public]),
 
-module.exports =  router
-
-
-
+]});

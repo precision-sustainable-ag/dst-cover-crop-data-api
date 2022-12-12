@@ -7,6 +7,8 @@ const { DatabaseProvider } = require('./DatabaseProvider');
 const { ModelsProvider } = require('./ModelsProvider');
 const app_conf = require('../../config/app');
 
+
+
 class AppProvider extends Provider {
 
     static APP;

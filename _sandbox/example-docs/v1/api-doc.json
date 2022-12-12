@@ -1,0 +1,79 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "example api doc",
+    "description": "this is a simple example of a swagger json document",
+    "version": "1.0.0"
+  },
+  "servers":[
+    {
+      "url": "http://localhost:3010",
+      "description": "development server using test data."
+    },
+    {
+      "url": "http://localhost:3010",
+      "description": "production server using live data."
+    }
+  ],
+  "paths": {
+    "/examples": {
+      "post":{
+        "tags": ["examples"],
+        "summary":"create example",
+        "description":"",
+        "parameters":[],
+        "requestBody":{},
+        "responses":{}
+      },
+      "get":{
+        "tags": ["examples"],
+        "summary":"get examples list",
+        "description":"",
+        "parameters":[{
+          "in":"query",
+          "name":"test",
+          "schema":{
+            "type":"string"
+          },
+          "required":true,
+          "description":"test string to have returned"
+        }],
+        "requestBody":{},
+        "responses":{}
+      }
+    },
+    "/samples": {
+      "post":{
+        "tags": ["samples"],
+        "summary":"create example",
+        "description":"",
+        "parameters":[],
+        "requestBody":{
+          "content": {
+            "application/json":{
+              "schema": {
+                "type":"object",
+                "properties":{
+                  "foo":{
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses":{}
+      },
+      "get":{
+        "tags": ["samples"],
+        "summary":"get examples list",
+        "description":"",
+        "parameters":[],
+        "requestBody":{},
+        "responses":{}
+      }
+    }
+  }
+
+
+}

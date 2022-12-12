@@ -1,37 +1,48 @@
-const {Router} = require('express');
-const HasScopes = require('../app/http/middleware/HasScopes');
-const { GroupsController } = require('../app/http/controllers/GroupsController');
-const { CreateGroupRequest: CreateRequest } = require('../app/http/requests/groups/CreateGroupRequest');
-const { ListGroupsRequest: ListRequest } = require('../app/http/requests/groups/ListGroupsRequest');
-const { RetrieveGroupRequest: GetRequest } = require('../app/http/requests/groups/RetrieveGroupRequest');
-const { UpdateGroupRequest: UpdateRequest } = require('../app/http/requests/groups/UpdateGroupRequest');
-const { DeleteGroupRequest: DeleteRequest } = require('../app/http/requests/groups/DeleteGroupRequest');
+const { GroupsController } = require("../app/http/controllers/GroupsController");
+const { CreateGroupRequest } = require("../app/http/requests/groups/CreateGroupRequest");
+const { ListGroupsRequest } = require("../app/http/requests/groups/ListGroupsRequest");
+const { RetrieveGroupRequest } = require("../app/http/requests/groups/RetrieveGroupRequest");
+const { UpdateGroupRequest } = require("../app/http/requests/groups/UpdateGroupRequest");
+const { CreateGroupResource } = require("../app/http/resources/groups/CreateGroupResource");
+const { ListGroupsResource } = require("../app/http/resources/groups/ListGroupsResource");
+const { RetrieveGroupResource } = require("../app/http/resources/groups/RetrieveGroupResource");
+const { UpdateGroupResource } = require("../app/http/resources/groups/UpdateGroupResource");
+const { Route } = require("../framework/routing/Route");
+const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const { DeleteGroupRequest } = require("../app/http/requests/groups/DeleteGroupRequest");
+const { DeleteGroupResource } = require("../app/http/resources/groups/DeleteGroupResource");
 
-/**
- * We call the controller factory method
- * because this will create the controller and wrap all of the controller functions
- * with a handler function that returns a valid ExpressJS Middleware function.
- */
-const Controller = GroupsController.factory();
+module.exports = Router.expose({path:'/groups', routes: [
 
-const router = Router();
+    Route.post({path:'/', summary:"Create a Group Object",
+        request: CreateGroupRequest,
+        handler:GroupsController.factory().create,
+        response: CreateGroupResource
+    }).middleware([Public]),
 
-/**
- * all get requests are 100% open to public
- */
-router.get('/', Public, ListRequest.handle(),Controller.list);
-router.get('/:id', Public, GetRequest.handle(),Controller.retrieve);
+    Route.get({path:'/', summary:"Get List of Group Objects",
+        request: ListGroupsRequest,
+        handler:GroupsController.factory().list,
+        response: ListGroupsResource
+    }).middleware([Public]),
 
-/**
- * All requests that edit data must have
- * a data-entry authorization token with the required scopes.
- */
-router.post('/', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
-router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
-router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
+    Route.get({path:'/{id}', summary:"Retrieve a Group Object",
+        request: RetrieveGroupRequest,
+        handler: GroupsController.factory().retrieve,
+        response: RetrieveGroupResource
+    }).middleware([Public]),
 
-module.exports =  router
+    Route.put({path:'/{id}', summary:"Update a Group Object",
+        request: UpdateGroupRequest,
+        handler:GroupsController.factory().update,
+        response: UpdateGroupResource
+    }).middleware([Public]),
 
+    Route.delete({path:'/{id}', summary:"Delete a Group Object",
+        request: DeleteGroupRequest,
+        handler:GroupsController.factory().delete,
+        response: DeleteGroupResource
+    }).middleware([Public]),
 
-
+]});

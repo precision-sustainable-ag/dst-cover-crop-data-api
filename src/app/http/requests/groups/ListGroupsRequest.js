@@ -1,24 +1,39 @@
-const { PaginatedRequest } = require('../PaginatedRequest');
+const { PaginatedRequest } = require('../../../../framework/requests/PaginatedRequest');
+
 
 class ListGroupsRequest extends PaginatedRequest {
-
-    /**
-     * For more information please check ValidatorJS documentation.
-     * https://github.com/mikeerickson/validatorjs
-     */
-    rules(){
-        return {
-        }
-    }
-    
-    // return true to by-pass need for authorization
+   
     authorized(){
         return false;
     }
+
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
+    
+    
+    /**
+     * follow OpenAPI standards of parameter declaration
+     * https://spec.openapis.org/oas/v3.0.0#parameter-object
+     */
+    parameters(){
+        return [
+            ...super.parameters(), // provides pagination parameters
+        ];
+    }
+
+    /**
+     * follow OpenAPI 3.0.0 standards for schema declaration 
+     * https://spec.openapis.org/oas/v3.0.0#schema-object
+     */
+    body(){
+        return {};
+    }
+
 }
 
-module.exports =  {
-    ListGroupsRequest
-};
-
-
+module.exports = { ListGroupsRequest }

@@ -1,37 +1,64 @@
-const {Router} = require('express');
-const HasScopes = require('../app/http/middleware/HasScopes');
-const { RegionsController } = require('../app/http/controllers/RegionsController');
-const { CreateRegionRequest: CreateRequest } = require('../app/http/requests/regions/CreateRegionRequest');
-const { ListRegionsRequest: ListRequest } = require('../app/http/requests/regions/ListRegionsRequest');
-const { RetrieveRegionRequest: GetRequest } = require('../app/http/requests/regions/RetrieveRegionRequest');
-const { UpdateRegionRequest: UpdateRequest } = require('../app/http/requests/regions/UpdateRegionRequest');
-const { DeleteRegionRequest: DeleteRequest } = require('../app/http/requests/regions/DeleteRegionRequest');
+const { RegionsController } = require("../app/http/controllers/RegionsController");
+const { CreateRegionRequest } = require("../app/http/requests/regions/CreateRegionRequest");
+const { ListRegionsRequest } = require("../app/http/requests/regions/ListRegionsRequest");
+const { RetrieveRegionRequest } = require("../app/http/requests/regions/RetrieveRegionRequest");
+const { CreateRegionResource } = require("../app/http/resources/regions/CreateRegionResource");
+const { ListRegionsResource } = require("../app/http/resources/regions/ListRegionsResource");
+const { RetrieveRegionResource } = require("../app/http/resources/regions/RetrieveRegionResource");
+const { UpdateRegionResource } = require("../app/http/resources/regions/UpdateRegionResource");
+const { UpdateRegionRequest } = require("../app/http/requests/regions/UpdateRegionRequest");
+const { CreateZoneRequest } = require("../app/http/requests/zones/CreateZoneRequest");
+const { CreateZoneResource } = require("../app/http/resources/zones/CreateZoneResource");
+const { ZonesController } = require("../app/http/controllers/ZonesController");
+const { ListZonesResource } = require("../app/http/resources/zones/ListZonesResource");
+const { ListZonesRequest } = require("../app/http/requests/zones/ListZonesRequest");
+const { Route } = require("../framework/routing/Route");
+const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
 
-/**
- * We call the controller factory method
- * because this will create the controller and wrap all of the controller functions
- * with a handler function that returns a valid ExpressJS Middleware function.
- */
-const Controller = RegionsController.factory();
+module.exports = Router.expose({path:'/regions', routes: [
 
-const router = Router();
+    Route.post({path:'/', summary:"Create a Region Object",
+        request: CreateRegionRequest,
+        handler: RegionsController.factory().create,
+        response: CreateRegionResource
+    }).middleware([Public]),
 
-/**
- * all get requests are 100% open to public
- */
-router.get('/', Public, ListRequest.handle(),Controller.list);
-router.get('/:id', Public, GetRequest.handle(),Controller.retrieve);
+    Route.get({path:'/', summary:"Get List of Region Objects",
+        request: ListRegionsRequest,
+        handler: RegionsController.factory().list,
+        response: ListRegionsResource
+    }).middleware([Public]),
 
-/**
- * All requests that edit data must have
- * a data-entry authorization token with the required scopes.
- */
-router.post('/', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
-router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
-router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
+    Route.get({path:'/{id}', summary:"Retrieve a Region Object",
+        request: RetrieveRegionRequest,
+        handler: RegionsController.factory().retrieve,
+        response: RetrieveRegionResource
+    }).middleware([Public]),
 
-module.exports =  router
+    Route.put({path:'/{id}', summary:"Update a Region Object",
+        request: UpdateRegionRequest,
+        handler: RegionsController.factory().update,
+        response: UpdateRegionResource
+    }).middleware([Public]),
 
+    /**
+     * regions zones
+     */
+    Router.expose({path:'/{regionId}/zones', tags:['zones','regions'], routes:[
 
+        Route.post({path:'/', summary:"Create a Zone Object for a given Region",
+            request: CreateZoneRequest,
+            handler: ZonesController.factory().create,
+            response: CreateZoneResource
+        }).middleware([Public]),
 
+        Route.get({path:'/', summary:"Get List of Zone Objects for a given Region",
+            request: ListZonesRequest,
+            handler: ZonesController.factory().list,
+            response: ListZonesResource
+        }).middleware([Public]),
+
+    ]})
+
+]});
