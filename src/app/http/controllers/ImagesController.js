@@ -1,8 +1,6 @@
 const { Image } = require('../../models/Image');
 const { Controller } = require('../../../framework/controllers/Controller');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { Resource } = require('../resources/Resource');
-const { CreatedResource } = require('../resources/CreatedResource');
+const { RecordNotFoundError } = require('../../../framework/errors/RecordNotFoundError');
 
 const include = [];
 
@@ -10,7 +8,7 @@ class ImagesController extends Controller {
 
     async create(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
 
         const resource = await Image.create(payload);
 
@@ -20,72 +18,88 @@ class ImagesController extends Controller {
 
     async retrieve(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
 
         const resource = await Image.findOne({
             where: {
-                id: payload.imageId,
-                cropId: payload.cropId
+                id: params.id,
+                cropId: params.cropId
             },
             include
-        })
+        });
 
-        return new Resource({resource});
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
+
+        return resource;
 
     }
 
     async list(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
-        const resource = await Image.findAll({
-            limit: payload.limit,
-            offset: payload.offset,
+        const rows = await Image.findAll({
+            limit: params.limit,
+            offset: params.offset,
             where:{
-                cropId: payload.cropId,
+                cropId: params.cropId,
             },
             include
         });
 
         const count = await Image.count();
         
-        return new PaginatedCollection({resource, count});
-
+        return {data:rows, count};
     }
 
     async update(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
         const resource = await Image.findOne({
             where: {
-                id: payload.imageId,
-                cropId: payload.cropId
+                id: params.id,
+                cropId: params.cropId
             },
             include
-        })
+        });
+
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
         await resource.update(payload);
 
-        return new Resource({resource});
-
+        return resource.reload();
     }
 
     async delete(req){
 
-        const payload = req.validated;
+        
+        const params = req.validated.params;
         
         const resource = await Image.findOne({
             where: {
-                id: payload.imageId,
-                cropId: payload.cropId
+                id: params.id,
+                cropId: params.cropId
             },
             include
-        })
+        });
+
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
         await resource.destroy();
 
-        return new Resource({resource});
+        return resource;
     }
 
 }

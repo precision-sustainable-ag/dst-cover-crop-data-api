@@ -1,45 +1,45 @@
+const bodyParser = require('body-parser');
+const {Request} = require('../../../../framework/requests/Request');
 const { Synonym } = require('../../../models/Synonym');
-const { EditRequest } = require('../EditRequest');
 
-class CreateSynonymRequest extends EditRequest {
-    
-    /**
-     * returns map of route parameter keys to inject into data
-     * and their data type.
-     */
-    params(){
-        return {
-            cropId: 'integer'
-        };
-    }
 
-    /**
-     * returns the model class,
-     * this is used when getting the validation rules 
-     * and will interpret the model attributes to generate mode rules.
-     */
-    model(){
-        return Synonym;
-    }
-
-    /**
-     * For more information please check ValidatorJS documentation.
-     * https://github.com/mikeerickson/validatorjs
-     */
-    rules(){
-        return {
-        }
-    }
-
-    // return true to by-pass need for authorization
+class CreateSynonymRequest extends Request {
+   
     authorized(){
         return false;
     }
 
+    strict(){
+        return true;
+    }
+
+    filtered(){
+        return true;
+    }
+    
+
+    parser(){
+        return bodyParser.json();
+    }
+    
+    /**
+     * follow OpenAPI standards of parameter declaration
+     * https://spec.openapis.org/oas/v3.0.0#parameter-object
+     */
+    parameters(){
+        return [
+            
+        ];
+    }
+
+    /**
+     * follow OpenAPI 3.0.0 standards for schema declaration 
+     * https://spec.openapis.org/oas/v3.0.0#schema-object
+     */
+    body(){
+        return Synonym.schema({exclude:[{prop:'autoIncrement',value:true}]});
+    }
+
 }
 
-module.exports =  {
-    CreateSynonymRequest
-};
-
-
+module.exports = { CreateSynonymRequest }

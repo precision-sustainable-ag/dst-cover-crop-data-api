@@ -35,8 +35,9 @@ class DatabaseProvider extends Provider {
     }
 
     static async registerListeners(watching){
-
-        if(this.config.connection != 'postgres') return false;
+        const config = this.getConfig();
+        
+        if(config.connection != 'postgres') return false;
 
         const service = DatabaseProvider.Service();
 
@@ -97,7 +98,7 @@ class DatabaseProvider extends Provider {
     }
 
     static async sync(modelsProvider, options={}){
-        const MIGRATIONS = await modelsProvider.factory();
+        const MIGRATIONS = await modelsProvider.factory(null,this);
 
         for (let migration of Object.values(MIGRATIONS)) {
         

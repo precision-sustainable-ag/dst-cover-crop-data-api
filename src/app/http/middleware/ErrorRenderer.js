@@ -2,11 +2,17 @@
 const { RenderableException } = require('../../exceptions/RenderableException');
 const { InternalServerError } = require('../../exceptions/InternalServerError');
 const { Log } = require('../../providers/LoggingProvider');
+const { RenderableError } = require('../../../framework/errors/RenderableError');
+const { InternalServerError:ISE } = require('../../../framework/errors/InternalServerError');
 
 
 module.exports =  (err, req, res, next) => {
 
     if (err instanceof RenderableException && !(err instanceof InternalServerError)){
+        return err.render(res);
+    }
+
+    if (err instanceof RenderableError){
         return err.render(res);
     }
 

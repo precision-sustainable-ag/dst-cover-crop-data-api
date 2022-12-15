@@ -1,9 +1,7 @@
 const { Region } = require('../../models/Region');
 const { Controller } = require('../../../framework/controllers/Controller');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { Resource } = require('../resources/Resource');
-const { CreatedResource } = require('../resources/CreatedResource');
 const { Zone } = require('../../models/Zone');
+const { RecordNotFoundError } = require('../../../framework/errors/RecordNotFoundError');
 
 const include = [];
 
@@ -11,77 +9,89 @@ class RegionsController extends Controller {
 
     async create(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
         payload.include = include;
 
         const resource = await Region.create(payload);
 
-        return new CreatedResource({resource});
+        return resource;
 
     }
 
     async retrieve(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
 
         const resource = await Region.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include: [Zone]
-        })
+        });
 
-        return new Resource({resource});
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
+
+        return resource;
 
     }
 
     async list(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
 
-        const resource = await Region.findAll({
-            limit: payload.limit,
-            offset: payload.offset,
+        const rows = await Region.findAll({
+            limit: params.limit,
+            offset: params.offset,
             include
         });
 
         const count = await Region.count();
         
-        return new PaginatedCollection({resource, count});
+        return {data:rows,count};
 
     }
 
     async update(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
+        const params = req.validated.params;
 
         const resource = await Region.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
-        })
+        });
+
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
         await resource.update(payload);
 
-        return new Resource({resource});
-
+        return resource;
     }
 
     async delete(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
         
         const resource = await Region.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
-        })
+        });
+
+        if(!resource){
+            throw new RecordNotFoundError(params,['record not found'])
+        }
 
         await resource.destroy();
 
-        return new Resource({resource});
+        return resource;
     }
 
 }

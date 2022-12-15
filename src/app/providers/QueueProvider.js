@@ -9,7 +9,7 @@ class QueueProvider extends Provider {
 
     static queues = {};
 
-    static async register(queues){
+    static async register(app,queues){
 
         for(let [channel, config] of Object.entries(queues)){
             // create the bull queue

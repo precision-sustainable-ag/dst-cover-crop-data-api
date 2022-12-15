@@ -1,44 +1,78 @@
-const {Router} = require('express');
-const HasScopes = require('../app/http/middleware/HasScopes');
-const { ZonesController } = require('../app/http/controllers/ZonesController');
-const { CreateZoneRequest: CreateRequest } = require('../app/http/requests/zones/CreateZoneRequest');
-const { ListZonesRequest: ListRequest } = require('../app/http/requests/zones/ListZonesRequest');
-const { RetrieveZoneRequest: GetRequest } = require('../app/http/requests/zones/RetrieveZoneRequest');
-const { UpdateZoneRequest: UpdateRequest } = require('../app/http/requests/zones/UpdateZoneRequest');
-const { DeleteZoneRequest: DeleteRequest } = require('../app/http/requests/zones/DeleteZoneRequest');
-const CropsZonesRouter = require('./cropsZones.js');
+
+const { Route } = require("../framework/routing/Route");
+const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const { ZonesController } = require("../app/http/controllers/ZonesController");
+const { RetrieveZoneRequest } = require("../app/http/requests/zones/RetrieveZoneRequest");
+const { RetrieveZoneResource } = require("../app/http/resources/zones/RetrieveZoneResource");
+const { UpdateZoneRequest } = require("../app/http/requests/zones/UpdateZoneRequest");
+const { UpdateZoneResource } = require("../app/http/resources/zones/UpdateZoneResource");
+const { DeleteZoneRequest } = require("../app/http/requests/zones/DeleteZoneRequest");
+const { DeleteZoneResource } = require("../app/http/resources/zones/DeleteZoneResource");
+const { ListCropsZonesRequest } = require("../app/http/requests/cropsZones/ListCropsZonesRequest");
+const { ListCropsZonesResource } = require("../app/http/resources/cropsZones/ListCropsZonesResource");
+const { CropsZonesController } = require("../app/http/controllers/CropsZonesController");
+const { CreateCropsZoneRequest } = require("../app/http/requests/cropsZones/CreateCropsZoneRequest");
+const { CreateCropsZoneResource } = require("../app/http/resources/cropsZones/CreateCropsZoneResource");
+const { RetrieveCropsZoneRequest } = require("../app/http/requests/cropsZones/RetrieveCropsZoneRequest");
+const { RetrieveCropsZoneResource } = require("../app/http/resources/cropsZones/RetrieveCropsZoneResource");
+const { DeleteCropsZoneRequest } = require("../app/http/requests/cropsZones/DeleteCropsZoneRequest");
+const { DeleteCropsZoneResource } = require("../app/http/resources/cropsZones/DeleteCropsZoneResource");
+
 
 /**
- * We call the controller factory method
- * because this will create the controller and wrap all of the controller functions
- * with a handler function that returns a valid ExpressJS Middleware function.
+ * creating and getting list of zones is in regions router
+ * because you can only get zones by regions
+ * and a zone requires a region to be created.
  */
-const Controller = ZonesController.factory();
+module.exports = Router.expose({path:'/zones', routes: [
 
-const router = Router();
+    Route.get({path:'/{id}', summary:"Retrieve a Zone Object for a given Region",
+        request: RetrieveZoneRequest,
+        handler: ZonesController.factory().retrieve,
+        response: RetrieveZoneResource
+    }).middleware([Public]),
 
-/**
- * all get requests are 100% open to public
- */
-router.get('/', Public, ListRequest.handle(),Controller.list);
-router.get('/:id', Public, GetRequest.handle(),Controller.retrieve);
+    Route.put({path:'/{id}', summary:"Update a Zone Object for a given Region",
+        request: UpdateZoneRequest,
+        handler: ZonesController.factory().update,
+        response: UpdateZoneResource
+    }).middleware([]),
 
-/**
- * All requests that edit data must have
- * a data-entry authorization token with the required scopes.
- */
-router.post('/', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
-router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
-router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
+    Route.delete({path:'/{id}', summary:"Delete a Zone Object for a given Region",
+        request: DeleteZoneRequest,
+        handler: ZonesController.factory().update,
+        response: DeleteZoneResource
+    }).middleware([]),
 
-/**
- * Registering sub-routers here. 
- * Make sure to exclude these routers from the app/providers/RotuesProvider.js 
- */
-router.use(CropsZonesRouter)
+    Router.expose({path:'/{zoneId}/crops', tags:['crops','zones','Crops by Zone'],routes:[
 
-module.exports =  router
+        Route.get({path:'/', summary:"Get list of Crop Objects for a given Zone",
+            request: ListCropsZonesRequest,
+            handler: CropsZonesController.factory().list,
+            response: ListCropsZonesResource
+        }).middleware([Public]),
+
+        Route.post({path:'/{cropId}', summary:"Add a Crop to a given Zone",
+            request: CreateCropsZoneRequest,
+            handler: CropsZonesController.factory().create,
+            response: CreateCropsZoneResource
+        }).middleware([]),
 
 
+        Route.get({path:'/{cropId}', summary:"Get a Crop Objects for a given Zone",
+            request: RetrieveCropsZoneRequest,
+            handler: CropsZonesController.factory().retrieve,
+            response: RetrieveCropsZoneResource
+        }).middleware([Public]),
 
+        Route.delete({path:'/{cropId}', summary:"Delete a Crop Objects for a given Zone",
+            request: DeleteCropsZoneRequest,
+            handler: CropsZonesController.factory().retrieve,
+            response: DeleteCropsZoneResource
+        }).middleware([]),
+
+    ]}),
+
+
+]});

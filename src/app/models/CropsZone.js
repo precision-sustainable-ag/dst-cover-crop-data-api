@@ -20,7 +20,10 @@ class CropsZone extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                openapi:{
+                    minimum: 1,
+                }
             },
             cropId: {
                 type: DataTypes.INTEGER,
@@ -28,6 +31,9 @@ class CropsZone extends Model {
                 references:  {
                     model: Crop,
                     key: 'id',
+                },
+                openapi:{
+                    minimum: 1,
                 }
             },
             zoneId: {
@@ -36,6 +42,9 @@ class CropsZone extends Model {
                 references:  {
                     model: Zone,
                     key: 'id',
+                },
+                openapi:{
+                    minimum: 1,
                 }
             },
         }

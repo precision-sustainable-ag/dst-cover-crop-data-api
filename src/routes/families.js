@@ -1,37 +1,48 @@
-const {Router} = require('express');
-const HasScopes = require('../app/http/middleware/HasScopes');
-const { FamiliesController } = require('../app/http/controllers/FamiliesController');
-const { CreateFamilyRequest: CreateRequest } = require('../app/http/requests/families/CreateFamilyRequest');
-const { ListFamiliesRequest: ListRequest } = require('../app/http/requests/families/ListFamiliesRequest');
-const { RetrieveFamilyRequest: GetRequest } = require('../app/http/requests/families/RetrieveFamilyRequest');
-const { UpdateFamilyRequest: UpdateRequest } = require('../app/http/requests/families/UpdateFamilyRequest');
-const { DeleteFamilyRequest: DeleteRequest } = require('../app/http/requests/families/DeleteFamilyRequest');
+const { FamiliesController } = require("../app/http/controllers/FamiliesController");
+const { CreateFamilyRequest } = require("../app/http/requests/families/CreateFamilyRequest");
+const { ListFamiliesRequest } = require("../app/http/requests/families/ListFamiliesRequest");
+const { RetrieveFamilyRequest } = require("../app/http/requests/families/RetrieveFamilyRequest");
+const { UpdateFamilyRequest } = require("../app/http/requests/families/UpdateFamilyRequest");
+const { DeleteFamilyRequest } = require("../app/http/requests/families/DeleteFamilyRequest");
+const { CreateFamilyResource } = require("../app/http/resources/families/CreateFamilyResource");
+const { ListFamiliesResource } = require("../app/http/resources/families/ListFamiliesResource");
+const { RetrieveFamilyResource } = require("../app/http/resources/families/RetrieveFamilyResource");
+const { UpdateFamilyResource } = require("../app/http/resources/families/UpdateFamilyResource");
+const { DeleteFamilyResource } = require("../app/http/resources/families/DeleteFamilyResource");
+const { Route } = require("../framework/routing/Route");
+const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
 
-/**
- * We call the controller factory method
- * because this will create the controller and wrap all of the controller functions
- * with a handler function that returns a valid ExpressJS Middleware function.
- */
-const Controller = FamiliesController.factory();
+module.exports = Router.expose({path:'/families', routes: [
 
-const router = Router();
+    Route.post({path:'/', summary:"Create a Family Object",
+        request: CreateFamilyRequest,
+        handler:FamiliesController.factory().create,
+        response: CreateFamilyResource
+    }).middleware([]),
 
-/**
- * all get requests are 100% open to public
- */
-router.get('/', Public, ListRequest.handle(),Controller.list);
-router.get('/:id', Public, GetRequest.handle(),Controller.retrieve);
+    Route.get({path:'/', summary:"Get List of Families Objects",
+        request: ListFamiliesRequest,
+        handler:FamiliesController.factory().list,
+        response: ListFamiliesResource
+    }).middleware([Public]),
 
-/**
- * All requests that edit data must have
- * a data-entry authorization token with the required scopes.
- */
-router.post('/', HasScopes(['data_create']), CreateRequest.handle(),Controller.create);
-router.put('/:id', HasScopes(['data_update']), UpdateRequest.handle(),Controller.update);
-router.delete('/:id', HasScopes(['data_delete']), DeleteRequest.handle(),Controller.delete);
+    Route.get({path:'/{id}', summary:"Retrieve a Family Object",
+        request: RetrieveFamilyRequest,
+        handler: FamiliesController.factory().retrieve,
+        response: RetrieveFamilyResource
+    }).middleware([Public]),
 
-module.exports =  router
+    Route.put({path:'/{id}', summary:"Update a Family Object",
+        request: UpdateFamilyRequest,
+        handler:FamiliesController.factory().update,
+        response: UpdateFamilyResource
+    }).middleware([]),
 
+    Route.delete({path:'/{id}', summary:"Delete a Family Object",
+        request: DeleteFamilyRequest,
+        handler:FamiliesController.factory().delete,
+        response: DeleteFamilyResource
+    }).middleware([]),
 
-
+]});

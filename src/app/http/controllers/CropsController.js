@@ -1,79 +1,44 @@
 const { Crop } = require('../../models/Crop');
 const { Controller } = require('../../../framework/controllers/Controller');
-const { PaginatedCollection } = require('../resources/PaginatedCollection');
-const { Resource } = require('../resources/Resource');
-const { CreatedResource } = require('../resources/CreatedResource');
 const { Family } = require('../../models/Family');
 const { Group } = require('../../models/Group');
-const { Image } = require('../../models/Image');
 const { RecordNotFound } = require('../../exceptions/RecordNotFound');
-const { Synonym } = require('../../models/Synonym');
 const { Op } = require('sequelize');
 const { ValidatorProvider } = require('../../providers/ValidatorProvider');
-const app = require('../../../config/app');
+const {includes:RetrieveIncludes} = require('../resources/crops/RetrieveCropResource');
+const {includes:ListIncludes} = require('../resources/crops/ListCropResource');
+const { RecordNotFoundError } = require('../../../framework/errors/RecordNotFoundError');
 
-const include = [
-    {model:Family, attributes:['id','commonName','scientificName']}, 
-    {model:Group, attributes:['id','label']},
-    { model:Image },
-];
-
-const transform = (record, add={}) => {
-    const thumbnail = record.images.filter(image => image.isThumbnail)
-    return {
-        id: record.id,
-        label: record.label,
-        scientificName: record.scientificName,
-        usdaSymbol: record.usdaSymbol,
-        createdAt: record.createdAt,
-        updatedAt: record.updatedAt,
-        family: record.family,
-        group: record.group,
-        thumbnail: thumbnail[0] ?? null,
-        ...add
-    }
-}
 
 class CropsController extends Controller {
 
-
-
     async create(req){
 
-        const payload = req.validated;
+        const payload = req.validated.body;
 
         if(payload?.familyId) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
         if(payload?.groupId) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
 
-        const resource = await Crop.create(payload)
-
-        return new CreatedResource({resource});
+        return await Crop.create(payload)
 
     }
 
     async retrieve(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
 
         const record = await Crop.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
-            include: [
-                ...include,
-                {model:Synonym}
-            ]
+            include: RetrieveIncludes
         })
         
-        if(!record) throw new RecordNotFound({data:payload});
-
-        const resource = transform(record,{images:record.images});
-
-        if(!resource){
-            throw new RecordNotFound({data:payload})
+        if(!record){
+            throw new RecordNotFoundError(params,['record not found'])
         }
 
-        return new Resource({resource});
+        return record;
     }
 
     async list(req){
@@ -81,69 +46,68 @@ class CropsController extends Controller {
         const payload = req.validated;
 
         const where = {
-            label: { [Op.iLike]: `%${payload?.label ? payload.label : ''}%` }
+            label: { [Op.iLike]: `%${payload.params?.label ? payload.params.label : ''}%` }
         };
 
         const rows = await Crop.findAll({
-            limit: payload.limit,
-            offset: payload.offset,
+            limit: payload.params.limit,
+            offset: payload.params.offset,
             order: [
                 ['label']
             ],
             where,
-            include
+            include: ListIncludes
         });
 
         const count = await Crop.count({where});
 
-        const resource = rows.map(crop => transform(crop));
-        
-        return new PaginatedCollection({resource, count});
+        return {data:rows,count};
 
     }
 
     async update(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
+        const payload = req.validated.body;
 
-        if(payload?.familyId) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
-        if(payload?.groupId) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
+        if(payload?.familyId ) { await ValidatorProvider.factory().validateRecordExists({key:'familyId',model:Family,payload}); }
+        if(payload?.groupId ) { await ValidatorProvider.factory().validateRecordExists({key:'groupId',model:Group,payload}); }
 
-        const resource = await Crop.findOne({
+        let resource = await Crop.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
-            include
+            include: RetrieveIncludes
         })
 
         if(!resource){
-            throw new RecordNotFound({data:payload})
+            throw new RecordNotFoundError(payload,['record not found'])
         }
 
         await resource.update(payload);
 
-        return new Resource({resource});
+        return await resource.reload();
 
     }
 
     async delete(req){
 
-        const payload = req.validated;
+        const params = req.validated.params;
         
         const resource = await Crop.findOne({
             where: {
-                id: payload.id
+                id: params.id
             },
             include
         })
 
         if(!resource){
-            throw new RecordNotFound({data:payload})
+            throw new RecordNotFoundError(params,['record not found'])
         }
 
         await resource.destroy();
 
-        return new Resource({resource});
+        return resource;
     }
 
 }

@@ -19,7 +19,10 @@ class Zone extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                openapi:{
+                    minimum: 1,
+                }
             },
             label: {
                 type: DataTypes.STRING,
@@ -31,6 +34,9 @@ class Zone extends Model {
                 references: {
                     model: Region,
                     key: 'id',
+                },
+                openapi:{
+                    minimum: 1,
                 }
             },
         }
