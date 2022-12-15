@@ -37,13 +37,13 @@ module.exports = Router.expose({path:'/zones', routes: [
         request: UpdateZoneRequest,
         handler: ZonesController.factory().update,
         response: UpdateZoneResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.delete({path:'/{id}', summary:"Delete a Zone Object for a given Region",
         request: DeleteZoneRequest,
         handler: ZonesController.factory().update,
         response: DeleteZoneResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Router.expose({path:'/{zoneId}/crops', tags:['crops','zones','Crops by Zone'],routes:[
 
@@ -57,7 +57,7 @@ module.exports = Router.expose({path:'/zones', routes: [
             request: CreateCropsZoneRequest,
             handler: CropsZonesController.factory().create,
             response: CreateCropsZoneResource
-        }).middleware([Public]),
+        }).middleware([]),
 
 
         Route.get({path:'/{cropId}', summary:"Get a Crop Objects for a given Zone",
@@ -70,7 +70,7 @@ module.exports = Router.expose({path:'/zones', routes: [
             request: DeleteCropsZoneRequest,
             handler: CropsZonesController.factory().retrieve,
             response: DeleteCropsZoneResource
-        }).middleware([Public]),
+        }).middleware([]),
 
     ]}),
 

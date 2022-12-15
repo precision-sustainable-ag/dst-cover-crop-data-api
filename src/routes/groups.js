@@ -19,7 +19,7 @@ module.exports = Router.expose({path:'/groups', routes: [
         request: CreateGroupRequest,
         handler:GroupsController.factory().create,
         response: CreateGroupResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.get({path:'/', summary:"Get List of Group Objects",
         request: ListGroupsRequest,
@@ -37,12 +37,12 @@ module.exports = Router.expose({path:'/groups', routes: [
         request: UpdateGroupRequest,
         handler:GroupsController.factory().update,
         response: UpdateGroupResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.delete({path:'/{id}', summary:"Delete a Group Object",
         request: DeleteGroupRequest,
         handler:GroupsController.factory().delete,
         response: DeleteGroupResource
-    }).middleware([Public]),
+    }).middleware([]),
 
 ]});
