@@ -6,7 +6,7 @@ class StatsService {
     // TODO: Make this a config file variable.
     // https://stats.covercrop-data.org/
     // https://developstats.covercrop-data.org/
-    static BASE_URL = "https://stats.covercrop-data.org/"
+    static BASE_URL = "https://stats.covercrop-data.org"
 
     static url(uri){
         const url = this.BASE_URL;

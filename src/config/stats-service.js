@@ -5,5 +5,5 @@ const {env} = require('./kernel');
  * https://www.npmjs.com/package/cors
  */
 module.exports =  {
-    origin: env?.ALLOW_ORIGINS ? env.ALLOW_ORIGINS.split(',') : '*',
+    url: env?.STATS_SERVICE_URL ?? 'https://developstats.covercrop-data.org',
 }
