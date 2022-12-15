@@ -1,5 +1,6 @@
 const { Document } = require('../documents/Document');
-
+const { Request } = require('../requests/Request');
+const { Response } = require('../responses/Response');
 class Route extends Document {
 
     /**
@@ -130,7 +131,8 @@ class Route extends Document {
     }
 
     validate(){
-        return this._request.handle();
+        if(this._request instanceof Request) return this._request.handle();
+        return this._request;
     }
 
     handle(){
@@ -138,7 +140,8 @@ class Route extends Document {
     }
 
     respond(){
-        return this._response.render();
+        if(this._response instanceof Response) return this._response.render();
+        return this._response;
     }
 
     renderDocument(){
