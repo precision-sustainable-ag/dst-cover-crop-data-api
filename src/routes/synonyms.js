@@ -21,12 +21,12 @@ module.exports = Router.expose({path:'/synonyms', routes: [
         request: UpdateSynonymRequest,
         handler:SynonymsController.factory().update,
         response: UpdateSynonymResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.delete({path:'/{id}', summary:"Delete a Synonym Object",
         request: DeleteSynonymRequest,
         handler:SynonymsController.factory().delete,
         response: DeleteSynonymResource
-    }).middleware([Public]),
+    }).middleware([]),
 
 ]});

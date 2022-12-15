@@ -19,30 +19,30 @@ module.exports = Router.expose({path:'/observers', routes: [
         request: CreateObserverRequest,
         handler:ObserversController.factory().create,
         response: CreateObserverResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.get({path:'/', summary:"Get List of Observers Objects",
         request: ListObserversRequest,
         handler:ObserversController.factory().list,
         response: ListObserversResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.get({path:'/{id}', summary:"Retrieve a Observer Object",
         request: RetrieveObserverRequest,
         handler: ObserversController.factory().retrieve,
         response: RetrieveObserverResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.put({path:'/{id}', summary:"Update a Observer Object",
         request: UpdateObserverRequest,
         handler:ObserversController.factory().update,
         response: UpdateObserverResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.delete({path:'/{id}', summary:"Delete a Observer Object",
         request: DeleteObserverRequest,
         handler:ObserversController.factory().delete,
         response: DeleteObserverResource
-    }).middleware([Public]),
+    }).middleware([]),
 
 ]});
