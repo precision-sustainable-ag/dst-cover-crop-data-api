@@ -26,12 +26,12 @@ module.exports = Router.expose({path:'/images', routes: [
         request: UpdateImageRequest,
         handler:ImagesController.factory().update,
         response: UpdateImageResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.delete({path:'/{id}', summary:"Delete a Image Object",
         request: DeleteImageRequest,
         handler:ImagesController.factory().delete,
         response: DeleteImageResource
-    }).middleware([Public]),
+    }).middleware([]),
 
 ]});

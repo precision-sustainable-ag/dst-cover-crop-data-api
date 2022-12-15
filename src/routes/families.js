@@ -19,7 +19,7 @@ module.exports = Router.expose({path:'/families', routes: [
         request: CreateFamilyRequest,
         handler:FamiliesController.factory().create,
         response: CreateFamilyResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.get({path:'/', summary:"Get List of Families Objects",
         request: ListFamiliesRequest,
@@ -37,12 +37,12 @@ module.exports = Router.expose({path:'/families', routes: [
         request: UpdateFamilyRequest,
         handler:FamiliesController.factory().update,
         response: UpdateFamilyResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.delete({path:'/{id}', summary:"Delete a Family Object",
         request: DeleteFamilyRequest,
         handler:FamiliesController.factory().delete,
         response: DeleteFamilyResource
-    }).middleware([Public]),
+    }).middleware([]),
 
 ]});

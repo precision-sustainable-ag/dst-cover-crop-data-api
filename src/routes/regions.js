@@ -22,7 +22,7 @@ module.exports = Router.expose({path:'/regions', routes: [
         request: CreateRegionRequest,
         handler: RegionsController.factory().create,
         response: CreateRegionResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     Route.get({path:'/', summary:"Get List of Region Objects",
         request: ListRegionsRequest,
@@ -40,7 +40,7 @@ module.exports = Router.expose({path:'/regions', routes: [
         request: UpdateRegionRequest,
         handler: RegionsController.factory().update,
         response: UpdateRegionResource
-    }).middleware([Public]),
+    }).middleware([]),
 
     /**
      * regions zones
@@ -51,7 +51,7 @@ module.exports = Router.expose({path:'/regions', routes: [
             request: CreateZoneRequest,
             handler: ZonesController.factory().create,
             response: CreateZoneResource
-        }).middleware([Public]),
+        }).middleware([]),
 
         Route.get({path:'/', summary:"Get List of Zone Objects for a given Region",
             request: ListZonesRequest,
