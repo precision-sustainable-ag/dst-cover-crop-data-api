@@ -1,4 +1,5 @@
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const { CropsController } = require("../app/http/controllers/CropsController");
@@ -27,7 +28,7 @@ module.exports = Router.expose({path:'/crops', routes: [
         request: CreateCropRequest,
         handler:CropsController.factory().create,
         response: CreateCropResource
-    }).middleware([]),
+    }).middleware([Auth('data_write')]),
 
     Route.get({path:'/', summary:"Get List of Crop Objects",
         request: ListCropsRequest,
