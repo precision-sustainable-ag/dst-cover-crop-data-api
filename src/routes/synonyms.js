@@ -8,6 +8,7 @@ const { UpdateSynonymResource } = require("../app/http/resources/synonyms/Update
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 
 module.exports = Router.expose({path:'/synonyms', routes: [
 
@@ -21,12 +22,12 @@ module.exports = Router.expose({path:'/synonyms', routes: [
         request: UpdateSynonymRequest,
         handler:SynonymsController.factory().update,
         response: UpdateSynonymResource
-    }).middleware([]),
+    }).middleware([Auth('data_update')]),
 
     Route.delete({path:'/{id}', summary:"Delete a Synonym Object",
         request: DeleteSynonymRequest,
         handler:SynonymsController.factory().delete,
         response: DeleteSynonymResource
-    }).middleware([]),
+    }).middleware([Auth('data_delete')]),
 
 ]});

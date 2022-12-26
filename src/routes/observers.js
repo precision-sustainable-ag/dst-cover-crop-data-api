@@ -11,38 +11,38 @@ const { UpdateObserverResource } = require("../app/http/resources/observers/Upda
 const { DeleteObserverResource } = require("../app/http/resources/observers/DeleteObserverResource");
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
-const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 
 module.exports = Router.expose({path:'/observers', routes: [
 
-    Route.post({path:'/', summary:"Create a Observer Object",
+    Route.post({path:'/', summary:"Create a Observer Object", description: 'REQUIRES: crops_admin scope.',
         request: CreateObserverRequest,
         handler:ObserversController.factory().create,
         response: CreateObserverResource
-    }).middleware([]),
+    }).middleware([Auth('crops_admin')]),
 
-    Route.get({path:'/', summary:"Get List of Observers Objects",
+    Route.get({path:'/', summary:"Get List of Observers Objects", description: 'REQUIRES: crops_admin scope.',
         request: ListObserversRequest,
         handler:ObserversController.factory().list,
         response: ListObserversResource
-    }).middleware([]),
+    }).middleware([Auth('crops_admin')]),
 
-    Route.get({path:'/{id}', summary:"Retrieve a Observer Object",
+    Route.get({path:'/{id}', summary:"Retrieve a Observer Object", description: 'REQUIRES: crops_admin scope.',
         request: RetrieveObserverRequest,
         handler: ObserversController.factory().retrieve,
         response: RetrieveObserverResource
-    }).middleware([]),
+    }).middleware([Auth('crops_admin')]),
 
-    Route.put({path:'/{id}', summary:"Update a Observer Object",
+    Route.put({path:'/{id}', summary:"Update a Observer Object", description: 'REQUIRES: crops_admin scope.',
         request: UpdateObserverRequest,
         handler:ObserversController.factory().update,
         response: UpdateObserverResource
-    }).middleware([]),
+    }).middleware([Auth('crops_admin')]),
 
-    Route.delete({path:'/{id}', summary:"Delete a Observer Object",
+    Route.delete({path:'/{id}', summary:"Delete a Observer Object", description: 'REQUIRES: crops_admin scope.',
         request: DeleteObserverRequest,
         handler:ObserversController.factory().delete,
         response: DeleteObserverResource
-    }).middleware([]),
+    }).middleware([Auth('crops_admin')]),
 
 ]});

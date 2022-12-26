@@ -6,4 +6,5 @@ const {env} = require('./kernel');
  */
 module.exports =  {
     url: env?.STATS_SERVICE_URL ?? 'https://developstats.covercrop-data.org',
+    key: env.STATS_SERVICE_API_KEY,
 }

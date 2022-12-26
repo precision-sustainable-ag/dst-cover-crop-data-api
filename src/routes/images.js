@@ -8,6 +8,7 @@ const { DeleteImageResource } = require("../app/http/resources/images/DeleteImag
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 
 /**
  * creating and getting list of images is in crops router
@@ -26,12 +27,12 @@ module.exports = Router.expose({path:'/images', routes: [
         request: UpdateImageRequest,
         handler:ImagesController.factory().update,
         response: UpdateImageResource
-    }).middleware([]),
+    }).middleware([Auth('data_update')]),
 
     Route.delete({path:'/{id}', summary:"Delete a Image Object",
         request: DeleteImageRequest,
         handler:ImagesController.factory().delete,
         response: DeleteImageResource
-    }).middleware([]),
+    }).middleware([Auth('data_delete')]),
 
 ]});
