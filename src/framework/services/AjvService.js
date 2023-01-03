@@ -60,13 +60,8 @@ class AjvService {
     }
 
     static Filter({parameters, body, data}){
-        console.log('params',parameters)
-        console.log('body',body)
-        console.log('data',data)
         const schema = this.FormatOpenAPISchema({parameters,body});
-        console.log('param-keys',schema.properties.params.properties)
         const paramKeys = Object.keys(schema.properties.params.properties ?? {});
-        console.log('body-keys',schema.properties.body.properties)
         const bodyKeys = Object.keys(schema.properties.body.properties ?? {});
 
         const filtered = {params:{},body:{}};

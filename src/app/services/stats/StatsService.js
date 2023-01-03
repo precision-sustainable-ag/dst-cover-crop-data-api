@@ -1,12 +1,20 @@
-const { HttpClient } = require("./HttpClient");
+const axios = require('axios');
+const { Log } = require('../../providers/LoggingProvider');
+const stats_service_conf = require('../../../config/stats-service');
 
+class HttpClient {
+    static Post(url, data){
+        return axios.post(url, data);
+    }
+}
 
 class StatsService {
 
     // TODO: Make this a config file variable.
     // https://stats.covercrop-data.org/
     // https://developstats.covercrop-data.org/
-    static BASE_URL = "https://stats.covercrop-data.org"
+    static BASE_URL = stats_service_conf.url;
+    // static BASE_URL = "https://developstats.covercrop-data.org"
 
     static url(uri){
         const url = this.BASE_URL;
@@ -23,7 +31,6 @@ class StatsService {
                     body += chunk.toString();
                 });
                 req.on('end', () => {
-                    console.log('pre-Body',body)
                     resolve(body)
                 });
             } 
@@ -32,7 +39,6 @@ class StatsService {
     }
 
     static async TrackRequest(req, service){
-        // console.log('track ....',req.url);
         const url = this.url('requests');
         const body = await this.ParseBody(req);
 
@@ -48,14 +54,11 @@ class StatsService {
             params: JSON.stringify(req.query),
             body: body,
         }
-        
-        // console.log('>>> TRACKING REQUEST: ',payload);
-        return HttpClient.Post(url,payload).catch(err => {
-            console.log('failed.',err.response.data)
+
+        return HttpClient.Post(url,payload).catch(error => {
+            Log.Critical({heading:'Request Tracking Failed',message:{error:error.message, stack:error.stack}});
         });
     }
-
-
 }
 
 module.exports = {
