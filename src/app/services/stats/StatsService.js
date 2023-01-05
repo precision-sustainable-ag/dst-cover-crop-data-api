@@ -1,20 +1,17 @@
 const axios = require('axios');
 const { Log } = require('../../providers/LoggingProvider');
 const stats_service_conf = require('../../../config/stats-service');
-
-class HttpClient {
-    static Post(url, data){
-        return axios.post(url, data);
-    }
-}
+const { HttpClient } = require('../http/HttpClient');
+const { JwtService } = require('../jwt/JwtService');
 
 class StatsService {
 
-    // TODO: Make this a config file variable.
-    // https://stats.covercrop-data.org/
-    // https://developstats.covercrop-data.org/
     static BASE_URL = stats_service_conf.url;
-    // static BASE_URL = "https://developstats.covercrop-data.org"
+
+
+    static authorization(){
+        return stats_service_conf.key;
+    }
 
     static url(uri){
         const url = this.BASE_URL;
@@ -55,8 +52,13 @@ class StatsService {
             body: body,
         }
 
-        return HttpClient.Post(url,payload).catch(error => {
-            Log.Critical({heading:'Request Tracking Failed',message:{error:error.message, stack:error.stack}});
+        const authorization = this.authorization();
+
+        return HttpClient.post(url,payload, {headers:{authorization}}).catch(error => {
+            Log.Critical({heading:'Request Tracking Failed',message:{error:error.message, stack:error.stack, response: {
+                status: error?.response?.status,
+                data: error?.response?.data,
+            }}});
         });
     }
 }

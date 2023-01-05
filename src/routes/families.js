@@ -12,6 +12,7 @@ const { DeleteFamilyResource } = require("../app/http/resources/families/DeleteF
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 
 module.exports = Router.expose({path:'/families', routes: [
 
@@ -19,7 +20,7 @@ module.exports = Router.expose({path:'/families', routes: [
         request: CreateFamilyRequest,
         handler:FamiliesController.factory().create,
         response: CreateFamilyResource
-    }).middleware([]),
+    }).middleware([Auth('data_create')]),
 
     Route.get({path:'/', summary:"Get List of Families Objects",
         request: ListFamiliesRequest,
@@ -37,12 +38,12 @@ module.exports = Router.expose({path:'/families', routes: [
         request: UpdateFamilyRequest,
         handler:FamiliesController.factory().update,
         response: UpdateFamilyResource
-    }).middleware([]),
+    }).middleware([Auth('data_update')]),
 
     Route.delete({path:'/{id}', summary:"Delete a Family Object",
         request: DeleteFamilyRequest,
         handler:FamiliesController.factory().delete,
         response: DeleteFamilyResource
-    }).middleware([]),
+    }).middleware([Auth('data_delete')]),
 
 ]});

@@ -12,5 +12,15 @@ module.exports = {
         {url:"https://develop.covercrop-data.org", description: "development"},
         {url:"https://covercrop-data.org", description: "production"},
     ],
+    components:{
+        securitySchemes: {
+            ApiKeyAuth: {
+                type: 'apiKey',
+                in: 'header',
+                name: 'Authorization'
+            }
+        }
+    },
+    security:[{ApiKeyAuth:[]}],
     paths: {}
 }

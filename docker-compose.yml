@@ -19,7 +19,7 @@ services:
     environment:
       - REDIS_PASSWORD=JQODI9u1uioasdjkl][]12039dasjkl!@((Adlakjsdl))
     ports:
-      - '6379:6379'
+      - '6378:6379'
     volumes:
       - cache:/data
 

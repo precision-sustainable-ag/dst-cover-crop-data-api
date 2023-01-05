@@ -1,4 +1,5 @@
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const { CropsController } = require("../app/http/controllers/CropsController");
@@ -27,7 +28,7 @@ module.exports = Router.expose({path:'/crops', routes: [
         request: CreateCropRequest,
         handler:CropsController.factory().create,
         response: CreateCropResource
-    }).middleware([]),
+    }).middleware([Auth('data_create')]),
 
     Route.get({path:'/', summary:"Get List of Crop Objects",
         request: ListCropsRequest,
@@ -45,7 +46,7 @@ module.exports = Router.expose({path:'/crops', routes: [
         request: UpdateCropRequest,
         handler:CropsController.factory().update,
         response: UpdateCropResource
-    }).middleware([]),
+    }).middleware([Auth('data_update')]),
 
     /**
      * Crops Image routes
@@ -56,7 +57,7 @@ module.exports = Router.expose({path:'/crops', routes: [
             request: CreateImageRequest,
             handler:ImagesController.factory().create,
             response: CreateImageResource
-        }).middleware([]),
+        }).middleware([Auth('data_create')]),
     
         Route.get({path:'/', summary:"Get List of Images Objects for a given Crop",
             request: ListImagesRequest,
@@ -75,7 +76,7 @@ module.exports = Router.expose({path:'/crops', routes: [
             request: CreateSynonymRequest,
             handler:SynonymsController.factory().create,
             response: CreateSynonymResource
-        }).middleware([]),
+        }).middleware([Auth('data_create')]),
 
         Route.get({path:'/', summary:"Get List of Synonyms Objects for a given Crop",
             request: ListSynonymsRequest,
