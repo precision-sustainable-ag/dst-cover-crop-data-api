@@ -1,4 +1,4 @@
-const { UnAuthorized } = require('../../app/exceptions/UnAuthorized');
+const { UnauthorizedError } = require('../errors/UnauthorizedError');
 
 
 class Controller {
@@ -22,7 +22,7 @@ class Controller {
         return  async (req, res, next) => {
             try{
 
-                if(!req.authorized) throw new UnAuthorized();
+                if(!req.authorized) throw new UnauthorizedError();
                 
                 const result = await method(req)
 

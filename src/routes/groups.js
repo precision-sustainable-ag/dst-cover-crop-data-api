@@ -10,6 +10,7 @@ const { UpdateGroupResource } = require("../app/http/resources/groups/UpdateGrou
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 const { DeleteGroupRequest } = require("../app/http/requests/groups/DeleteGroupRequest");
 const { DeleteGroupResource } = require("../app/http/resources/groups/DeleteGroupResource");
 
@@ -19,7 +20,7 @@ module.exports = Router.expose({path:'/groups', routes: [
         request: CreateGroupRequest,
         handler:GroupsController.factory().create,
         response: CreateGroupResource
-    }).middleware([]),
+    }).middleware([Auth('data_create')]),
 
     Route.get({path:'/', summary:"Get List of Group Objects",
         request: ListGroupsRequest,
@@ -37,12 +38,12 @@ module.exports = Router.expose({path:'/groups', routes: [
         request: UpdateGroupRequest,
         handler:GroupsController.factory().update,
         response: UpdateGroupResource
-    }).middleware([]),
+    }).middleware([Auth('data_update')]),
 
     Route.delete({path:'/{id}', summary:"Delete a Group Object",
         request: DeleteGroupRequest,
         handler:GroupsController.factory().delete,
         response: DeleteGroupResource
-    }).middleware([]),
+    }).middleware([Auth('data_delete')]),
 
 ]});

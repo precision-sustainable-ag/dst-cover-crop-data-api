@@ -1,7 +1,7 @@
 const CatchAll = require('../http/middleware/CatchAll');
 const ErrorRenderer = require('../http/middleware/ErrorRenderer');
-const OpenToken = require('../http/middleware/OpenToken');
 const Cors = require('../http/middleware/Cors');
+const Auth = require('../http/middleware/Auth');
 const { trackRequestStats } = require('../http/middleware/Stats');
 
 class MiddlewareProvider {
@@ -13,7 +13,7 @@ class MiddlewareProvider {
          */
         app.use(Cors);
         // registeration order matters...
-        app.use(OpenToken);
+        app.use(Auth());
         // middleware to track each request, hence placed inside global
         app.use(trackRequestStats);
     }

@@ -15,6 +15,7 @@ const { ListZonesRequest } = require("../app/http/requests/zones/ListZonesReques
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 
 module.exports = Router.expose({path:'/regions', routes: [
 
@@ -22,7 +23,7 @@ module.exports = Router.expose({path:'/regions', routes: [
         request: CreateRegionRequest,
         handler: RegionsController.factory().create,
         response: CreateRegionResource
-    }).middleware([]),
+    }).middleware([Auth('data_create')]),
 
     Route.get({path:'/', summary:"Get List of Region Objects",
         request: ListRegionsRequest,
@@ -40,7 +41,7 @@ module.exports = Router.expose({path:'/regions', routes: [
         request: UpdateRegionRequest,
         handler: RegionsController.factory().update,
         response: UpdateRegionResource
-    }).middleware([]),
+    }).middleware([Auth('data_update')]),
 
     /**
      * regions zones
@@ -51,7 +52,7 @@ module.exports = Router.expose({path:'/regions', routes: [
             request: CreateZoneRequest,
             handler: ZonesController.factory().create,
             response: CreateZoneResource
-        }).middleware([]),
+        }).middleware([Auth('data_create')]),
 
         Route.get({path:'/', summary:"Get List of Zone Objects for a given Region",
             request: ListZonesRequest,

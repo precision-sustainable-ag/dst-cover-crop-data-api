@@ -2,6 +2,7 @@
 const { Route } = require("../framework/routing/Route");
 const { Router } = require("../framework/routing/Router");
 const Public = require('../app/http/middleware/Public');
+const Auth = require('../app/http/middleware/Auth');
 const { ZonesController } = require("../app/http/controllers/ZonesController");
 const { RetrieveZoneRequest } = require("../app/http/requests/zones/RetrieveZoneRequest");
 const { RetrieveZoneResource } = require("../app/http/resources/zones/RetrieveZoneResource");
@@ -37,13 +38,13 @@ module.exports = Router.expose({path:'/zones', routes: [
         request: UpdateZoneRequest,
         handler: ZonesController.factory().update,
         response: UpdateZoneResource
-    }).middleware([]),
+    }).middleware([Auth('data_update')]),
 
     Route.delete({path:'/{id}', summary:"Delete a Zone Object for a given Region",
         request: DeleteZoneRequest,
         handler: ZonesController.factory().update,
         response: DeleteZoneResource
-    }).middleware([]),
+    }).middleware([Auth('data_delete')]),
 
     Router.expose({path:'/{zoneId}/crops', tags:['crops','zones','Crops by Zone'],routes:[
 
@@ -57,7 +58,7 @@ module.exports = Router.expose({path:'/zones', routes: [
             request: CreateCropsZoneRequest,
             handler: CropsZonesController.factory().create,
             response: CreateCropsZoneResource
-        }).middleware([]),
+        }).middleware([Auth('data_create')]),
 
 
         Route.get({path:'/{cropId}', summary:"Get a Crop Objects for a given Zone",
@@ -70,7 +71,7 @@ module.exports = Router.expose({path:'/zones', routes: [
             request: DeleteCropsZoneRequest,
             handler: CropsZonesController.factory().retrieve,
             response: DeleteCropsZoneResource
-        }).middleware([]),
+        }).middleware([Auth('data_delete')]),
 
     ]}),
 
