@@ -40,6 +40,7 @@ stages:
         echo APP_URL="$(APP_URL)" >> /home/vsts/work/1/s/.env
 
         echo LOG_CHANNEL="$(LOG_CHANNEL)" >> /home/vsts/work/1/s/.env
+        echo CONSOLE_LOG_LEVEL="$(CONSOLE_LOG_LEVEL)" >> /home/vsts/work/1/s/.env
         echo SLACK_WEBHOOK_URL="$(SLACK_WEBHOOK_URL)" >> /home/vsts/work/1/s/.env
 
         echo DB_CONNECTION="$(DB_CONNECTION)" >> /home/vsts/work/1/s/.env
